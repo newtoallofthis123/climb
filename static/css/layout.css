@@ -1,0 +1,126 @@
+.Stage {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100vh;
+}
+
+.Overlay {
+    width: 15%;
+    margin: 0 1rem;
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.menu {
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 100%;
+}
+
+.menu button {
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    border: 0px;
+    text-align: start;
+}
+
+.signout {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.Main {
+    background-color: #f9f9f5;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.profile {
+    height: 16%;
+    padding: 2rem 1rem;
+}
+
+.profile #focus {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+    align-items: center;
+}
+
+.profile img {
+    height: 100%;
+    border-radius: 50%;
+}
+
+.sandbox {
+    height: 84%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    overflow-y: auto;
+}
+
+.Toolbar {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.Screen{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 40px;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+}
+
+.gallery-item img {
+    width: 256px;
+    object-fit: cover;
+    border-radius: 8px;
+}
