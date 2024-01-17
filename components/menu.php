@@ -6,11 +6,13 @@
             </button>
         </div>
         <div class="select">
-            <select class="breadcrumbs" name="item" id="item">
-                <option value="-">Select Stuff</option>
-                <option value="cool">Cool</option>
-                <option value="wow">Wow</option>
-            </select>
+            <div class="breadcrumbs-menu" name="item" id="item">
+                <div class="crumb-title" id="crumb-title">Select Stuff</div>
+                <div class="breadcrumbs">
+                    <div class="breadcrumb">Cool</div>
+                    <div class="breadcrumb">Wow</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="crumbs">
@@ -25,3 +27,11 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $(".breadcrumbs").hide();
+        $(".crumb-title").click(function() {
+            $(".breadcrumbs").toggle();
+        });
+    });
+</script>

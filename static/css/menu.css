@@ -28,7 +28,34 @@
     width: 80%;
 }
 
-.select select {
+.crumbs {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem 0;
+}
+
+.crumb {
+    margin: 0.2rem 0;
+    width: 100%;
+    background-color: white;
+    color: black;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 1.2rem;
+}
+
+.crumb i {
+    margin-right: 0.5rem;
+}
+
+.crumb:hover {
+    background-color: #f9f9f5;
+    cursor: pointer;
+}
+
+.breadcrumbs-menu {
     background-color: white;
     padding: 0.6rem;
     border-top-right-radius: 12px;
@@ -39,37 +66,30 @@
     width: 100%;
 }
 
-.select select:focus {
-    outline: none;
+.hidden {
+    display: none;
 }
 
-.select select option {
+.crumb-title {
     font-size: 1.2rem;
 }
 
-.crumbs{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 1rem 0;
-}
-
-.crumb{
-    margin: 0.2rem 0;
-    width: 100%;
-    background-color: white;
-    color: black;
+.breadcrumbs {
+    width: 20%;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
     border-radius: 12px;
-    padding: 1rem 1.2rem;
-    font-size: 1.2rem;
+    z-index: 1;
 }
 
-.crumb i{
-    margin-right: 0.5rem;
+.breadcrumb{
+    padding: 0.5rem;
+    border-radius: 12px;
 }
 
-.crumb:hover{
-    background-color: #f9f9f5;
+.breadcrumb:hover {
+    background-color: #c7c7c7;
     cursor: pointer;
 }
