@@ -21,36 +21,6 @@ require("head.php");
                         </div>
                     </div>
                 </div>
-                <div class="gallery-container">
-                    <div class="gallery-item">
-                        <img src="/static/img/placeholder.png" alt="Image 1">
-                        <div>
-                            <h3>Hello World</h3>
-                            <p>The Hello World Loc</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="/static/img/placeholder.png" alt="Image 2">
-                        <div>
-                            <h3>Cool World</h3>
-                            <p>Very nice thing</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="/static/img/placeholder.png" alt="Image 2">
-                        <div>
-                            <h3>Nice One</h3>
-                            <p>I know right</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="/static/img/placeholder.png" alt="Image 2">
-                        <div>
-                            <h3>Example Too</h3>
-                            <p>Example indeed</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
