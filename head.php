@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/menu.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- Just for the aesthetics -->
     <link rel="shortcut icon" href="https://noobscience.vercel.app/favicon.ico" type="image/x-icon">
     <title>

@@ -1,95 +1,240 @@
-.Menu {
-    padding: 0.5rem;
+.LiveMenu ul,
+.LiveMenu li {
+    list-style: none;
 }
 
-.selection {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.LiveMenu .breadcrumbs-selected {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #000;
+    float: left;
+    height: 20px
 }
 
-.backBtn {
-    width: 20%;
-    background-color: white;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    padding: 0.2rem 0.5rem;
+.LiveMenu .breadcrumbs-select-btn {
+    float: left;
+    padding: 5px;
+    border: 1px solid #000;
+    height: 20px;
+    width: 20px;
+    text-decoration: none;
+    font-family: helvetica;
+    text-align: center;
 }
 
-.backBtn button {
-    background-color: inherit;
-    border: 0;
-    font-size: 1.6rem;
-    cursor: pointer;
+.LiveMenu .breadcrumbs {
+    position: relative;
 }
 
-.select {
-    width: 80%;
+.LiveMenu .breadcrumbs ul li {
+    padding: 5px;
 }
 
-.crumbs {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 1rem 0;
+.LiveMenu .Toolbar {
+    height: 100%;
+    width: 70px;
+    padding: 20px;
 }
 
-.crumb {
-    margin: 0.2rem 0;
-    width: 100%;
-    background-color: white;
-    color: black;
-    border-radius: 12px;
-    padding: 1rem 1.2rem;
-    font-size: 1.2rem;
+.LiveMenu .Toolbar>li>.visual {
+    border-radius: 10px;
+    background-color: #ffffff;
+    margin-bottom: 1rem !important;
+    width: 60px;
+
 }
 
-.crumb i {
-    margin-right: 0.5rem;
+.LiveMenu .Toolbar>li.menu-active>.visual {
+    background-color: #343451 !important;
 }
 
-.crumb:hover {
-    background-color: #f9f9f5;
-    cursor: pointer;
+.LiveMenu .Toolbar>li.menu-active>.visual>.icon {
+    color: #F2F2FE;
 }
 
-.breadcrumbs-menu {
-    background-color: white;
-    padding: 0.6rem;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border: 0;
-    font-size: 1.2rem;
-    cursor: pointer;
-    width: 100%;
+.LiveMenu .Toolbar>li>.visual>.icon {
+    color: #000000;
+    text-align: center;
+    padding: 20px;
+    font-size: 20px;
+    display: block;
 }
 
-.hidden {
+.LiveMenu .Toolbar>li>.visual>label,
+.LiveMenu .Toolbar>li>.visual>i,
+.LiveMenu .Toolbar>li>ul,
+.LiveMenu .breadcrumbs {
     display: none;
 }
 
-.crumb-title {
-    font-size: 1.2rem;
-}
-
-.breadcrumbs {
-    width: 20%;
+.LiveMenu .breadcrumbs {
+    display: block;
     position: absolute;
-    background-color: #f9f9f9;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    border-radius: 12px;
+    left: 3%;
+    border-radius: 10px;
+    border: 1px solid #eeeeee;
+    padding: 0px;
+    width: 300px;
+    background: #ffffff;
     z-index: 1;
+
 }
 
-.breadcrumb{
-    padding: 0.5rem;
+.LiveMenu .breadcrumbs>li ul {
+    margin: 10px;
+    padding: 0px;
+    border-radius: 10px;
+    background: linear-gradient(121deg, #FFF 10.96%, #FFF 72%, #FFF 99.98%);
+    border: 1px solid #eeeeee;
+}
+
+
+.LiveMenu .breadcrumbs>li .visual {
+    color: #343451;
+    padding: 12px;
+}
+
+.LiveMenu .header {
+    position: absolute;
+    left: 8%;
+    height: 100%;
+    width: 300px;
+    padding: 20px;
+    /* box-shadow: 3px 0 5px -2px #888; */
+    border: 1px solid #eeeeee;
+}
+
+.LiveMenu .header button {
+    text-align: center;
+    padding: 18px 18px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ffffff;
+}
+
+#menuButton span {
+    font-size: 1rem;
+}
+
+li:not(:has(ul)) i.expand {
+    display: none !important;
+}
+
+.LiveMenu .breadcrumbs li.active:not(:has(ul)) {
+    background-color: #343451 !important;
+    color: #F2F2FE;
     border-radius: 12px;
 }
 
-.breadcrumb:hover {
-    background-color: #c7c7c7;
+.LiveMenu .breadcrumbs li.active:not(:has(ul)) label,
+.LiveMenu .breadcrumbs li.active:not(:has(ul)) i {
+    color: #F2F2FE;
+}
+
+.LiveMenu .breadcrumbs li .visual:hover,
+.LiveMenu .breadcrumbs li:hover>label,
+.LiveMenu .breadcrumbs li:hover>i {
+    background-color: #343451 !important;
+    color: #F2F2FE;
+    border-radius: 12px;
+}
+
+.LiveMenu .breadcrumbs li .visual label,
+.LiveMenu .breadcrumbs li .visual i {
+    font-size: 1rem;
+}
+
+.LiveMenu .breadcrumbs li .visual {
+    padding: 12px;
+}
+
+.visual .helper {
+    display: none;
+    position: absolute;
+    width: 200px;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    bottom: 45px;
+    padding: 5px;
+    border-radius: 6px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .6s;
+}
+
+.visual:hover .helper {
+    display: block;
+    opacity: 1;
+}
+
+.visual .helper::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+ul.Toolbar li ul {
+    display: block !important;
+}
+
+ul.Toolbar li ul li {
+    display: none;
+}
+
+ul.Toolbar li.active>ul>li {
+    display: block;
+}
+
+ul.Toolbar ul li.active>ul>li {
+    width: 200px;
+
+}
+
+ul.Toolbar ul li.active>.visual,
+ul.Toolbar ul li.selected>.visual {
+    display: none;
+}
+
+ul.Toolbar li.active,
+ul.Toolbar ul li.selected {
+    display: block !important;
+}
+
+ul.Toolbar ul {
+    position: absolute;
+    left: 8%;
+    padding-left: 20px;
+    top: 15%;
+}
+
+ul.Toolbar ul .visual {
+    padding: 15px 10px;
+    font-size: 16px;
+}
+
+.helper img {
+    width: 100%;
+}
+
+.signOut{
+    position: fixed;
+    bottom: 6%;
+    left: 10px;
+    width: 20%;
+    height: 30px;
+}
+
+.signOut button{
+    background-color: inherit;
+    border: none;
+}
+
+.signOut button:hover{
     cursor: pointer;
 }
