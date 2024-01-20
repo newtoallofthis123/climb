@@ -10,7 +10,15 @@
     }
 </style>
 <div id="Requirements">
-    <form class="p-3">
+    <div class="p-3 pb-0">
+        <h4 class="pb-2 fw-bolder">
+            1. Decide a Goal
+        </h4>
+        <p>
+            🎯 What's the goal?
+        </p>
+    </div>
+    <form class="p-3 pt-0">
         <div class="mb-3">
             <label for="title" class="form-label">Set a Destination</label>
             <input type="text" class="form-control" id="title" placeholder="Become a billionaire">
