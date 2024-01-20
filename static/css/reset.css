@@ -28,6 +28,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+::selection {
+  background-color: #c1eeff;
+  color: #000;
+}
+
 /*
   5. Improve media defaults
 */
