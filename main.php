@@ -24,7 +24,7 @@ $scope = new Scope(
 		deploy::base->value		=>	'climbs.my.home'
 	],
 	mode: runtime::development,	// We are in development mode. Similar to debug with more verbosity and dynamics. Debug is for production primarily.
-	environment: runtime::staging,	// We are in a staging environment
+	// environment: runtime::staging,	// We are in a staging environment
 	project: 'AvenuePad',
 );
 $scope->ErrorRenderable->content = file_get_contents(path::support->get() . 'placeholders/error.html');
