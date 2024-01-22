@@ -1,11 +1,23 @@
 <?php
-$pageTitle = "Home Page";
-$active = "home";
+namespace ClimbUI;
 
-require("head.php");
-?>
+require_once __DIR__ . '/support/lib/vendor/autoload.php';
 
-<body>
+require_once __DIR__ . '/layout.php';
+require_once __DIR__ . '/head.php';
+require_once __DIR__ . '/content.php';
+
+use Approach\Render\HTML;
+echo $webpage->render();
+
+/*    
+<?php 
+// /*$pageTitle = "Home Page";
+// $active = "home";
+
+// require("head.php");
+
+<!-- <body>
     <div class="Stage">
         <div id="main" class="Screen">
             <?php require("components/menu.php"); ?>
@@ -24,4 +36,5 @@ require("head.php");
             </div>
         </div>
     </div>
-</body>
+</body> -->
+*/

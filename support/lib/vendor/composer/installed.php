@@ -3,7 +3,7 @@
         'name' => 'climbs/main',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '2e1a3746a2195d395cf58251aafab0d163981d2e',
+        'reference' => 'b0af1241b0c5de5b26cb894e111fd7e656b0a27a',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../../../',
         'aliases' => array(),
@@ -33,7 +33,7 @@
         'climbs/main' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '2e1a3746a2195d395cf58251aafab0d163981d2e',
+            'reference' => 'b0af1241b0c5de5b26cb894e111fd7e656b0a27a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../../../',
             'aliases' => array(),
