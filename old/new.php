@@ -5,7 +5,7 @@ if ($stage == "") {
     $stage = 1;
 }
 
-require("head.php");
+// require("head.php");
 ?>
 
 <body>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/browser-kit" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/lib-asserts" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/lib-web" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/module-phpbrowser" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/lib-innerbrowser" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/stub" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/codeception" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/codeception/module-asserts" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/composer" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/oomphinc/composer-installers-extender" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/behat/gherkin" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/support/lib/vendor/phar-io/version" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>

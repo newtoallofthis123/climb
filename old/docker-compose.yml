@@ -1,0 +1,51 @@
+# docker-compose.yml
+version: '3'
+services:
+  # PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: myhome_app
+    container_name: myhome_app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    #  - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini   # PHP custom config
+    networks:
+      app-network:
+        aliases:
+          - project.my.home
+          - static.project.my.home
+          - service.project.my.home
+
+  # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: project_webserver
+    restart: unless-stopped 
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+      - "9000:9000"
+    volumes:
+      - ./:/var/www 
+      - ./nginx/windows/:/etc/nginx/    # Nginx config
+      - ./nginx/log/:/var/log/nginx/    # Nginx logs
+    networks:
+      app-network:
+        aliases:
+          - project.my.home
+          - static.project.my.home
+          - service.project.my.home
+
+# Networks
+networks:
+  app-network:
+    driver: bridge

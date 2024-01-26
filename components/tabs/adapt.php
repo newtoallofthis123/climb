@@ -1,3 +1,6 @@
+<?php 
+
+$body->content .= <<<EOL
 <div class="p-3">
     <h4 class="pb-2 fw-bolder">
         6. Adapt from Findings
@@ -19,3 +22,4 @@
         </button>
     </div>
 </div>
+EOL;

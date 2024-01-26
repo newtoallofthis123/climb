@@ -30,3 +30,32 @@
 .gray{
     color: rgb(117, 117, 117);
 }
+
+.tab {
+    display: none;
+}
+
+.tab.active {
+    display: block;
+}
+
+.tab-button {
+    cursor: pointer;
+    padding: 2px;
+    text-align: center;
+    background-color: #ccc;
+    border: 1px solid #999;
+    width: calc(100% / 6);
+}
+
+.tab-button.active {
+    background-color: #999;
+    color: #fff;
+}
+
+.TabBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
