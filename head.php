@@ -9,6 +9,7 @@ global $head, $pageTitle;
 require_once __DIR__ . '/support/lib/vendor/autoload.php';
 
 use \Approach\Render\HTML;
+use \Approach\Render\Node;
 
 // Can also be done like this
 //$head->content .= file_get_contents(__DIR__ . '/support/static/head.htm'); //optional
@@ -62,14 +63,15 @@ $head[] = new HTML(tag: 'link', attributes: [
     'type' => 'image/x-icon',
 ], selfContained: true);
 $head[] = $pageTitle;
+
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js',
 ]);
 $head[] = new HTML(tag: 'script', attributes: [
     'type' => 'text/javascript',
-    'src' => '/static/js/approach.interface.js',
+    'src' => '/static/js/approach/approach.interface.js',
 ]);
-$head[] = new HTML(tag: 'script', attributes: [
+$head[] = new HTML(tag: 'link', attributes: [
     'src' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
 ]);
 $head[] = new HTML(tag: 'script', attributes: [
@@ -78,3 +80,26 @@ $head[] = new HTML(tag: 'script', attributes: [
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/tabs.js',
 ]);
+
+$DocReady = new Node();
+$DocReady[] = 'onReadyHandle(document);';
+
+$head[] = new HTML(tag: 'script', attributes: [
+    'content' => <<<JS
+        // reattaches interfaces after HTML has been changed, should plausibly be on a DOM mutation event instead
+        Interface.prototype.RefreshComplete = onReadyHandle;
+
+        $(document).ready(function(){
+            
+        });
+JS
+]);
+
+$head[] = new HTML(
+    tag: 'style',
+    content: <<<CSS
+    .hello {
+        color: red;
+    }
+CSS
+);

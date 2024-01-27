@@ -30,12 +30,28 @@ class Server extends Service
 	// public target $target_in  = target::stream;
 	// public target $target_out = target::stream;
 
+
 	public function Process(?array $payload = null): void
 	{
-		$this->payload = $payload ?? $this->payload;
-		var_dump($this->payload);
-        
-		$this->payload = [ 'not','your','json' ];
+		$payload = $payload ?? $this->payload;
+		$this->payload = $payload;
+
+		// foreach($this->payload as $key => $value)
+		// {
+		// 	switch($key){
+		// 		case 'REFRESH': {
+		// 			$this->payload['REFRESH'] = true;
+		// 			break;
+		// 		}
+		// 		case 'NEW': {
+		// 			$this->payload['NEW'] = true;
+		// 			break;
+		// 		}
+		// 	}
+		// }
+
 	}
+
+	
 }
 

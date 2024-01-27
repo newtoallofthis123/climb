@@ -10,6 +10,11 @@ require_once __DIR__ . '/head.php';
 require_once __DIR__ . '/tab.partial.php';
 
 use Approach\Render\HTML;
+use Approach\Render\XML;
+use Approach\Render\Node;
+use Approach\Render\Container;
 
-$pageTitle = new HTML(tag: 'title', content: 'Climb UI');
+$pageTitle->content = 'New Stuff';
 $body[] = $firstNode;
+
+ob_flush();

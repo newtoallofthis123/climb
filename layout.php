@@ -10,8 +10,11 @@ $webpage = new HTML(tag: 'html');
 $webpage->before = '<!DOCTYPE html>' . PHP_EOL;
 
 $head = new HTML(tag: 'head');
-$body = new HTML(tag: 'body');
-$pageTitle = new HTML(tag: 'title', content: 'ClimbUI');
+$head[] =
+	$pageTitle = new HTML(tag: 'title', content: 'ClimbUI');	
+
+$body = new HTML(tag: 'body', classes: ['Interface']);
+
 
 $webpage[] = $head;
 $webpage[] = $body;

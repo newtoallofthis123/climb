@@ -14,6 +14,6 @@ global $webpage;
 // print_r($node->render()) prints the render directly
 // print_r($node) prints the actual object, does not auto convert to string
 
-// Composition::$Active->publish(); handles this usually as Composition::$Active->DOM is your document instead of 1swebpage1
+// Composition::$Active->publish(); handles this usually as Composition::$Active->DOM is your document instead of 1s webpage1
 
 echo $webpage;

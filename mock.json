@@ -1,0 +1,5 @@
+{
+    "REFRESH": { "#Main #content": "<div>Hello World</div>" },
+    "APPEND": { "#Main #content": "" },
+    "REDIRECT": { "url": "https://youtube.com" }
+}

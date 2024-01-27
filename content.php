@@ -49,8 +49,14 @@ $body->content = <<<EOL
                                         <i class="expand fa fa-angle-right"></i>
                                     </div>
                                     <ul>
-                                        <li>
-                                            <div class="visual">
+                                        <li class="controls">
+                                            <div class="visual control"
+                                                data-api="/mock.json"
+                                                data-api-method="POST"
+                                                data-action="my-custom-action.my_module"
+                                                data-intent='{ "REFRESH": { "Climb" : "New" } }'
+                                                data-context='{ "_response_target": "#some_content" }'
+                                            >
                                                 <i
                                                     class="icon bi bi-geo-alt"
                                                 ></i>
@@ -400,7 +406,7 @@ $body->content = <<<EOL
                     </ul>
                 </div>
                 <script src="/static/js/menu.js"></script>
-                <div class="Main">
+                <div class="Viewport">
                     <div class="profile">
                         <div id="focus">
                             <div>
@@ -420,6 +426,8 @@ $body->content = <<<EOL
                                 </button>
                             </div>
                         </div>
+                    </div>
+                    <div id="SomeContent">
                     </div>
                 </div>
             </div>
