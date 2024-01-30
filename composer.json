@@ -74,8 +74,9 @@
 	"require": {
 		"composer/installers": "~1.0",
 		"oomphinc/composer-installers-extender": "^2.0",
-		"approach/approach": "dev-master"
-	},
+		"approach/approach": "dev-master",
+      "ext-mysqli": "*"
+    },
 	"require-dev": {
 		"codeception/codeception": "^5.0",
 		"codeception/module-phpbrowser": "*",

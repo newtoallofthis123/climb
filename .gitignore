@@ -3,3 +3,5 @@
 /resources.txt
 /*.test.*
 /nginx
+
+/.idea

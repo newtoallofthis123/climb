@@ -35,6 +35,13 @@ $head[] = new HTML(tag: 'link', attributes: [
 ], selfContained: true);
 $head[] = new HTML(tag: 'link', attributes: [
     'rel' => 'stylesheet',
+    'href' => '//cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
+], selfContained: true);
+$head[] = new HTML(tag: 'script', attributes: [
+    'src' => '//cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js',
+]);
+$head[] = new HTML(tag: 'link', attributes: [
+    'rel' => 'stylesheet',
     'type' => 'text/css',
     'href' => '/static/css/layout.css',
 ], selfContained: true);
@@ -94,12 +101,3 @@ $head[] = new HTML(tag: 'script', attributes: [
         });
 JS
 ]);
-
-$head[] = new HTML(
-    tag: 'style',
-    content: <<<CSS
-    .hello {
-        color: red;
-    }
-CSS
-);
