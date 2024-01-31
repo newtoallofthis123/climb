@@ -1,3 +1,8 @@
+<?php
+
+global $reviewBody;
+
+$reviewBody = <<<HTML
 <style>
     #PastBudgets table {
         width: 50%;
@@ -100,3 +105,4 @@
         </form>
     </div>
 </div>
+HTML;

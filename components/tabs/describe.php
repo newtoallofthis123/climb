@@ -1,3 +1,8 @@
+<?php
+
+global $describeBody;
+
+$describeBody = <<<HTML
 <div class="p-3">
     <h4 class="pb-2 fw-bolder">
         5. Describe your Work
@@ -90,3 +95,4 @@
         });
     })
 </script>
+HTML;

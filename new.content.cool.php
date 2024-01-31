@@ -2,8 +2,11 @@
 
 namespace ClimbUI;
 
-global $body, $pageTitle, $firstNode, $adaptContent;
+global $body, $pageTitle, $firstNode;
 require_once __DIR__ . '/support/lib/vendor/autoload.php';
+require_once __DIR__ . '/components/tabs/requirements.php';
+require_once __DIR__ . '/components/tabs/survey.php';
+require_once __DIR__ . '/components/tabs/review.php';
 
 require_once __DIR__ . '/layout.php';
 require_once __DIR__ . '/head.php';
@@ -17,6 +20,8 @@ use Approach\Render\Container;
 
 $pageTitle->content = 'New Stuff';
 $body[] = $firstNode;
-$body[] = $adaptContent;
+$body[] = new HTML(tag: 'div', content: $requirementsBody, attributes: ['id' => 'tab']);
+$body[] = new HTML(tag: 'div', content: $surveyBody, attributes: ['id' => 'tab']);
+$body[] = new HTML(tag: 'div', content: $reviewBody, attributes: ['id' => 'tab']);
 
-ob_flush();
+// ob_flush(); // should only be before or after something that is going to output like echo or print_r

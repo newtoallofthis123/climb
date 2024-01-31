@@ -1,3 +1,8 @@
+<?php
+
+global $workBody;
+
+$workBody = <<<HTML
 <div class="p-3">
     <h4 class="pb-2 fw-bolder">
         4. Time To Work
@@ -17,3 +22,4 @@
         </div>
     </form>
 </div>
+HTML;

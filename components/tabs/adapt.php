@@ -1,15 +1,8 @@
 <?php
 
-namespace ClimbUI;
+global $adaptBody;
 
-global $adaptContent;
-
-use Approach\Render\HTML;
-
-require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
-
-$adaptContent = new HTML(tag: 'div', classes: ['Adapt']);
-$adaptContent->content = <<<EOL
+$adaptBody = <<<HTML
 <div class="p-3">
     <h4 class="pb-2 fw-bolder">
         6. Adapt from Findings
@@ -31,4 +24,4 @@ $adaptContent->content = <<<EOL
         </button>
     </div>
 </div>
-EOL;
+HTML;

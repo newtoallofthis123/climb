@@ -3,12 +3,13 @@
 namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
+require_once __DIR__ . '/../Component/';
 
 use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\Service\format;
 use Approach\Service\flow;
-use Approach\Render\HTML;
+use ClimbUI\Component;
 
 class Server extends Service
 {
@@ -16,19 +17,20 @@ class Server extends Service
 
 	public static function View($action)
 	{
+		$title = $action['Climb']['title'];
+
 		return [[
-			'REFRESH' => ["#some_content" => "<div>Hello</div>"],
+			'REFRESH' => ['#result' => '<div>Form Submitted! Title: ' . $title . '</div>'],
 		]];
 	}
 
 	public static function Click($action)
 	{
-		$name = $action['name'];
-
-		$html = new HTML(tag: 'div', classes: ['some_class'], content: 'Hello ' . $name . ' Bro! How you doing?');
-
+		$name = $action['support']['name'];
+		$tabsForm = Component\getTabsForm();
+		
 		return [[
-			'REFRESH' => ["#some_content" => $html->render()],
+			'REFRESH' => ['#some_content' => $tabsForm->render()],
 		]];
 	}
 
@@ -45,7 +47,7 @@ class Server extends Service
 		bool $register_connection = true
 	) {
 
-		self::$registrar['Climb']['New'] = function ($context) {
+		self::$registrar['Climb']['Save'] = function ($context) {
 			return self::View($context);
 		};
 		self::$registrar['Climb']['Click'] = function ($context) {
@@ -63,7 +65,10 @@ class Server extends Service
 		foreach ($payload[0] as $verb => $intent) {
 			foreach ($intent as $scope => $instruction) {
 				foreach ($instruction as $command => $context) {
-					$this->payload = self::$registrar[$command][$context]($action);
+					if ($command == 'Climb') {
+						// print_r($command);
+						$this->payload = self::$registrar[$command][$context]($action);
+					}
 				}
 			}
 		}

@@ -1,3 +1,8 @@
+<?php
+
+global $surveyBody;
+
+$surveyBody = <<<HTML
 <style>
     #Survey form {
         display: flex;
@@ -77,3 +82,4 @@
         });
     })
 </script>
+HTML;

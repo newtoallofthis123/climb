@@ -1,3 +1,10 @@
+<?php
+
+namespace ClimbUI;
+
+global $requirementsBody;
+
+$requirementsBody = <<<HTML
 <style>
     #Requirements form {
         display: flex;
@@ -9,7 +16,7 @@
         margin-top: 10px;
     }
 </style>
-<div id="Requirements">
+<div class="Interface InterfaceContent" id="Requirements">
     <div class="p-3 pb-0">
         <h4 class="pb-2 fw-bolder">
             1. Decide a Goal
@@ -18,14 +25,27 @@
             🎯 What's the goal?
         </p>
     </div>
-    <form class="p-3 pt-0">
+    <form class="p-3 pt-0 Autoform" data-action="Climb">
         <div class="mb-3">
             <label for="title" class="form-label">Set a Destination</label>
-            <input type="text" class="form-control" id="title" placeholder="Become a billionaire">
+            <input type="text" class="form-control" name="title" id="title" placeholder="Become a billionaire">
         </div>
         <div id="input-group-1" class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping-1">1</span>
-            <input type="text" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-1">
+            <input type="text" name="requirements" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-1">
+        </div>
+        <div class="controls">
+            <button
+            type="button"
+            class="visual control btn btn-secondary mt-3"
+            data-api="/server.php"
+            data-role='autoform'
+            data-api-method="POST"
+            data-intent='{ "REFRESH": { "Climb" : "Save" } }'
+            data-context='{ "_response_target": "#result"}'
+            >
+                Click Me!
+            </button>
         </div>
     </form>
     <div>
@@ -36,6 +56,8 @@
 <script>
     $(document).ready(function() {
         let group_no = 1;
+        
+        // interface can help with this too btw
         $("#add-input-group").click(function() {
             group_no++;
             $("#Requirements form").append(`
@@ -54,3 +76,4 @@
         });
     })
 </script>
+HTML;
