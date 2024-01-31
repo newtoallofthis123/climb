@@ -87,17 +87,3 @@ $head[] = new HTML(tag: 'script', attributes: [
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/tabs.js',
 ]);
-
-$DocReady = new Node();
-$DocReady[] = 'onReadyHandle(document);';
-
-$head[] = new HTML(tag: 'script', attributes: [
-    'content' => <<<JS
-        // reattaches interfaces after HTML has been changed, should plausibly be on a DOM mutation event instead
-        Interface.prototype.RefreshComplete = onReadyHandle;
-
-        $(document).ready(function(){
-            
-        });
-JS
-]);

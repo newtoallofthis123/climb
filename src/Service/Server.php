@@ -8,6 +8,7 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\Service\format;
 use Approach\Service\flow;
+use Approach\Render\HTML;
 
 class Server extends Service
 {
@@ -16,7 +17,18 @@ class Server extends Service
 	public static function View($action)
 	{
 		return [[
-			'REFRESH' => [".Modal" => "<div>Hello</div>"], 
+			'REFRESH' => ["#some_content" => "<div>Hello</div>"],
+		]];
+	}
+
+	public static function Click($action)
+	{
+		$name = $action['name'];
+
+		$html = new HTML(tag: 'div', classes: ['some_class'], content: 'Hello ' . $name . ' Bro! How you doing?');
+
+		return [[
+			'REFRESH' => ["#some_content" => $html->render()],
 		]];
 	}
 
@@ -33,8 +45,11 @@ class Server extends Service
 		bool $register_connection = true
 	) {
 
-		self::$registrar['Form']['View'] = function ($context) {
+		self::$registrar['Climb']['New'] = function ($context) {
 			return self::View($context);
+		};
+		self::$registrar['Climb']['Click'] = function ($context) {
+			return self::Click($context);
 		};
 		parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
 	}
@@ -43,10 +58,12 @@ class Server extends Service
 	{
 		$payload = $payload ?? $this->payload;
 
-		foreach ($payload as $verb => $intent) {
+		$action = $payload[0]['support'];
+
+		foreach ($payload[0] as $verb => $intent) {
 			foreach ($intent as $scope => $instruction) {
 				foreach ($instruction as $command => $context) {
-					$this->payload = self::$registrar[$command][$context]($context);
+					$this->payload = self::$registrar[$command][$context]($action);
 				}
 			}
 		}

@@ -12,9 +12,6 @@
  * 
  */
 let onReadyHandle = function(element,selector,markup){
-	// We place things that would normally go into doc ready into onReadyHandle
-	// This allows us to initialize blocks updated by arbitrary JS
-
 	$(element).find(".Interface").each( function(instance, Markup){ 
 		let api = "/service/api.json";
 		// Check if Markup has data-api attribute
@@ -82,5 +79,7 @@ let onReadyHandle = function(element,selector,markup){
 
 
 $(document).ready(function () {
+    Interface.prototype.RefreshComplete = onReadyHandle;
+    
     onReadyHandle(document, null, null);
 });

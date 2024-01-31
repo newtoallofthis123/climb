@@ -31,9 +31,11 @@ $service = new Server(
 	auto_dispatch: false,
     format_in: format::json,
     format_out: format::json,
-    target_in: target::stream,
+    target_in: target::variable,
     target_out: target::stream,
-    input: ['php://input'],
+    input: [
+        $_POST['json']
+    ],
     output: ['php://output'],
 );
 

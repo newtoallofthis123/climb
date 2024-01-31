@@ -50,8 +50,8 @@ $body->content = <<<EOL
                             <ul>
                                 <li class="controls">
                                     <div class="visual control"
-                                        data-api="/mock.json"
-                                        data-api-method="GET"
+                                        data-api="/server.php"
+                                        data-api-method="POST"
                                         data-intent='{ "REFRESH": { "Climb" : "New" } }'
                                         data-context='{ "_response_target": "#some_content" }'
                                     >
@@ -403,7 +403,6 @@ $body->content = <<<EOL
                 </li>
             </ul>
         </div>
-        <script src="/static/js/menu.js"></script>
         <div class="Viewport">
             <div class="profile">
                 <div id="focus">
@@ -418,14 +417,20 @@ $body->content = <<<EOL
                         <h3>John Doe</h3>
                         <p class="gray">Administrator</p>
                     </div>
-                    <div>
-                        <button>
+                    <div class="controls">
+                        <button
+                        class="visual control"
+                        data-api="/server.php"
+                        data-api-method="POST"
+                        data-intent='{ "REFRESH": { "Climb" : "Click" } }'
+                        data-context='{ "_response_target": "#some_content", "name": "Ishan" }'
+                        >
                             Click Me!
                         </button>
                     </div>
                 </div>
             </div>
-            <div id="SomeContent">
+            <div id="some_content">
             </div>
         </div>
     </div>
