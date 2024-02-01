@@ -1,3 +1,7 @@
+body{
+    background-color: #f9f9f5;
+}
+
 .Screen {
     display: flex;
     flex-direction: row;
@@ -5,7 +9,7 @@
     justify-content: space-between;
 }
 
-.LiveMenu {
+.Oyster {
     width: 30%;
     background-color: #F9F9F5;
 }

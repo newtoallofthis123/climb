@@ -71,9 +71,9 @@ let onReadyHandle = function (element, selector, markup) {
         });
 
     $(element)
-        .find('.LiveMenu .breadcrumbs')
+        .find('.Oyster .breadcrumbs')
         .on('click', 'li', function (e) {
-            $('.LiveMenu .breadcrumbs li').removeClass('active');
+            $('.Oyster .breadcrumbs li').removeClass('active');
             e.stopPropagation();
             $(this).addClass('active');
         });
@@ -113,7 +113,7 @@ let onReadyHandle = function (element, selector, markup) {
             $('#Requirements form').append(`
                 <div id="input-group-${req_gn}" class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping-${req_gn}">${req_gn}</span>
-                    <input type="text" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-${req_gn}">
+                    <input type="text" name="requirements_${req_gn}" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-${req_gn}">
                 </div>
             `);
         });
@@ -137,7 +137,7 @@ let onReadyHandle = function (element, selector, markup) {
             $('#Survey form').append(`
             <div id="input-group-${ob_gn}" class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping-${ob_gn}">${ob_gn}</span>
-                <input type="text" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-${ob_gn}">
+                <input type="text" class="form-control" name="obstruction_${ob_gn}" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-${ob_gn}">
             </div>
             `);
         });
@@ -159,7 +159,7 @@ let onReadyHandle = function (element, selector, markup) {
             $('#Interests').append(`
                 <div id="input-interest-${group_no}" class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping-${group_no}">${group_no}</span>
-                    <input type="text" class="form-control" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-${group_no}">
+                    <input type="text" class="form-control" name="interest_${group_no}" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-${group_no}">
                 </div>
             `);
         });
@@ -172,6 +172,28 @@ let onReadyHandle = function (element, selector, markup) {
                 group_no--;
             }
         });
+    
+    let i_group_no = 1;
+    $(element)
+        .find('#add-interest-d-group')
+        .click(function () {
+            i_group_no++;
+            $('#InterestsD').append(`
+                <div id="input-interest-d-${i_group_no}" class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping-${i_group_no}">${i_group_no}</span>
+                    <input type="text" class="form-control" name="d_interest_${i_group_no}" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-${i_group_no}">
+                </div>
+            `);
+        });
+
+    $(element)
+        .find('#remove-interest-d-group')
+        .click(function () {
+            if (i_group_no > 1) {
+                $(`#input-interest-d-${i_group_no}`).remove();
+                i_group_no--;
+            }
+        });
 
     let hazard_group_no = 1;
     $(element)
@@ -181,7 +203,7 @@ let onReadyHandle = function (element, selector, markup) {
             $('#Hazards').append(`
                 <div id="input-hazard-${hazard_group_no}" class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping-${hazard_group_no}">${hazard_group_no}</span>
-                    <input type="text" class="form-control" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-${hazard_group_no}">
+                    <input type="text" class="form-control" name="hazard_${hazard_group_no}" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-${hazard_group_no}">
                 </div>
             `);
         });
@@ -194,38 +216,39 @@ let onReadyHandle = function (element, selector, markup) {
                 hazard_group_no--;
             }
         });
-    
-    $(element).find('.tab-button').click(function () {
-        $('.tab-button').removeClass('active');
-        $(this).addClass('active');
 
-        console.log('clicked');
+    $(element)
+        .find('.tab-button')
+        .click(function () {
+            $('.tab-button').removeClass('active');
+            $(this).addClass('active');
 
-        $('.tab').removeClass('active');
-        let tabId = $(this).attr('id');
-        tabId = tabId.replace('tabBtn', 'tab');
-        $('.' + tabId).addClass('active');
+            console.log('clicked');
 
-        if (!window.location.href.includes('stage=')) {
-            window.history.pushState(
-                '',
-                '',
-                window.location.href + '?stage=' + tabId.replace('tab', '')
+            $('.tab').removeClass('active');
+            let tabId = $(this).attr('id');
+            tabId = tabId.replace('tabBtn', 'tab');
+            $('.' + tabId).addClass('active');
+
+            if (!window.location.href.includes('stage=')) {
+                window.history.pushState(
+                    '',
+                    '',
+                    window.location.href + '?stage=' + tabId.replace('tab', '')
+                );
+            }
+            const newUrl = window.location.href.replace(
+                /stage=\d/,
+                'stage=' + tabId.replace('tab', '')
             );
-        }
-        const newUrl = window.location.href.replace(
-            /stage=\d/,
-            'stage=' + tabId.replace('tab', '')
-        );
-        window.history.pushState('', '', newUrl);
-    });
+            window.history.pushState('', '', newUrl);
+        });
 
     // --> End DOM Ready stuff
 };
 
 $(document).ready(function () {
     Interface.prototype.RefreshComplete = onReadyHandle;
-
     onReadyHandle(document, null, null);
 });
 

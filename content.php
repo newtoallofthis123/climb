@@ -11,7 +11,7 @@ require_once __DIR__ . '/head.php';
 $body->content = <<<HTML
 <div class="Stage">
     <div id="main" class="Screen">
-        <div class="LiveMenu Interface controls">
+        <div class="Oyster Interface controls">
             <section class="header">
                 <button class="backBtn">
                     <i class="expand fa fa-angle-left"></i>
@@ -52,7 +52,7 @@ $body->content = <<<HTML
                                     <div class="visual control"
                                         data-api="/server.php"
                                         data-api-method="POST"
-                                        data-intent='{ "REFRESH": { "Climb" : "New" } }'
+                                        data-intent='{ "REFRESH": { "Climb" : "Click" } }'
                                         data-context='{ "_response_target": "#some_content" }'
                                     >
                                         <i
@@ -418,7 +418,7 @@ $body->content = <<<HTML
                         <p class="gray">Administrator</p>
                     </div>
                     <div class="controls">
-                        <button
+                        <!-- <button
                         class="visual control"
                         data-api="/server.php"
                         data-api-method="POST"
@@ -426,7 +426,7 @@ $body->content = <<<HTML
                         data-context='{ "_response_target": "#some_content" }'
                         >
                             Click Me!
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>

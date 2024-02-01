@@ -1,9 +1,9 @@
-.LiveMenu ul,
-.LiveMenu li {
+.Oyster ul,
+.Oyster li {
     list-style: none;
 }
 
-.LiveMenu .breadcrumbs-selected {
+.Oyster .breadcrumbs-selected {
     width: 100px;
     padding: 5px;
     border: 1px solid #000;
@@ -11,7 +11,7 @@
     height: 20px
 }
 
-.LiveMenu .breadcrumbs-select-btn {
+.Oyster .breadcrumbs-select-btn {
     float: left;
     padding: 5px;
     border: 1px solid #000;
@@ -22,21 +22,21 @@
     text-align: center;
 }
 
-.LiveMenu .breadcrumbs {
+.Oyster .breadcrumbs {
     position: relative;
 }
 
-.LiveMenu .breadcrumbs ul li {
+.Oyster .breadcrumbs ul li {
     padding: 5px;
 }
 
-.LiveMenu .Toolbar {
+.Oyster .Toolbar {
     height: 100%;
     width: 70px;
     padding: 20px;
 }
 
-.LiveMenu .Toolbar>li>.visual {
+.Oyster .Toolbar>li>.visual {
     border-radius: 10px;
     background-color: #ffffff;
     margin-bottom: 1rem !important;
@@ -44,15 +44,15 @@
 
 }
 
-.LiveMenu .Toolbar>li.menu-active>.visual {
+.Oyster .Toolbar>li.menu-active>.visual {
     background-color: #343451 !important;
 }
 
-.LiveMenu .Toolbar>li.menu-active>.visual>.icon {
+.Oyster .Toolbar>li.menu-active>.visual>.icon {
     color: #F2F2FE;
 }
 
-.LiveMenu .Toolbar>li>.visual>.icon {
+.Oyster .Toolbar>li>.visual>.icon {
     color: #000000;
     text-align: center;
     padding: 20px;
@@ -60,14 +60,14 @@
     display: block;
 }
 
-.LiveMenu .Toolbar>li>.visual>label,
-.LiveMenu .Toolbar>li>.visual>i,
-.LiveMenu .Toolbar>li>ul,
-.LiveMenu .breadcrumbs {
+.Oyster .Toolbar>li>.visual>label,
+.Oyster .Toolbar>li>.visual>i,
+.Oyster .Toolbar>li>ul,
+.Oyster .breadcrumbs {
     display: none;
 }
 
-.LiveMenu .breadcrumbs {
+.Oyster .breadcrumbs {
     display: block;
     position: absolute;
     left: 3%;
@@ -80,7 +80,7 @@
 
 }
 
-.LiveMenu .breadcrumbs>li ul {
+.Oyster .breadcrumbs>li ul {
     margin: 10px;
     padding: 0px;
     border-radius: 10px;
@@ -89,12 +89,12 @@
 }
 
 
-.LiveMenu .breadcrumbs>li .visual {
+.Oyster .breadcrumbs>li .visual {
     color: #343451;
     padding: 12px;
 }
 
-.LiveMenu .header {
+.Oyster .header {
     position: absolute;
     left: 8%;
     height: 100%;
@@ -104,7 +104,7 @@
     border: 1px solid #eeeeee;
 }
 
-.LiveMenu .header button {
+.Oyster .header button {
     text-align: center;
     padding: 18px 18px;
     border-radius: 10px;
@@ -120,31 +120,31 @@ li:not(:has(ul)) i.expand {
     display: none !important;
 }
 
-.LiveMenu .breadcrumbs li.active:not(:has(ul)) {
+.Oyster .breadcrumbs li.active:not(:has(ul)) {
     background-color: #343451 !important;
     color: #F2F2FE;
     border-radius: 12px;
 }
 
-.LiveMenu .breadcrumbs li.active:not(:has(ul)) label,
-.LiveMenu .breadcrumbs li.active:not(:has(ul)) i {
+.Oyster .breadcrumbs li.active:not(:has(ul)) label,
+.Oyster .breadcrumbs li.active:not(:has(ul)) i {
     color: #F2F2FE;
 }
 
-.LiveMenu .breadcrumbs li .visual:hover,
-.LiveMenu .breadcrumbs li:hover>label,
-.LiveMenu .breadcrumbs li:hover>i {
+.Oyster .breadcrumbs li .visual:hover,
+.Oyster .breadcrumbs li:hover>label,
+.Oyster .breadcrumbs li:hover>i {
     background-color: #343451 !important;
     color: #F2F2FE;
     border-radius: 12px;
 }
 
-.LiveMenu .breadcrumbs li .visual label,
-.LiveMenu .breadcrumbs li .visual i {
+.Oyster .breadcrumbs li .visual label,
+.Oyster .breadcrumbs li .visual i {
     font-size: 1rem;
 }
 
-.LiveMenu .breadcrumbs li .visual {
+.Oyster .breadcrumbs li .visual {
     padding: 12px;
 }
 

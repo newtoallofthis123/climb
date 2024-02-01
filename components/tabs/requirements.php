@@ -34,19 +34,6 @@ $requirementsBody = <<<HTML
             <span class="input-group-text" id="addon-wrapping-1">1</span>
             <input type="text" name="requirements" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-1">
         </div>
-        <div class="controls">
-            <button
-            type="button"
-            class="visual control btn btn-secondary mt-3"
-            data-api="/server.php"
-            data-role='autoform'
-            data-api-method="POST"
-            data-intent='{ "REFRESH": { "Climb" : "Save" } }'
-            data-context='{ "_response_target": "#result"}'
-            >
-                Click Me!
-            </button>
-        </div>
     </form>
     <div>
         <button type="button" class="btn btn-primary ms-3" id="add-input-group">Add New Requirement</button>

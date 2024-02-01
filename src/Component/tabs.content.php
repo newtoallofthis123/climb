@@ -40,7 +40,7 @@ foreach ($tabs as $index => $tab) $TabBar[] = new HTML(
 $firstNode = new HTML(tag: 'div', classes: ['New']);
 $firstNode[] = $TabBar;
 
-$tabsForm = new HTML(tag: 'div', classes: ['TabsForm']);
+$tabsForm = new HTML(tag: 'div', classes: ['Interface']);
 $tabsForm[] = $firstNode;
 
 
@@ -73,20 +73,7 @@ $tabsFormBody = <<<HTML
         </div>
         <div id="input-group-1" class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping-1">1</span>
-            <input type="text" name="requirements" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-1">
-        </div>
-        <div class="controls">
-            <button
-            type="button"
-            class="visual control btn btn-secondary mt-3"
-            data-api="/server.php"
-            data-role='autoform'
-            data-api-method="POST"
-            data-intent='{ "REFRESH": { "Climb" : "Save" } }'
-            data-context='{ "_response_target": "#result"}'
-            >
-                Click Me!
-            </button>
+            <input type="text" name="requirements_1" class="form-control" placeholder="Add a Requirement" aria-label="requirement" aria-describedby="addon-wrapping-1">
         </div>
     </form>
     <div>
@@ -105,8 +92,8 @@ $tabsFormBody = <<<HTML
         margin-top: 10px;
     }
 </style>
-<div class="tab tab2" id="Survey">
-    <form class="p-3">
+<div class="tab tab2 Interface InterfaceContent" id="Survey">
+    <form class="p-3 Autoform" data-action="Survey">
         <h4 class="pb-3 fw-bolder">
             2. Survey of the Environment
         </h4>
@@ -124,7 +111,7 @@ $tabsFormBody = <<<HTML
         <div id="Interests">
             <div id="input-interest-1" class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping-1">1</span>
-                <input type="text" class="form-control" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-1">
+                <input type="text" class="form-control" name="interest_1" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-1">
             </div>
         </div>
         <div class="pt-3">
@@ -136,7 +123,7 @@ $tabsFormBody = <<<HTML
         </p>
         <div id="input-group-1" class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping-1">1</span>
-            <input type="text" class="form-control" placeholder="Add an obstacle" aria-label="requirement" aria-describedby="addon-wrapping-1">
+            <input type="text" class="form-control" name="obstruction_1" placeholder="Add an obstacle" aria-label="requirement" aria-describedby="addon-wrapping-1">
         </div>
     </form>
     <div>
@@ -161,7 +148,7 @@ $tabsFormBody = <<<HTML
         width: 50%;
     }
 </style>
-<div class="tab tab3 p-3">
+<div class="tab tab3 p-3 Interface InterfaceContent">
     <h4 class="pb-2 fw-bolder">
         3. Review Findings
     </h4>
@@ -217,13 +204,13 @@ $tabsFormBody = <<<HTML
         <p class="fs-5">
             <span class="fw-bolder">🕧️ Budget:</span>
         </p>
-        <form action="">
+        <form class="Autoform" data-action="Time">
             <div class="mb-4">
                 <label for="basic-url" class="form-label">
                     Time Intended
                 </label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+                    <input type="text" class="form-control" name="time_intent" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
                     <span class="input-group-text" id="basic-addon3">
                         <i class="bi bi-calendar-date me-2"></i> Days
                     </span>
@@ -234,7 +221,7 @@ $tabsFormBody = <<<HTML
                     Energy Requirements 
                 </label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon5 basic-addon6">
+                    <input type="text" class="form-control" name="energy_req" id="basic-url" aria-describedby="basic-addon5 basic-addon6">
                     <span class="input-group-text" id="basic-addon5">
                         <i class="bi bi-battery-charging me-2"></i> Energy
                     </span>
@@ -245,7 +232,7 @@ $tabsFormBody = <<<HTML
                     Resources 
                 </label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon7 basic-addon8">
+                    <input type="text" class="form-control" name="resources" id="basic-url" aria-describedby="basic-addon7 basic-addon8">
                     <span class="input-group-text" id="basic-addon7">
                         <i class="bi bi-currency-dollar me-2"></i> Dollars
                     </span>
@@ -254,38 +241,38 @@ $tabsFormBody = <<<HTML
         </form>
     </div>
 </div>
-<div class="tab tab4 p-3">
+<div class="tab tab4 p-3 Interface InterfaceContent">
     <h4 class="pb-2 fw-bolder">
         4. Time To Work
     </h4>
     <p>
         <span class="fw-bolder">🔨 Action:</span> Work on the goal
     </p>
-    <form action="">
+    <form class="Autoform" data-action="Work">
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">
                 Document Progress 🪜
             </label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea class="form-control" name="document_progress" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
         <div id="passwordHelpBlock" class="form-text">
             Continue to work on the goal and document your progress here.
         </div>
     </form>
 </div>
-<div class="tab tab5 p-3">
+<div class="tab tab5 p-3 Interface InterfaceContent">
     <h4 class="pb-2 fw-bolder">
         5. Describe your Work
     </h4>
     <p>
         <span class="fw-bolder">📔 Reflection:</span> Describe your work
     </p>
-    <form action="">
+    <form class="Describe" data-action="Describe">
         <div class="mb-3">
             <label for="budget-reality" class="form-label">
                 Budget: Expectations vs Reality
             </label>
-            <select class="form-select" aria-label="Default select example" aria-describedby="budget-reality">
+            <select class="form-select" name="budget_res" aria-label="Default select example" aria-describedby="budget-reality">
                 <option selected>Choose an option</option>
                 <option value=" 1">
                     Budget Met Expectations
@@ -301,15 +288,15 @@ $tabsFormBody = <<<HTML
         <p>
             Points of Interest for new Destinations
         </p>
-        <div id="Interests">
-            <div id="input-interest-1" class="input-group flex-nowrap">
+        <div id="InterestsD">
+            <div id="input-interest-d-1" class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping-1">1</span>
-                <input type="text" class="form-control" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-1">
+                <input type="text" class="form-control" name="d_interest_1" placeholder="Add a Point of Interest" aria-label="interest" aria-describedby="addon-wrapping-1">
             </div>
         </div>
         <div class="pt-3">
-            <button type="button" class="btn btn-primary ms-3" id="add-interest-group">Add New Interest</button>
-            <button type="button" class="btn btn-secondary ms-3" id="remove-interest-group">Remove Last Point</button>
+            <button type="button" class="btn btn-primary ms-3" id="add-interest-d-group">Add New Interest</button>
+            <button type="button" class="btn btn-secondary ms-3" id="remove-interest-d-group">Remove Last Point</button>
         </div>
         <p class="pt-4">
             Points of Concern and Hazards
@@ -317,7 +304,7 @@ $tabsFormBody = <<<HTML
         <div id="Hazards">
             <div id="input-hazard-1" class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping-1">1</span>
-                <input type="text" class="form-control" placeholder="Add a Point of Hazard" aria-label="interest" aria-describedby="addon-wrapping-1">
+                <input type="text" class="form-control" name="hazard_1" placeholder="Add a Point of Hazard" aria-label="interest" aria-describedby="addon-wrapping-1">
             </div>
         </div>
     </form>
@@ -346,6 +333,19 @@ $tabsFormBody = <<<HTML
             Terminate
         </button>
     </div>
+</div>
+<div class="controls">
+    <button
+    type="button"
+    class="visual control btn btn-secondary mt-3"
+    data-api="/server.php"
+    data-role='autoform'
+    data-api-method="POST"
+    data-intent='{ "REFRESH": { "Climb" : "Save" } }'
+    data-context='{ "_response_target": "#result"}'
+    >
+        Click Me!
+    </button>
 </div>
 HTML;
 

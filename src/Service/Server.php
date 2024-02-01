@@ -3,8 +3,9 @@
 namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
-require_once __DIR__ . '/../Component/';
+require_once __DIR__ . '/../Component/tabs.content.php';
 
+use Approach\Render\HTML;
 use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\Service\format;
@@ -19,8 +20,61 @@ class Server extends Service
 	{
 		$title = $action['Climb']['title'];
 
+		$climbForm = $action['Climb'];
+		$surveyForm = $action['Survey'];
+		$describeForm = $action['Describe'];
+
+		$requirements = [];
+		foreach ($climbForm as $key => $value) {
+			if (substr($key, 0, 11) == 'requirement') {
+				$requirements[] = $value;
+			}
+		}
+
+		$interests = [];
+		$obstructions = [];
+		foreach ($surveyForm as $key => $value) {
+			if (substr($key, 0, 8) == 'interest') {
+				$interests[] = $value;
+			}
+			if (substr($key, 0, 11) == 'obstruction') {
+				$obstructions[] = $value;
+			}
+		}
+
+		$time_intent = $action['Time']['time_intent'];
+		$energy_intent = $action['Time']['energy_req'];
+		$resources_intent = $action['Time']['resources'];
+
+		$work = $action['Work']['document_progress'];
+		$budget_res = $describeForm['budget_res'];
+
+		$d_interests = [];
+		$hazards = [];
+		foreach ($describeForm as $key => $value) {
+			if (substr($key, 0, 10) == 'd_interest') {
+				$d_interests[] = $value;
+			}
+			if (substr($key, 0, 6) == 'hazard') {
+				$hazards[] = $value;
+			}
+		}
+
+		$div = new HTML(tag: 'div', classes: ['p-3']);
+		$div[] = new HTML(tag: 'h1', content: 'Form Submitted!');
+		$div[] = $climbRes = new HTML(tag: 'div');
+		$climbRes->content = 'Title: ' . $title . '<br>Requirements: ' . implode(', ', $requirements);
+		$div[] = $surveyRes = new HTML(tag: 'div');
+		$surveyRes->content = 'Interests: ' . implode(', ', $interests) . '<br>Obstructions: ' . implode(', ', $obstructions);
+		$div[] = $timeRes = new HTML(tag: 'div');
+		$timeRes->content = 'Time Intent: ' . $time_intent . '<br>Energy Intent: ' . $energy_intent . '<br>Resources Intent: ' . $resources_intent;
+		$div[] = $workRes = new HTML(tag: 'div');
+		$workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
+		$div[] = $describeRes = new HTML(tag: 'div');
+		$describeRes->content = 'Interests: ' . implode(', ', $d_interests) . '<br>Hazards: ' . implode(', ', $hazards);
+
 		return [[
-			'REFRESH' => ['#result' => '<div>Form Submitted! Title: ' . $title . '</div>'],
+			'REFRESH' => ['#result' => $div->render()],
 		]];
 	}
 
@@ -28,7 +82,7 @@ class Server extends Service
 	{
 		$name = $action['support']['name'];
 		$tabsForm = Component\getTabsForm();
-		
+
 		return [[
 			'REFRESH' => ['#some_content' => $tabsForm->render()],
 		]];
