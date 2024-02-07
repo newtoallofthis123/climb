@@ -1,0 +1,23 @@
+{
+    "Climb": {
+        "title": "Hello!",
+        "requirements": ["This is a requirement", "This is another requirement", "This is a third requirement"]
+    },
+    "Survey": {
+        "interests": ["This is an interest", "This is another interest", "This is a third interest"],
+        "obstructions": ["This is an obstruction", "This is another obstruction", "This is a third obstruction"]
+    },
+    "Time": {
+        "time_intent": "42",
+        "energy_req": "122",
+        "resources": "1000"
+    },
+    "Work": {
+        "document_progress": "This is a document progress"
+    },
+    "Describe": {
+        "budget_res": "Choose an option",
+        "d_interests": ["This is an interest", "This is another interest", "This is a third interest"],
+        "hazards": ["This is a hazard", "This is another hazard", "This is a third hazard"]
+    }
+}

@@ -4,6 +4,7 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 require_once __DIR__ . '/../Component/tabs.content.php';
+require_once __DIR__ . '/../Component/information.php';
 
 use Approach\Render\HTML;
 use Approach\Service\Service;
@@ -16,7 +17,7 @@ class Server extends Service
 {
 	public static $registrar = [];
 
-	public static function View($action)
+	public static function New($action)
 	{
 		$title = $action['Climb']['title'];
 
@@ -78,13 +79,53 @@ class Server extends Service
 		]];
 	}
 
-	public static function Click($action)
+	public static function dataMapper($query)
 	{
-		$name = $action['support']['name'];
-		$tabsForm = Component\getTabsForm();
+		$mapper = [
+			"cool_one" => "m1",
+			"second_one" => "m2",
+			"millionaire" => "m3",
+		];
+
+		return $mapper[$query];
+	}
+
+	public static function View($action)
+	{
+		$climbId = $action['climb_id'];
+		$fileName = self::dataMapper($climbId) . '.json';
+
+		$jsonFile = file_get_contents(__DIR__ . '/../Resource/' . $fileName);
+		$jsonFile = json_decode($jsonFile, true);
+
+		$jsonFile['Climb']['climb_id'] = $climbId;
+
+		$tabsInfo = Component\getTabsInfo($jsonFile);
 
 		return [[
-			'REFRESH' => ['#some_content' => $tabsForm->render()],
+			'REFRESH' => ['#some_content > div' => $tabsInfo->render()],
+		]];
+	}
+
+	public static function Edit($action)
+	{
+		$climbId = $action['climb_id'];
+		$fileName = self::dataMapper($climbId) . '.json';
+
+		$jsonFile = file_get_contents(__DIR__ . '/../Resource/' . $fileName);
+		$jsonFile = json_decode($jsonFile, true);
+
+		$tabsForm = Component\getTabsForm($jsonFile);
+
+		return [[
+			'REFRESH' => ['#some_content > div' => $tabsForm->render()],
+		]];
+	}
+
+	public static function Ran($action)
+	{
+		return [[
+			'REFRESH' => ['#some_content > div' => '<div>Ran</div>'],
 		]];
 	}
 
@@ -102,10 +143,16 @@ class Server extends Service
 	) {
 
 		self::$registrar['Climb']['Save'] = function ($context) {
+			return self::New($context);
+		};
+		self::$registrar['Climb']['Edit'] = function ($context) {
+			return self::Edit($context);
+		};
+		self::$registrar['Climb']['View'] = function ($context) {
 			return self::View($context);
 		};
-		self::$registrar['Climb']['Click'] = function ($context) {
-			return self::Click($context);
+		self::$registrar['Climb']['Ran'] = function ($context) {
+			return self::Ran($context);
 		};
 		parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
 	}

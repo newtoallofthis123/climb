@@ -59,3 +59,23 @@
     justify-content: space-between;
     width: 100%;
 }
+
+#Requirements form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.input-group {
+    margin-top: 10px;
+}
+
+#Survey form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.input-group {
+    margin-top: 10px;
+}

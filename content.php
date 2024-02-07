@@ -47,43 +47,53 @@ $body->content = <<<HTML
                                 <label>Procedure 1</label>
                                 <i class="expand fa fa-angle-right"></i>
                             </div>
-                            <ul>
-                                <li class="controls">
-                                    <div class="visual control"
-                                        data-api="/server.php"
-                                        data-api-method="POST"
-                                        data-intent='{ "REFRESH": { "Climb" : "Click" } }'
-                                        data-context='{ "_response_target": "#some_content" }'
-                                    >
+                            <ul class="controls">
+                                <li class="control" 
+                                    data-api="/server.php"
+                                    data-api-method="POST"
+                                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                                    data-context='{ "_response_target": "#some_content > div", "climb_id": "cool_one"}'
+                                >
+                                    <div class="visual">
                                         <i
                                             class="icon bi bi-geo-alt"
                                         ></i>
-                                        <label>Child Item Name 1</label>
+                                        <label>Cool One</label>
                                         <i
                                             class="expand fa fa-angle-right"
                                         ></i>
                                     </div>
                                 </li>
-                                <li>
+                                <li class="control" 
+                                    data-api="/server.php"
+                                    data-api-method="POST"
+                                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                                    data-context='{ "_response_target": "#some_content > div", "climb_id": "second_one"}'
+                                >
                                     <div class="visual">
                                         <i
                                             class="icon bi bi-geo-alt"
                                         ></i>
                                         <label>
-                                            Child Item Name 2</label
+                                            Second One</label
                                         >
                                         <i
                                             class="expand fa fa-angle-right"
                                         ></i>
                                     </div>
                                 </li>
-                                <li>
+                                <li class="control" 
+                                    data-api="/server.php"
+                                    data-api-method="POST"
+                                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                                    data-context='{ "_response_target": "#some_content > div", "climb_id": "millionaire"}'
+                                >
                                     <div class="visual">
                                         <i
                                             class="icon bi bi-geo-alt"
                                         ></i>
                                         <label
-                                            >Child Item Name 3
+                                            >Become a Millionaire
                                         </label>
                                         <i
                                             class="expand fa fa-angle-right"
@@ -417,20 +427,10 @@ $body->content = <<<HTML
                         <h3>John Doe</h3>
                         <p class="gray">Administrator</p>
                     </div>
-                    <div class="controls">
-                        <!-- <button
-                        class="visual control"
-                        data-api="/server.php"
-                        data-api-method="POST"
-                        data-intent='{ "REFRESH": { "Climb" : "Click" } }'
-                        data-context='{ "_response_target": "#some_content" }'
-                        >
-                            Click Me!
-                        </button> -->
-                    </div>
                 </div>
             </div>
             <div id="some_content">
+                <div></div>
             </div>
             <div id="result"></div>
         </div>

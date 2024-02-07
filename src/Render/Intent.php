@@ -5,9 +5,9 @@ namespace ClimbUI\Render;
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
 use \Approach\Render\HTML;
-use \Approach\Render;
+use \Approach\Render\Stream;
 use \Approach\Render\Attribute;
-use \Approach\Render\Markup;
+use \Approach\Render\Node;
 use \Traversable;
 use \Stringable;
 
@@ -29,18 +29,17 @@ class Intent extends HTML
         public bool $selfContained = false,
 
         public null|array $command = null,            // Intent Command { ClientAction : { Scope: ServerAction }
-        public null|array $context = null,            // Intent Context: { anything you want to send to server action }
+        public null|string $context = null,            // Intent Context: { anything you want to send to server action }
         public null|string|Stringable $api = null,    // URL of a Service endpoint
         public null|string|Stringable $method = null, // POST or GET usually, defaults to POST if not set
-        public null|string|Stringable $role = null    // optional role
-        public null|string|Stringable $action = null   // optional custom js event to throw, defaults to click
-        public null|string|Stringable $trigger = null  // optional native js event that triggers the custom event to throw, eg mousemove, etc... 
+        public null|string|Stringable $role = null, // optional role
+        public null|string|Stringable $action = null,   // optional custom js event to throw, defaults to click
+        public null|string|Stringable $trigger = null,  // optional native js event that triggers the custom event to throw, eg mousemove, etc... 
     )
 	{
     parent::__construct(
       tag: $this->tag, 
       id: $this->id, 
-      classes: $this->classes, 
       attributes: $this->attributes, 
       content: $this->content, 
       styles: $this->styles, 
@@ -57,7 +56,7 @@ class Intent extends HTML
       $this->attributes['data-command'] = json_encode($this->command);
     }
     if(is_array($this->context)){
-      $this->attributes['data-context'] = json_encode($this->command);
+      $this->attributes['data-context'] = $this->command;
     }
     if(NULL !== $this->api){
       $this->attributes['data-api'] = $this->api;
