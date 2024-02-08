@@ -8,8 +8,8 @@
 namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
-require_once __DIR__ . '/../Component/tabs.content.php';
-require_once __DIR__ . '/../Component/information.php';
+require_once __DIR__ . '/../Component/form.php';
+require_once __DIR__ . '/../Component/view.php';
 
 use Approach\Render\HTML;
 use Approach\Service\Service;
