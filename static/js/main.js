@@ -1,3 +1,8 @@
+// The main entry point for the application
+// Any and all javascript functions should be defined in the onReadyHandle function
+// Approach is mapped to this wrapper function to allow for the same benefits as document ready
+// This is a good place to put any global event handlers, or any other global functions
+
 /**
  * onReadyHandle(element, selector, markup)
  * A function to give AJAX induced DOM mutations the same benefits as document ready
@@ -16,8 +21,8 @@ let onReadyHandle = function (element, selector, markup) {
     // including doc ready
     $(element)
         .find('.Interface')
-        .each(function (instance, Markup) {
-            let api = '/service/api.json';
+        .each(function (_, Markup) {
+            let api = '/server.php';
             // Check if Markup has data-api attribute
             if ($(Markup).attr('data-api')) api = $(Markup).attr('data-api');
 
@@ -99,13 +104,6 @@ let onReadyHandle = function (element, selector, markup) {
     // --> Add your custom event handlers here
 
     let req_gn = 1;
-
-    // interface can help with this too btw
-    // wut?
-    // it can?
-    // all doc ready things go there or else we can collect them into a Node and the put them there
-    //
-    // or ig file would be simpler
     $(element)
         .find('#add-input-group')
         .click(function () {

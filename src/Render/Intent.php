@@ -1,5 +1,25 @@
 <?php
 
+/* 
+ * A wrapper around the HTML node class to help create intent elements
+ *
+ * Usually, an intent is a node that has some data attributes that are used to
+ * communicate with the server. This class is a wrapper around the HTML node
+ *
+ * Usage:
+ *
+ * $intent = new Intent(
+ *  tag: 'button',
+ *  id: 'myButton',
+ *  classes: ['btn', 'btn-primary'],
+ *  command: ['click' => 'doSomething'],
+ *  context: ['id' => 123],
+ *  api: '/api/v1/some-endpoint',
+ *  method: 'POST',
+ *  content: 'Click me'
+ *  );
+ * */
+
 namespace ClimbUI\Render;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';

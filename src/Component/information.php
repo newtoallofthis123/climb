@@ -8,8 +8,9 @@ use Approach\Render\HTML;
 
 global $tabsInfo;
 
-$tabsInfo = new HTML(tag: 'div', classes: ['TabsForm']); // this is good?
+$tabsInfo = new HTML(tag: 'div', classes: ['TabsForm']); 
 
+// Function that returns the information of a climb
 function getTabsInfo(array $json)
 {
     global $tabsInfo;

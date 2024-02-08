@@ -1,3 +1,9 @@
+/* 
+ * Controls the appearance of the menu
+ *
+ * TODO: Remove Absolute positioning from the menu
+ * */
+
 .Oyster ul,
 .Oyster li {
     list-style: none;

@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * The Server class is the main class that handles the server side of the application.
+ * It is responsible for processing the data and returning the response.
+*/
+
 namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';

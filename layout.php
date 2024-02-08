@@ -18,6 +18,3 @@ $body = new HTML(tag: 'body', classes: ['Interface']);
 
 $webpage[] = $head;
 $webpage[] = $body;
-
-
-// :before <tag attr classes>prefix content [child nodes] suffix</tag> :after

@@ -1,5 +1,12 @@
 <?php
 
+/* 
+ * This is the main content that is rendered on the screen
+ *
+ * TODO: Split this into smaller components and use Render or Imprint Layer
+ *
+ */
+
 namespace ClimbUI;
 
 global $body;
