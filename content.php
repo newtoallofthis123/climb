@@ -24,7 +24,7 @@ $body->content = <<<HTML
                     <i class="expand fa fa-angle-left"></i>
                 </button>
                 <button
-                    class="btn btn-secondary current-state ms-2"
+                    class="btn btn-secondary current-state ms-2 animate__animated animate__slideInDown"
                     id="menuButton"
                 >
                     <span id="menuButtonText">Location</span>
@@ -51,7 +51,7 @@ $body->content = <<<HTML
                         <li>
                             <div class="visual">
                                 <i class="icon bi bi-geo-alt"></i>
-                                <label>Procedure 1</label>
+                                <label>Making a Millionaire</label>
                                 <i class="expand fa fa-angle-right"></i>
                             </div>
                             <ul class="controls">
@@ -112,7 +112,7 @@ $body->content = <<<HTML
                         <li>
                             <div class="visual">
                                 <i class="icon bi bi-geo-alt"></i>
-                                <label> Procedure 2</label>
+                                <label> Create ClimbsUI</label>
                                 <i class="expand fa fa-angle-right"></i>
                             </div>
                             <ul>

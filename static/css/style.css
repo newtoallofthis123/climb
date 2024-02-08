@@ -45,10 +45,9 @@
 
 .tab-button {
     cursor: pointer;
-    padding: 2px;
+    padding: 8px 12px;
     text-align: center;
-    background-color: #ccc;
-    border: 1px solid #999;
+    background-color: #cccccc;
     width: calc(100% / 6);
 }
 

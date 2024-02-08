@@ -74,8 +74,13 @@ $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/approach/approach.interface.js',
 ]);
 $head[] = new HTML(tag: 'link', attributes: [
-    'src' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
-]);
+    'href' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+    'rel' => 'stylesheet',
+], selfContained: true);
+$head[] = new HTML(tag: 'link', attributes: [
+    'href'=> 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+    'rel' => 'stylesheet',
+], selfContained: true);
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/main.js',
 ]);

@@ -27,7 +27,7 @@ function getTabsInfo(array $json)
         '6' => 'Adapt',
     ];
 
-    $rightArrow = new HTML(tag: 'i', classes: ['bi', 'bi-arrow-right']);
+    $rightArrow = new HTML(tag: 'i', classes: ['bi ', 'bi-arrow-right ', 'ms-1']); 
 
     foreach ($tabs as $index => $tab) $TabBar[] = new HTML(
         tag: 'div',
@@ -41,18 +41,17 @@ function getTabsInfo(array $json)
     $firstNode = new HTML(tag: 'div', classes: ['New']);
     $firstNode[] = $TabBar;
 
-    $tabsInfo = new HTML(tag: 'div', classes: ['Interface']);
+    $tabsInfo = new HTML(tag: 'div', classes: ['Interface ', 'animate__animated ', 'animate__fadeInDown ']); 
     
     $tabsInfo[] = $editBTN =  new HTML(tag: 'div', classes: ['controls']);
     $intentInfo = '{ "_response_target": "#some_content > div", "climb_id": "' . $data['Climb']['climb_id'] . '" }';
 
     $editBTN->content = <<<HTML
-                <button class="control" 
+                <button class="control btn" 
                     data-api="/server.php"
                     data-api-method="POST"
                     data-intent='{ "REFRESH": { "Climb" : "Edit" } }'
                     data-context='$intentInfo'>
-                >
                     <i class="bi bi-pencil-square"></i>
                     Edit
                 </button>

@@ -22,7 +22,7 @@ function getTabsForm(array $json)
         '6' => 'Adapt',
     ];
 
-    $rightArrow = new HTML(tag: 'i', classes: ['bi', 'bi-arrow-right']);
+    $rightArrow = new HTML(tag: 'i', classes: ['bi ', 'bi-arrow-right']);
 
     foreach ($tabs as $index => $tab) $TabBar[] = new HTML(
         tag: 'div',

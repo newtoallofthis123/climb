@@ -21,13 +21,12 @@ body{
 .Viewport {
     width: 70%;
     background-color: #F9F9F5;
-    position: relative; /* reset coordinates for child classes without moving .Viewport */
+    padding: 0 2rem;
 }
 #SomeContent {
     bottom: 0px;
     top: 16%;
     margin-top: 3em;
-    position: absolute; /* vertically stretch this from the bottom to the top of .Viewport, minus the profile space  */
 }
 
 .profile {
