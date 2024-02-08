@@ -63,8 +63,9 @@ let onReadyHandle = function(element, selector, markup) {
     $(element)
         .find('ul.Toolbar > li > .visual')
         .click(function() {
-            $('ul.Toolbar > li').removeClass('menu-active');
-            $(this).parent().addClass('menu-active');
+            $('ul.Toolbar > li').removeClass('active');
+            $(this).parent().addClass('active');
+            animateCSS('.active > ul', 'lightSpeedInRight');
         });
 
     $(element)
@@ -76,6 +77,9 @@ let onReadyHandle = function(element, selector, markup) {
                 $(this).parent().addClass('active');
                 $('ul.Toolbar li').removeClass('selected');
                 $(this).parents('li').addClass('selected');
+
+                animateCSS('.active > ul', 'lightSpeedInRight');
+
                 var selectedEle = '';
                 $(this)
                     .parents('li')
@@ -91,6 +95,7 @@ let onReadyHandle = function(element, selector, markup) {
                 selectedEle += '</div></li>';
                 $('.breadcrumbs').append(selectedEle);
                 var selectedOption = $(this).children('label').text();
+                animateCSS('.breadcrumbs', 'fadeIn');
                 $('#menuButtonText').text(selectedOption);
             }
         });
@@ -247,7 +252,7 @@ let onReadyHandle = function(element, selector, markup) {
             let tabId = $(this).attr('id');
             tabId = tabId.replace('tabBtn', 'tab');
             $('.' + tabId).addClass('active');
-    
+
             animateCSS('.' + tabId, 'fadeIn');
 
             if (!window.location.href.includes('stage=')) {

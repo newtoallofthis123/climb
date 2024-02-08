@@ -41,7 +41,7 @@ function getTabsInfo(array $json)
     $firstNode = new HTML(tag: 'div', classes: ['New']);
     $firstNode[] = $TabBar;
 
-    $tabsInfo = new HTML(tag: 'div', classes: ['Interface ', 'animate__animated ', 'animate__fadeInDown ']); 
+    $tabsInfo = new HTML(tag: 'div', classes: ['Interface ', 'animate__animated ', 'animate__fadeInUp']);  
     
     $tabsInfo[] = $editBTN =  new HTML(tag: 'div', classes: ['controls']);
     $intentInfo = '{ "_response_target": "#some_content > div", "climb_id": "' . $data['Climb']['climb_id'] . '" }';
