@@ -8,12 +8,12 @@ use \Approach\Render\HTML;
 
 class ClassesSpaceCest
 {
-    public function _before(UnitTester $I)
+    public function _before(UnitTester $I): void
     {
     }
 
     // tests
-    public function tryToTest(UnitTester $I)
+    public function tryToTest(UnitTester $I): void
     {
         $testHtml = new HTML(tag: 'div', classes: ['test', 'test2']);
         $testHtml->classes[] = 'test3';

@@ -1,7 +1,7 @@
 {
     "Climb": {
-        "title": "wow",
-        "requirements": ["req1", "req2", "req3"]
+        "title": "New Office",
+        "requirements": ["Contractor", "Raw Materials", "Labour"]
     },
     "Survey": {
         "interests": ["interest_1", "interest_2", "interest_3"],

@@ -51,7 +51,7 @@ $body->content = <<<HTML
                         <li>
                             <div class="visual">
                                 <i class="icon bi bi-geo-alt"></i>
-                                <label>Making a Millionaire</label>
+                                <label>Corporate Offices</label>
                                 <i class="expand fa fa-angle-right"></i>
                             </div>
                             <ul class="controls">
@@ -65,7 +65,7 @@ $body->content = <<<HTML
                                         <i
                                             class="icon bi bi-geo-alt"
                                         ></i>
-                                        <label>Cool One</label>
+                                        <label>Texas</label>
                                         <i
                                             class="expand fa fa-angle-right"
                                         ></i>
@@ -82,7 +82,7 @@ $body->content = <<<HTML
                                             class="icon bi bi-geo-alt"
                                         ></i>
                                         <label>
-                                            Second One</label
+                                            New Jersey</label
                                         >
                                         <i
                                             class="expand fa fa-angle-right"
@@ -99,9 +99,7 @@ $body->content = <<<HTML
                                         <i
                                             class="icon bi bi-geo-alt"
                                         ></i>
-                                        <label
-                                            >Become a Millionaire
-                                        </label>
+                                        <label>New York</label>
                                         <i
                                             class="expand fa fa-angle-right"
                                         ></i>
@@ -112,7 +110,7 @@ $body->content = <<<HTML
                         <li>
                             <div class="visual">
                                 <i class="icon bi bi-geo-alt"></i>
-                                <label> Create ClimbsUI</label>
+                                <label> Employee Management</label>
                                 <i class="expand fa fa-angle-right"></i>
                             </div>
                             <ul>
