@@ -21,8 +21,11 @@ use ClimbUI\Component;
 class Server extends Service
 {
 	public static $registrar = [];
-
-	public static function New($action)
+    /**
+     * @return array<int,array<string,array<string,The>>>
+     * @param mixed $action
+     */
+    public static function New($action): array
 	{
 		$title = $action['Climb']['title'];
 
@@ -83,8 +86,11 @@ class Server extends Service
 			'REFRESH' => ['#result' => $div->render()],
 		]];
 	}
-
-	public static function dataMapper($query)
+    /**
+     * @return string
+     * @param mixed $query
+     */
+    public static function dataMapper($query): string
 	{
 		$mapper = [
 			"cool_one" => "m1",
@@ -94,8 +100,11 @@ class Server extends Service
 
 		return $mapper[$query];
 	}
-
-	public static function View($action)
+    /**
+     * @return array<int,array<string,array>>
+     * @param mixed $action
+     */
+    public static function View($action): array
 	{
 		$climbId = $action['climb_id'];
 		$fileName = self::dataMapper($climbId) . '.json';
@@ -111,8 +120,11 @@ class Server extends Service
 			'REFRESH' => ['#some_content > div' => $tabsInfo->render()],
 		]];
 	}
-
-	public static function Edit($action)
+    /**
+     * @return array<int,array<string,array>>
+     * @param mixed $action
+     */
+    public static function Edit($action): array
 	{
 		$climbId = $action['climb_id'];
 		$fileName = self::dataMapper($climbId) . '.json';
@@ -126,8 +138,11 @@ class Server extends Service
 			'REFRESH' => ['#some_content > div' => $tabsForm->render()],
 		]];
 	}
-
-	public static function Ran($action)
+    /**
+     * @return array<int,array<string,array<string,string>>>
+     * @param mixed $action
+     */
+    public static function Ran($action): array
 	{
 		return [[
 			'REFRESH' => ['#some_content > div' => '<div>Ran</div>'],
