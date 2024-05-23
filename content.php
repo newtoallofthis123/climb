@@ -58,7 +58,7 @@ $body->content = <<<HTML
                                 <li class="control" 
                                     data-api="/server.php"
                                     data-api-method="POST"
-                                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                                    data-intent='{ "REFRESH": { "Climb" : "Issues" } }'
                                     data-context='{ "_response_target": "#some_content > div", "climb_id": "cool_one"}'
                                 >
                                     <div class="visual">
