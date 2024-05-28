@@ -424,7 +424,7 @@ $body->content = <<<HTML
                     <div>
                         <img
                             width="64"
-                            src="https://noobscience.vercel.app/favicon.ico"
+                            src="https://www.noobscience.in/favicon.ico"
                             alt="A Cool Image"
                         />
                     </div>

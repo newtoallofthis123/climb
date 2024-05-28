@@ -164,14 +164,16 @@ class Server extends Service
         $repo = $context['repo'] ?? 'Approach';
         $labels = $context['labels'] ?? ['climb-payload'];
 
-        $url = "https://api.github.com/repos/$owner/$repo/issues?labels=" . implode(',', $labels);
+        // $url = "https://api.github.com/repos/$owner/$repo/issues?labels=" . implode(',', $labels);
+        $url = "http://localhost:8080";
 
         $context = [
             'http' => [
                 'method' => 'POST',
                 'header' => [
-                    'User-Agent: ApproachClimbUI',
-                    'Content-type: application/x-www-form-urlencoded'
+                    'User-Agent:curl/8.5.0',
+                    'Accept: */*',
+                    // 'Content-type: application/x-www-form-urlencoded'
                 ],
                 // 'content' => $post
             ]
