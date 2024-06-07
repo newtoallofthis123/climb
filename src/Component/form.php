@@ -142,11 +142,11 @@ function getTabsForm(array $json)
     $inputProgress[] = new HTML(tag: 'textarea', classes: ['form-control'], attributes: ['name' => 'document_progress', 'id' => 'exampleFormControlTextarea1', 'rows' => '3'], content: $data['Work']['document_progress']);
     $workFormBody[] = $p = new HTML(tag: 'div', classes: ['form-text'], content: 'Continue to work on the goal and document your progress here.');
 
-    $formBody[] = $describeForm = new HTML(tag: 'div', classes: ['tab ', 'tab5 ', 'p-3']);
+    $formBody[] = $describeForm = new HTML(tag: 'div', classes: ['tab ', 'tab5 ', 'p-3', 'Interface ', 'InterfaceContent']);
     
     $describeForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '5. Describe your Work');
     $describeForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">📔 Reflection:</span> Describe your work');
-    $describeForm[] = $describeFormBody = new HTML(tag: 'form', classes: ['Describe'], attributes: ['data-action' => 'Describe']);
+    $describeForm[] = $describeFormBody = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Describe']);
     $describeFormBody[] = $inputBudget = new HTML(tag: 'div', classes: ['mb-3']);
     
     $inputBudget[] = new HTML(tag: 'label', classes: ['form-label'], content: 'Budget: Expectations vs Reality');

@@ -81,11 +81,24 @@ class Server extends Service
         $timeRes->content = 'Time Intent: ' . $time_intent . '<br>Energy Intent: ' . $energy_intent . '<br>Resources Intent: ' . $resources_intent;
         $div[] = $workRes = new HTML(tag: 'div');
         $workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
-        $div[] = $describeRes = new HTML(tag: 'div');
+        $div[] = $describeRes = new HTML(tag: 'div', content: $describeForm);
         $describeRes->content = 'Interests: ' . implode(', ', $d_interests) . '<br>Hazards: ' . implode(', ', $hazards);
 
+        // add json
+        $res = [];
+        $res['requirements'] = $requirements;
+        $res['interests'] = $interests;
+        $res['obstructions'] = $obstructions;
+        $res['time_intent'] = $time_intent;
+        $res['energy_intent'] = $energy_intent;
+        $res['resources_intent'] = $resources_intent;
+        $res['work'] = $work;
+        $res['budget_res'] = $budget_res;
+        $res['d_interests'] = $d_interests;
+        $res['hazards'] = $hazards;
+
         return [[
-            'REFRESH' => ['#result' => $div->render()],
+            'REFRESH' => ['#result' => '<p>' . json_encode($res) . '</p>'],
         ]];
     }
 
