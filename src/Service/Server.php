@@ -16,6 +16,7 @@ use Approach\Service\flow;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
+use ClimbUI\Service\Github;
 use ClimbUI\Component;
 
 class Server extends Service
@@ -23,10 +24,10 @@ class Server extends Service
     public static $registrar = [];
 
     /**
-     * @return array<int,array<string,array<string,The>>>
+     * @return array<int,array<string,array<string,string>>>
      * @param mixed $action
      */
-    public static function New($action): array
+    public static function New(mixed $action): array
     {
         $title = $action['Climb']['title'];
 
@@ -36,7 +37,7 @@ class Server extends Service
 
         $requirements = [];
         foreach ($climbForm as $key => $value) {
-            if (substr($key, 0, 11) == 'requirement') {
+            if (str_starts_with($key, 'requirement')) {
                 $requirements[] = $value;
             }
         }
@@ -44,10 +45,10 @@ class Server extends Service
         $interests = [];
         $obstructions = [];
         foreach ($surveyForm as $key => $value) {
-            if (substr($key, 0, 8) == 'interest') {
+            if (str_starts_with($key, 'interest')) {
                 $interests[] = $value;
             }
-            if (substr($key, 0, 11) == 'obstruction') {
+            if (str_starts_with($key, 'obstruction')) {
                 $obstructions[] = $value;
             }
         }
@@ -62,10 +63,10 @@ class Server extends Service
         $d_interests = [];
         $hazards = [];
         foreach ($describeForm as $key => $value) {
-            if (substr($key, 0, 10) == 'd_interest') {
+            if (str_starts_with($key, 'd_interest')) {
                 $d_interests[] = $value;
             }
-            if (substr($key, 0, 6) == 'hazard') {
+            if (str_starts_with($key, 'hazard')) {
                 $hazards[] = $value;
             }
         }
@@ -107,7 +108,7 @@ class Server extends Service
      * @return array<int,array<string,array>>
      * @param mixed $action
      */
-    public static function View($action): array
+    public static function View(mixed $action): array
     {
         $climbId = $action['climb_id'];
         $fileName = self::dataMapper($climbId) . '.json';
@@ -164,34 +165,12 @@ class Server extends Service
         $repo = $context['repo'] ?? 'Approach';
         $labels = $context['labels'] ?? ['climb-payload'];
 
-        // $url = "https://api.github.com/repos/$owner/$repo/issues?labels=" . implode(',', $labels);
-        $url = "http://localhost:8080";
-
-        $context = [
-            'http' => [
-                'method' => 'POST',
-                'header' => [
-                    'User-Agent:curl/8.5.0',
-                    'Accept: */*',
-                    // 'Content-type: application/x-www-form-urlencoded'
-                ],
-                // 'content' => $post
-            ]
-        ];
-
-        // $result = $url;
-        $fetcher = new Service(
-            auto_dispatch: false,
-            target_in: target::stream,
-            target_out: target::variable,
-            format_in: format::json,
-            input: [$url],
-            metadata: ['context' => $context]
+        $fetcher = new Github(
+            $owner,
+            $repo,
+            $labels
         );
-
         $result = $fetcher->dispatch();
-
-        // $result = 'No issues found.';
 
         return [[
             'REFRESH' => ['#some_content > div' => '<p>' . json_encode($result) . '</p>'],
@@ -234,8 +213,8 @@ class Server extends Service
 
         $action = $payload[0]['support'];
 
-        foreach ($payload[0] as $verb => $intent) {
-            foreach ($intent as $scope => $instruction) {
+        foreach ($payload[0] as $intent) {
+            foreach ($intent as $instruction) {
                 foreach ($instruction as $command => $context) {
                     if ($command == 'Climb') {
                         $this->payload = self::$registrar[$command][$context]($action);
