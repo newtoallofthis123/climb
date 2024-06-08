@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheApproach/Approach.git",
-                "reference": "ce4e42daa98cfb2229d25b4b0044571bda0fa96b"
+                "reference": "2b011e415add838832ebe94353f62d53ef1028b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheApproach/Approach/zipball/ce4e42daa98cfb2229d25b4b0044571bda0fa96b",
-                "reference": "ce4e42daa98cfb2229d25b4b0044571bda0fa96b",
+                "url": "https://api.github.com/repos/TheApproach/Approach/zipball/2b011e415add838832ebe94353f62d53ef1028b0",
+                "reference": "2b011e415add838832ebe94353f62d53ef1028b0",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +59,7 @@
                     "url": "https://ko-fi.com/approach"
                 }
             ],
-            "time": "2024-05-09T10:39:10+00:00"
+            "time": "2024-06-08T16:33:46+00:00"
         },
         {
             "name": "composer/installers",

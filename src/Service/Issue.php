@@ -8,10 +8,14 @@ use Approach\Render\Node;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
+use Exception;
 use Stringable;
 
 class Issue extends Service
 {
+    /**
+     * @throws Exception
+     */
     public function __construct(
         Stringable|string $owner,
         Stringable|string $repo,
@@ -23,7 +27,7 @@ class Issue extends Service
 
         $apiKey = getenv('GITHUB_API_KEY');
         if ($apiKey === false) {
-            throw new \Exception('GITHUB_API_KEY not set');
+            throw new Exception('GITHUB_API_KEY not set');
         }
 
         $context = [
@@ -33,7 +37,8 @@ class Issue extends Service
                     'User-Agent:curl/8.5.0',
                     'Accept: */*',
                     'Authorization: Bearer ' . $apiKey,
-                    'X-GitHub-Api-Version: 2022-11-28'
+                    'X-GitHub-Api-Version: 2022-11-28',
+                    'Content-Type: application/vnd.github+json'
                 ],
                 'content' => json_encode([
                     'title' => $title,

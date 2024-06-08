@@ -11,13 +11,17 @@ require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 require_once __DIR__ . '/../Component/form.php';
 require_once __DIR__ . '/../Component/view.php';
 
+use Approach\Imprint\Imprint;
 use Approach\Render\HTML;
 use Approach\Service\flow;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
+use Approach\path;
+use ClimbUI\Imprint\Body\IssueBody;
 use ClimbUI\Service\Github;
 use ClimbUI\Component;
+use \Approach\Scope;
 
 class Server extends Service
 {
@@ -97,18 +101,47 @@ class Server extends Service
         $res['d_interests'] = $d_interests;
         $res['hazards'] = $hazards;
 
+        $path_to_project = __DIR__ . '/';
+        $path_to_approach = __DIR__ . '/support/lib/approach/';
+        $path_to_support = __DIR__ . '//support//';
+        $scope = new Scope(
+            path: [
+                path::project->value => $path_to_project,
+                path::installed->value => $path_to_approach,
+                path::support->value => $path_to_support,
+            ],
+        );
+
+        $fileDir = $scope->GetPath(path::pattern);
+        // FIXME: Fix the need for removing the ..
+        $fileDir = str_replace('/../', '', $fileDir);
+
+        $imp = new Imprint(
+            imprint: 'body.xml',
+            imprint_dir: $fileDir,
+        );
+
+//        $prepSuccess = $imp->Prepare();
+
+//        $imp->Mint('IssueBody');
+
+        $body = new IssueBody(tokens: [
+            'Body' => $div->render(),
+            'Metadata' => json_encode($res),
+        ]);
+
         $service = new Issue(
             'newtoallofthis123',
             'test_for_issues',
-            ['climb-payload'],
-            json_encode($res),
-            $title
+            labels: ['climb-payload'],
+            body: $body->render(),
+            title: $title
         );
 
-        $service->dispatch();
+         $service->dispatch();
 
         return [[
-            'REFRESH' => ['#result' => '<p>' . json_encode($res) . '</p>'],
+            'REFRESH' => ['#result' => '<p>' . $body . 'cool' . '</p>'],
         ]];
     }
 

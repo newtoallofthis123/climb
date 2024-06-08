@@ -5,11 +5,11 @@
       <list>
         <Configuration>
           <option name="namespace" value="Tests" />
-          <option name="path" value="$PROJECT_DIR$/support/lib/approach/tests" />
+          <option name="path" value="$PROJECT_DIR$/tests" />
         </Configuration>
         <Configuration>
           <option name="namespace" value="Tests" />
-          <option name="path" value="$PROJECT_DIR$/tests" />
+          <option name="path" value="$PROJECT_DIR$/support/lib/approach/tests" />
         </Configuration>
       </list>
     </option>
