@@ -6,6 +6,7 @@ namespace ClimbUI;
 // I can now include this wherever I need head stuff
 
 global $head, $pageTitle;
+
 require_once __DIR__ . '/support/lib/vendor/autoload.php';
 
 use \Approach\Render\HTML;
@@ -78,7 +79,7 @@ $head[] = new HTML(tag: 'link', attributes: [
     'rel' => 'stylesheet',
 ], selfContained: true);
 $head[] = new HTML(tag: 'link', attributes: [
-    'href'=> 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+    'href' => 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
     'rel' => 'stylesheet',
 ], selfContained: true);
 $head[] = new HTML(tag: 'script', attributes: [

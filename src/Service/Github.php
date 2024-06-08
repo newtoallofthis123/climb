@@ -4,9 +4,9 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
+use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
-use Approach\Service\format;
 
 class Github extends Service
 {
@@ -36,16 +36,24 @@ class Github extends Service
         );
     }
 
-    //TODO: Make it to array
-    //FIXME: Make it actually work
+    // TODO: Make it to array
+    // FIXME: Make it actually work
+
+    /*
+     * @param string $body
+     */
     public function getIssueMeta($body): string
     {
         return '{"meta": "data"}';
     }
 
+    /**
+     * @param mixed $issue
+     * @return array<string,mixed>
+     */
     public function processIssue($issue): array
     {
-        $res =[];
+        $res = [];
         $res['id'] = $issue['id'];
         $res['title'] = $issue['title'];
         $res['url'] = $issue['repository_url'];
@@ -53,8 +61,8 @@ class Github extends Service
         $res['user_avatar'] = $issue['user']['avatar_url'];
         $res['is_admin'] = $issue['author_association'] === 'OWNER' || $issue['author_association'] === 'MEMBER';
         $res['metadata'] = $this->getIssueMeta($res['body']);
-        //TODO: Add all of the required fields
-        //TODO: Add the label fields
+        // TODO: Add all of the required fields
+        // TODO: Add the label fields
 
         return $res;
     }

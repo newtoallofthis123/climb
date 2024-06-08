@@ -27,7 +27,7 @@ class Server extends Service
      * @return array<int,array<string,array<string,string>>>
      * @param mixed $action
      */
-    public static function New(mixed $action): array
+    public static function Save(mixed $action): array
     {
         $title = $action['Climb']['title'];
 
@@ -96,6 +96,16 @@ class Server extends Service
         $res['budget_res'] = $budget_res;
         $res['d_interests'] = $d_interests;
         $res['hazards'] = $hazards;
+
+        $service = new Issue(
+            'newtoallofthis123',
+            'test_for_issues',
+            ['climb-payload'],
+            json_encode($res),
+            $title
+        );
+
+        $service->dispatch();
 
         return [[
             'REFRESH' => ['#result' => '<p>' . json_encode($res) . '</p>'],
@@ -190,6 +200,36 @@ class Server extends Service
         ]];
     }
 
+    /**
+     * @param mixed $context
+     * @return array<int,array<string,array<string,string>>>
+     */
+    public static function sendIssues($context): array
+    {
+        $owner = $context['owner'];
+        $repo = $context['repo'];
+        $labels = $context['labels'] ?? ['climb-payload'];
+
+        if (empty($owner) || empty($repo)) {
+            return [[
+                'REFRESH' => ['#some_content > div' => '<p>Owner and Repo are required</p>'],
+            ]];
+        }
+
+        $fetcher = new Issue(
+            $owner,
+            $repo,
+            $labels,
+            $title = 'Hope this works :)',
+            $body = 'This is a test issue'
+        );
+        $result = $fetcher->dispatch();
+
+        return [[
+            'REFRESH' => ['#some_content > div' => '<p>' . json_encode($result) . '</p>'],
+        ]];
+    }
+
     public function __construct(
         flow $flow = flow::in,
         bool $auto_dispatch = false,
@@ -203,7 +243,7 @@ class Server extends Service
         bool $register_connection = true
     ) {
         self::$registrar['Climb']['Save'] = function ($context) {
-            return self::New($context);
+            return self::Save($context);
         };
         self::$registrar['Climb']['Edit'] = function ($context) {
             return self::Edit($context);
@@ -216,6 +256,9 @@ class Server extends Service
         };
         self::$registrar['Climb']['Issues'] = function ($context) {
             return self::getIssues($context);
+        };
+        self::$registrar['Climb']['Send'] = function ($context) {
+            return self::sendIssues($context);
         };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
