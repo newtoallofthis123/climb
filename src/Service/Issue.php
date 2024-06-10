@@ -20,7 +20,7 @@ class Issue extends Service
         Stringable|string $owner,
         Stringable|string $repo,
         array $labels,
-        Stringable|Node|string $body = null,
+        $body = null,
         Stringable|Node|string $title = null
     ) {
         $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues';

@@ -44,7 +44,7 @@ function getTabsInfo(array $json)
     $tabsInfo = new HTML(tag: 'div', classes: ['Interface ', 'animate__animated ', 'animate__fadeInUp']);  
     
     $tabsInfo[] = $editBTN =  new HTML(tag: 'div', classes: ['controls']);
-    $intentInfo = '{ "_response_target": "#some_content > div", "climb_id": "' . $data['Climb']['climb_id'] . '" }';
+    $intentInfo = '{ "_response_target": "#some_content > div", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
 
     $editBTN->content = <<<HTML
                 <button class="control btn" 
@@ -69,7 +69,7 @@ function getTabsInfo(array $json)
     $requirements[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Requirements');
     $requirements[] = $requirementsList = new HTML(tag: 'ul');
     foreach ($data['Climb']['requirements'] as $requirement) {
-        $requirementsList[] = new HTML(tag: 'li', content: $requirement, classes: ['fs-6']);
+        $requirementsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $requirement);
     }
 
     $tabsInfoBody[] = $requirements;
@@ -83,13 +83,13 @@ function getTabsInfo(array $json)
     $survey[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Interests');
     $survey[] = $surveyList = new HTML(tag: 'ul');
     foreach ($data['Survey']['interests'] as $interest) {
-        $surveyList[] = new HTML(tag: 'li', content: $interest, classes: ['fs-6']);
+        $surveyList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $interest);
     }
 
     $survey[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Obstructions');
     $survey[] = $obstructionsList = new HTML(tag: 'ul');
     foreach ($data['Survey']['obstructions'] as $obstruction) {
-        $obstructionsList[] = new HTML(tag: 'li', content: $obstruction, classes: ['fs-6']);
+        $obstructionsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $obstruction);
     }
 
     $tabsInfoBody[] = $survey;
@@ -101,11 +101,11 @@ function getTabsInfo(array $json)
 
     $review[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '😵‍💫 Review');
     $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Time Intent');
-    $review[] = new HTML(tag: 'p', content: $data['Time']['time_intent'], classes: ['fs-6']);
+    $review[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Time']['time_intent']);
     $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Energy Intent');
-    $review[] = new HTML(tag: 'p', content: $data['Time']['energy_req'], classes: ['fs-6']);
+    $review[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Time']['energy_req']);
     $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Resources Intent');
-    $review[] = new HTML(tag: 'p', content: $data['Time']['resources'], classes: ['fs-6']);
+    $review[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Time']['resources']);
 
     $tabsInfoBody[] = $review;
 
@@ -116,9 +116,9 @@ function getTabsInfo(array $json)
 
     $work[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '🏗️ Work');
     $work[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Document Progress');
-    $work[] = new HTML(tag: 'p', content: $data['Work']['document_progress'], classes: ['fs-6']);
+    $work[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Work']['document_progress']);
     $work[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Budget');
-    $work[] = new HTML(tag: 'p', content: $data['Describe']['budget_res'], classes: ['fs-6']);
+    $work[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Describe']['budget_res']);
 
     $tabsInfoBody[] = $work;
 
@@ -131,13 +131,13 @@ function getTabsInfo(array $json)
     $describe[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Interests');
     $describe[] = $describeList = new HTML(tag: 'ul');
     foreach ($data['Describe']['d_interests'] as $d_interest) {
-        $describeList[] = new HTML(tag: 'li', content: $d_interest, classes: ['fs-6']);
+        $describeList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $d_interest);
     }
 
     $describe[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Hazards');
     $describe[] = $hazardsList = new HTML(tag: 'ul');
     foreach ($data['Describe']['hazards'] as $hazard) {
-        $hazardsList[] = new HTML(tag: 'li', content: $hazard, classes: ['fs-6']);
+        $hazardsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $hazard);
     }
 
     $tabsInfoBody[] = $describe;
@@ -169,7 +169,7 @@ function getTabsInfo(array $json)
         </div>
     HTML;
 
-    $tabsInfo[] = new HTML(tag: 'div', content: $tabsInfoBody, attributes: ['id' => 'tabs_stuff']);
+    $tabsInfo[] = new HTML(tag: 'div', attributes: ['id' => 'tabs_stuff'], content: $tabsInfoBody);
 
     return $tabsInfo;
 }

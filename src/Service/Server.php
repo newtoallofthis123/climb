@@ -13,6 +13,7 @@ require_once __DIR__ . '/../Component/view.php';
 
 use Approach\Imprint\Imprint;
 use Approach\Render\HTML;
+use Approach\Render\Node;
 use Approach\Service\flow;
 use Approach\Service\format;
 use Approach\Service\Service;
@@ -25,7 +26,7 @@ use \Approach\Scope;
 
 class Server extends Service
 {
-    public static $registrar = [];
+    public static array $registrar = [];
 
     /**
      * @return array<int,array<string,array<string,string>>>
@@ -77,29 +78,26 @@ class Server extends Service
 
         $div = new HTML(tag: 'div', classes: ['p-3']);
         $div[] = new HTML(tag: 'h1', content: 'Form Submitted!');
-        $div[] = $climbRes = new HTML(tag: 'div');
+        $div[] = $main = new HTML(tag: 'main');
+        $main[] = $climbRes = new HTML(tag: 'div');
         $climbRes->content = 'Title: ' . $title . '<br>Requirements: ' . implode(', ', $requirements);
-        $div[] = $surveyRes = new HTML(tag: 'div');
+        $main[] = $surveyRes = new HTML(tag: 'div');
         $surveyRes->content = 'Interests: ' . implode(', ', $interests) . '<br>Obstructions: ' . implode(', ', $obstructions);
-        $div[] = $timeRes = new HTML(tag: 'div');
+        $main[] = $timeRes = new HTML(tag: 'div');
         $timeRes->content = 'Time Intent: ' . $time_intent . '<br>Energy Intent: ' . $energy_intent . '<br>Resources Intent: ' . $resources_intent;
-        $div[] = $workRes = new HTML(tag: 'div');
+        $main[] = $workRes = new HTML(tag: 'div');
         $workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
-        $div[] = $describeRes = new HTML(tag: 'div', content: $describeForm);
+        $main[] = $describeRes = new HTML(tag: 'div', content: $describeForm);
         $describeRes->content = 'Interests: ' . implode(', ', $d_interests) . '<br>Hazards: ' . implode(', ', $hazards);
 
         // add json
         $res = [];
-        $res['requirements'] = $requirements;
-        $res['interests'] = $interests;
-        $res['obstructions'] = $obstructions;
-        $res['time_intent'] = $time_intent;
-        $res['energy_intent'] = $energy_intent;
-        $res['resources_intent'] = $resources_intent;
-        $res['work'] = $work;
-        $res['budget_res'] = $budget_res;
-        $res['d_interests'] = $d_interests;
-        $res['hazards'] = $hazards;
+        $res['Climb'] = ['title' => $title, 'requirements' => $requirements];
+        $res['Survey'] = ['interests' => $interests, 'obstructions'=>$obstructions];
+        $res['Time'] = ['time_intent' => $time_intent, 'energy_req' => $energy_intent, 'resources' => $resources_intent];
+        $res['Work'] = ['document_progress' => $work];
+        $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
+        $res['parent_id'] = $action['climb_id'];
 
         $path_to_project = __DIR__ . '/';
         $path_to_approach = __DIR__ . '/support/lib/approach/';
@@ -116,14 +114,14 @@ class Server extends Service
         // FIXME: Fix the need for removing the ..
         $fileDir = str_replace('/../', '', $fileDir);
 
-        $imp = new Imprint(
-            imprint: 'body.xml',
-            imprint_dir: $fileDir,
-        );
+//        $imp = new Imprint(
+//            imprint: 'body.xml',
+//            imprint_dir: $fileDir,
+//        );
 
 //        $prepSuccess = $imp->Prepare();
 
-//        $imp->Mint('IssueBody');
+//          $imp->Mint('IssueBody');
 
         $body = new IssueBody(tokens: [
             'Body' => $div->render(),
@@ -138,10 +136,10 @@ class Server extends Service
             title: $title
         );
 
-         $service->dispatch();
+        $service->dispatch();
 
         return [[
-            'REFRESH' => ['#result' => '<p>' . $body . 'cool' . '</p>'],
+            'REFRESH' => ['#result' => '<p>' . 'Saved!' . '</p>'],
         ]];
     }
 
@@ -188,15 +186,28 @@ class Server extends Service
     public static function Edit($action): array
     {
         $climbId = $action['climb_id'];
-        $fileName = self::dataMapper($climbId) . '.json';
+        $url = $action['url'];
+        $fetcher = new Github(url: $url);
+        $results = json_decode($fetcher->dispatch()[0]);
+        $result = null;
+        foreach ($results as $issue) {
+            if ($issue->number == $climbId) {
+                $result = $issue;
+                break;
+            }
+        }
+        if($result == null) {
+            return [[
+                'REFRESH' => ['#some_content > div' => '<p>Issue not found</p>'],
+            ]];
+        }
+        $result = json_decode(json_encode($result), true);
+        $details = json_decode($result['details'], true);
 
-        $jsonFile = file_get_contents(__DIR__ . '/../Resource/' . $fileName);
-        $jsonFile = json_decode($jsonFile, true);
-
-        $tabsForm = Component\getTabsForm($jsonFile);
+        $tabsForm = Component\getTabsForm($details);
 
         return [[
-            'REFRESH' => ['#some_content > div' => $tabsForm->render()],
+            'REFRESH' => ['#some_content > div' => '<div>' . $tabsForm . '</div>'],
         ]];
     }
 
@@ -204,7 +215,7 @@ class Server extends Service
      * @return array<int,array<string,array<string,string>>>
      * @param mixed $action
      */
-    public static function Ran($action): array
+    public static function Ran(mixed $action): array
     {
         return [[
             'REFRESH' => ['#some_content > div' => '<div>Ran</div>'],
@@ -215,21 +226,49 @@ class Server extends Service
      * @param mixed $context
      * @return array<int,array<string,array<string,string>>>
      */
-    public static function getIssues($context): array
+    public static function getIssues(mixed $context): array
     {
         $owner = $context['owner'] ?? 'TheApproach';
         $repo = $context['repo'] ?? 'Approach';
         $labels = $context['labels'] ?? ['climb-payload'];
+        $number = $context['climb_id'] ?? '0';
 
         $fetcher = new Github(
             $owner,
             $repo,
             $labels
         );
-        $result = $fetcher->dispatch();
+        $results = json_decode($fetcher->dispatch()[0]);
+        $result = null;
+        foreach ($results as $issue) {
+            if ($issue->number == $number) {
+                $result = $issue;
+                break;
+            }
+        }
+        if($result == null) {
+            return [[
+                'REFRESH' => ['#some_content > div' => '<p>Issue not found</p>'],
+            ]];
+        }
+        $result = get_object_vars(json_decode(json_encode($result)));
+
+        $div = new HTML('div', classes: ['p-3']);
+        $div[] = new HTML('h2', content: $result['title'] . ' #' . $result['number']);
+        $div[] = $main = new HTML('div');
+        $main[] = $imgDiv = new HTML('div');
+        $imgDiv[] = new HTML('img', attributes: ['src' => $result['user_avatar'], 'width' => '64']);
+        $imgDiv[] = new HTML('p', content: $result['user_login']);
+
+        $details = json_decode($result['details'], true);
+        $details['Climb']['climb_id'] = $result['number'];
+        $details['Climb']['url'] = $fetcher->url;
+
+        $main[] = Component\getTabsInfo($details);
+
 
         return [[
-            'REFRESH' => ['#some_content > div' => '<p>' . json_encode($result) . '</p>'],
+            'REFRESH' => ['#some_content > div' => '<div>' . $div . '</div>'],
         ]];
     }
 
@@ -237,7 +276,7 @@ class Server extends Service
      * @param mixed $context
      * @return array<int,array<string,array<string,string>>>
      */
-    public static function sendIssues($context): array
+    public static function sendIssues(mixed $context): array
     {
         $owner = $context['owner'];
         $repo = $context['repo'];

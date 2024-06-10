@@ -4,24 +4,31 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
+use Approach\Resource\weighable;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
 
 class Github extends Service
 {
+    /**
+     * @var mixed|null
+     */
+    public string $url;
+
     public function __construct(
-        $owner,
-        $repo,
-        $labels,
+        $owner = null,
+        $repo = null,
+        $labels = null,
+        $url = null
     ) {
-        $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues?labels=' . implode(',', $labels);
+        $this->url = $url ?? 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues?labels=' . implode(',', $labels);
         $context = [
             'http' => [
                 'method' => 'GET',
                 'header' => [
                     'User-Agent:curl/8.5.0',
-                    'Accept: */*',
+                    'Accept: */*', //TODO: Change this and handle application/vnd.github.v3+json
                 ],
             ]
         ];
@@ -31,38 +38,53 @@ class Github extends Service
             format_in: format::json,
             target_in: target::stream,
             target_out: target::variable,
-            input: [$url],
+            input: [$this->url],
             metadata: [['context' => $context]]
         );
     }
 
-    // TODO: Make it to array
-    // FIXME: Make it actually work
-
     /*
      * @param string $body
+     * @return mixed
      */
-    public function getIssueMeta($body): string
+    public function parseIssue($body): array
     {
-        return '{"meta": "data"}';
+        $dom = new \DOMDocument();
+        //FIXME: This suppresses all the errors, but should handled
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($body);
+        libxml_clear_errors();
+        $details = $dom->getElementsByTagName('details')->item(0);
+        $detailsContent = $details->nodeValue;
+
+        $main = $dom->getElementsByTagName('main')->item(0);
+        $mainContent = '';
+        foreach ($main->childNodes as $m) {
+            $mainContent .= $main->ownerDocument->saveHTML($m);
+        }
+
+        return [
+            'body' => $mainContent,
+            'details' => $detailsContent, true
+        ];
     }
 
     /**
      * @param mixed $issue
      * @return array<string,mixed>
      */
-    public function processIssue($issue): array
+    public function processIssue(mixed $issue): array
     {
         $res = [];
-        $res['id'] = $issue['id'];
+        $res['number'] = $issue['number'];
         $res['title'] = $issue['title'];
         $res['url'] = $issue['repository_url'];
         $res['user_login'] = $issue['user']['login'];
         $res['user_avatar'] = $issue['user']['avatar_url'];
         $res['is_admin'] = $issue['author_association'] === 'OWNER' || $issue['author_association'] === 'MEMBER';
-        $res['metadata'] = $this->getIssueMeta($res['body']);
-        // TODO: Add all of the required fields
-        // TODO: Add the label fields
+        $parsed = $this->parseIssue($issue['body']);
+        $res['body'] = $parsed['body'];
+        $res['details'] = $parsed['details'];
 
         return $res;
     }

@@ -58,8 +58,8 @@ $body->content = <<<HTML
                                     <li class="control" 
                                         data-api="/server.php"
                                         data-api-method="POST"
-                                        data-intent='{ "REFRESH": { "Climb" : "Send" } }'
-                                        data-context='{ "_response_target": "#some_content > div", "climb_id": "cool_one", "owner": "newtoallofthis123", "repo": "test_for_issues"}'
+                                        data-intent='{ "REFRESH": { "Climb" : "Issues" } }'
+                                        data-context='{ "_response_target": "#some_content > div", "climb_id": "31", "owner": "newtoallofthis123", "repo": "test_for_issues"}'
                                     >
                                         <div class="visual">
                                             <i
@@ -74,8 +74,8 @@ $body->content = <<<HTML
                                     <li class="control" 
                                         data-api="/server.php"
                                         data-api-method="POST"
-                                        data-intent='{ "REFRESH": { "Climb" : "View" } }'
-                                        data-context='{ "_response_target": "#some_content > div", "climb_id": "second_one"}'
+                                        data-intent='{ "REFRESH": { "Climb" : "Issues" } }'
+                                        data-context='{ "_response_target": "#some_content > div", "climb_id": "32", "owner": "newtoallofthis123", "repo": "test_for_issues"}'
                                     >
                                         <div class="visual">
                                             <i
@@ -419,21 +419,6 @@ $body->content = <<<HTML
                 </ul>
             </div>
             <div class="Viewport">
-                <div class="profile">
-                    <div id="focus">
-                        <div>
-                            <img
-                                width="64"
-                                src="https://www.noobscience.in/favicon.ico"
-                                alt="A Cool Image"
-                            />
-                        </div>
-                        <div>
-                            <h3>John Doe</h3>
-                            <p class="gray">Administrator</p>
-                        </div>
-                    </div>
-                </div>
                 <div id="some_content">
                     <div></div>
                 </div>

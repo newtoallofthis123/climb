@@ -1,13 +1,15 @@
 <Imprint xmlns:Imprint="Render://approach.local">
     <Imprint:Pattern name="IssueBody" type="HTML">
         <div>
-            (-)Body
-            <div>
+            <h2>Body</h2>
+            <main>
                 [@ Body @]
-            </div>
-            (-)Metadata
+            </main>
+            <h2>
+                Metadata
+            </h2>
             <details>
-                <pre>[@ Metadata @]</pre>
+                [@ Metadata @]
             </details>
         </div>
     </Imprint:Pattern>

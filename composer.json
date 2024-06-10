@@ -75,7 +75,9 @@
 		"composer/installers": "~1.0",
 		"oomphinc/composer-installers-extender": "^2.0",
 		"approach/approach": "dev-master",
-      "ext-mysqli": "*"
+      "ext-mysqli": "*",
+      "ext-dom": "*",
+      "ext-libxml": "*"
     },
 	"require-dev": {
 		"codeception/codeception": "^5.0",
