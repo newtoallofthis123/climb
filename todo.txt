@@ -1,1 +1,6 @@
-2024-06-10 (A) Port DataMapper layer to fit Edit form
+x 2024-06-11 2024-06-10 (A) Port DataMapper layer to fit Edit form
+(A) 2024-06-11 Port the static content.php to the Oyster Menu class @rohith #Render
+(B) 2024-06-11 Make the classes dynamic: Use Github Service to get all of the issues and make the menu based on it @sainath #Service
+(B) 2024-06-11 Changing the styles of the view form and edit form @sainath #Render
+(A) 2024-06-11 Establish Child to parent relation in the climb @rohith #Service
+(C) 2024-06-11 Making a custom interface.js library that is reponsible for submitting the form
