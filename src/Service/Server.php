@@ -23,6 +23,9 @@ use ClimbUI\Imprint\Body\IssueBody;
 use ClimbUI\Service\Github;
 use ClimbUI\Component;
 use \Approach\Scope;
+use ClimbUI\Render\Oyster;
+use ClimbUI\Render\Pearl;
+use ClimbUI\Render\Visual;
 
 class Server extends Service
 {
@@ -93,7 +96,7 @@ class Server extends Service
         // add json
         $res = [];
         $res['Climb'] = ['title' => $title, 'requirements' => $requirements];
-        $res['Survey'] = ['interests' => $interests, 'obstructions'=>$obstructions];
+        $res['Survey'] = ['interests' => $interests, 'obstructions' => $obstructions];
         $res['Time'] = ['time_intent' => $time_intent, 'energy_req' => $energy_intent, 'resources' => $resources_intent];
         $res['Work'] = ['document_progress' => $work];
         $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
@@ -114,14 +117,14 @@ class Server extends Service
         // FIXME: Fix the need for removing the ..
         $fileDir = str_replace('/../', '', $fileDir);
 
-//        $imp = new Imprint(
-//            imprint: 'body.xml',
-//            imprint_dir: $fileDir,
-//        );
+        //        $imp = new Imprint(
+        //            imprint: 'body.xml',
+        //            imprint_dir: $fileDir,
+        //        );
 
-//        $prepSuccess = $imp->Prepare();
+        //        $prepSuccess = $imp->Prepare();
 
-//          $imp->Mint('IssueBody');
+        //          $imp->Mint('IssueBody');
 
         $body = new IssueBody(tokens: [
             'Body' => $div->render(),
@@ -196,7 +199,7 @@ class Server extends Service
                 break;
             }
         }
-        if($result == null) {
+        if ($result == null) {
             return [[
                 'REFRESH' => ['#some_content > div' => '<p>Issue not found</p>'],
             ]];
@@ -219,6 +222,49 @@ class Server extends Service
     {
         return [[
             'REFRESH' => ['#some_content > div' => '<div>Ran</div>'],
+        ]];
+    }
+
+    public static function getHierarchy(mixed $context): array
+    {
+        $climbId = $context['climb_id'] ?? 0;
+        $climbId = (string) $climbId;
+        $owner = $context['owner'] ?? 'TheApproach';
+        $repo = $context['repo'] ?? 'Approach';
+        $labels = $context['labels'] ?? ['climb-payload'];
+
+        $fetcher = new Github(
+            $owner,
+            $repo,
+            $labels
+        );
+        $final = [];
+        $results = json_decode($fetcher->dispatch()[0]);
+        foreach ($results as $issue) {
+            $issueVars = get_object_vars(json_decode(json_encode($issue)));
+            $details = json_decode($issueVars['details'], true);
+            $details['number'] = $climbId;
+            if ($details['parent_id'] == $climbId) {
+                $final[] = $details;
+            }
+        }
+
+        return $final;
+    }
+
+    public static function makeMenu(mixed $context): array
+    {
+        $results = Server::getHierarchy($context);
+
+        
+        $pearl = new Pearl();        
+        foreach($results as $result){
+            $visual = new Visual(title: $result['Climb']['title']);
+            $pearl[] = new Pearl(visual: $visual);
+        }
+
+        return [[
+            'REFRESH' => ['#some_content > div' => '<div>'  . $pearl . '</div>'],
         ]];
     }
 
@@ -246,7 +292,7 @@ class Server extends Service
                 break;
             }
         }
-        if($result == null) {
+        if ($result == null) {
             return [[
                 'REFRESH' => ['#some_content > div' => '<p>Issue not found</p>'],
             ]];
@@ -331,6 +377,12 @@ class Server extends Service
         };
         self::$registrar['Climb']['Send'] = function ($context) {
             return self::sendIssues($context);
+        };
+        self::$registrar['Climb']['Hierarchy'] = function ($context) {
+            return self::getHierarchy($context);
+        };
+        self::$registrar['Climb']['Menu'] = function ($context) {
+            return self::makeMenu($context);
         };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
