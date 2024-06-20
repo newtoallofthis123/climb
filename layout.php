@@ -15,6 +15,5 @@ $head[] =
 
 $body = new HTML(tag: 'body', classes: ['Interface']);
 
-
 $webpage[] = $head;
 $webpage[] = $body;

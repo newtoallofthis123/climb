@@ -1,16 +1,19 @@
 <?php
 
-namespace ClimbUI\Component;
+namespace ClimbUI\Render;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
 use Approach\Render\HTML;
 
+class TabsForm extends HTML{
 // Function that returns the form of a climb that can be used for a new climb or editing an existing one    
-function getTabsForm(array $json)
+public function __construct(array $json)
 {
     $data = $json;
-    $tabsForm = new HTML(tag: 'div', classes: ['TabsForm']);
+    parent::__construct(
+        tag: 'div',classes: ['TabsForm', ' Interface']
+    );
 
     $TabBar = new HTML(tag: 'div', classes: ['TabBar']);
     $tabs = [
@@ -36,10 +39,9 @@ function getTabsForm(array $json)
     $firstNode = new HTML(tag: 'div', classes: ['New']);
     $firstNode[] = $TabBar;
 
-    $tabsForm = new HTML(tag: 'div', classes: ['Interface']);
-    $tabsForm[] = $firstNode;
+    $this->nodes[] = $firstNode;
 
-    $tabsForm[] = $formBody = new HTML(tag: 'div',  attributes: ['id' => 'tabs_stuff']);
+    $this->nodes[] = $formBody = new HTML(tag: 'div',  attributes: ['id' => 'tabs_stuff']);
 
     $formBody[] = $requirementsForm = new HTML(tag: 'div', classes: ['tab ', 'tab1 ', 'active ', 'Interface ', 'InterfaceContent ', ' p-3', ' pb-0'], attributes: ['id' => 'Requirements']);
     $requirementsForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '1. Decide a Goal');
@@ -186,9 +188,9 @@ function getTabsForm(array $json)
         $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'hazard_' . $key, 'value' => $value, 'placeholder' => 'Add a Point of Hazard', 'aria-label' => 'interest', 'aria-describedby' => 'addon-wrapping-' . $key]);
     }
 
-    $tabsForm[] = new HTML(tag: 'style', content: '#Survey form { display: flex; flex-direction: column; justify-content: space-between; } .input-group { margin-top: 10px; }');
+    $this->nodes[] = new HTML(tag: 'style', content: '#Survey form { display: flex; flex-direction: column; justify-content: space-between; } .input-group { margin-top: 10px; }');
 
-    $tabsForm[] = $adapt =  new HTML(tag: 'div', classes: ['tab ', 'tab6 ', 'p-3']);
+    $this->nodes[] = $adapt =  new HTML(tag: 'div', classes: ['tab ', 'tab6 ', 'p-3']);
     
     $adapt[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '6. Adapt from Findings');
     $adapt[] = new HTML(tag: 'p', content: '<span class="fw-bolder">🔧 Adapt:</span> Adapt from the findings');
@@ -214,7 +216,6 @@ function getTabsForm(array $json)
     </div>
 HTML;
 
-    $tabsForm[] = new HTML(tag: 'div', content: $submitContent);
-
-    return $tabsForm;
+    $this->nodes[] = new HTML(tag: 'div', content: $submitContent);
+}
 }

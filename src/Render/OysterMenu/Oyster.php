@@ -1,14 +1,13 @@
 <?php
-namespace ClimbUI\Render;
+namespace ClimbUI\Render\OysterMenu;
 
-require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
+require_once __DIR__ . '/../../../support/lib/vendor/autoload.php';
 
+use Approach\Render\Attribute;
 use Approach\Render\Container;
-use \Approach\Render\HTML;
-use \Approach\Render\Node;
-use \Approach\Render\Stream;
-use \Approach\Render\Attribute;
-use \Stringable;
+use Approach\Render\HTML;
+use Approach\Render\Node;
+use Stringable;
 
 /* 
  * Oyster
@@ -21,7 +20,7 @@ use \Stringable;
  * ## Explanation
  *
  * - Header: The header is the top section of the Oyster and is used to hold 
- * the dynamic pearl menu and the signout button
+ * the dynamic pearl menu and the sign out button
  * - Pearl: A Pearl is a self expanding list item that can be used to create a 
  * visual representation of a list in a Oyster
  * - Shell: The shell is the toolbar that holds the pearls
@@ -40,8 +39,8 @@ use \Stringable;
  * @param array|Attribute|null $attributes - the attributes of the oyster
  * @param string|Stringable|Stream|null $content - the content of the oyster
  * @param array $styles - the styles of the oyster
- * @param bool $prerender - whether or not to prerender the oyster
- * @param bool $selfContained - whether or not the oyster is self contained
+ * @param bool $prerender - whether to prerender the oyster
+ * @param bool $selfContained - whether the oyster is self contained
  *
  *
  * @return Oyster
@@ -70,7 +69,7 @@ class Oyster extends HTML{
         }
 
         parent::__construct(
-            tag: 'div',
+            tag: 'ul',
             id: $id,
             classes: (array)$classes,
             styles: $styles,
@@ -79,14 +78,11 @@ class Oyster extends HTML{
         );
 
         // Add header to the Oyster 
-        $this->nodes[] = $header;
-        $this->header = &$this->nodes[0];
+//        $this->nodes[] = $header;
+//        $this->header = &$this->nodes[0];
 
-        // Add shell to the Oyster 
-        $this->shell = new HTML(tag: 'ul', classes: ['Shell ', 'Toolbar']); 
-        foreach($pearls as $pearl){ 
-            $this->shell[$pearls->label] = $pearl;
+        foreach($pearls as $pearl){
+            $this->nodes[] = $pearl;
         }        
-        $this->nodes[] = $this->shell;
     }
 } 

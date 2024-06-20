@@ -8,32 +8,30 @@
 namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
-require_once __DIR__ . '/../Component/form.php';
-require_once __DIR__ . '/../Component/view.php';
 
-use Approach\Imprint\Imprint;
+use Approach\path;
 use Approach\Render\HTML;
-use Approach\Render\Node;
+use Approach\Scope;
 use Approach\Service\flow;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
-use Approach\path;
 use ClimbUI\Imprint\Body\IssueBody;
-use ClimbUI\Service\Github;
-use ClimbUI\Component;
-use \Approach\Scope;
-use ClimbUI\Render\Oyster;
-use ClimbUI\Render\Pearl;
-use ClimbUI\Render\Visual;
+use ClimbUI\Render\OysterMenu\Oyster;
+use ClimbUI\Render\OysterMenu\Pearl;
+use ClimbUI\Render\OysterMenu\Visual;
+use Exception;
+use ClimbUI\Render\TabsInfo;
+use ClimbUI\Render\TabsForm;
 
 class Server extends Service
 {
     public static array $registrar = [];
 
     /**
-     * @return array<int,array<string,array<string,string>>>
      * @param mixed $action
+     * @return array<int,array<string,array<string,string>>>
+     * @throws Exception
      */
     public static function Save(mixed $action): array
     {
@@ -49,6 +47,7 @@ class Server extends Service
                 $requirements[] = $value;
             }
         }
+
 
         $interests = [];
         $obstructions = [];
@@ -97,7 +96,7 @@ class Server extends Service
         $res = [];
         $res['Climb'] = ['title' => $title, 'requirements' => $requirements];
         $res['Survey'] = ['interests' => $interests, 'obstructions' => $obstructions];
-        $res['Time'] = ['time_intent' => $time_intent, 'energy_req' => $energy_intent, 'resources' => $resources_intent];
+
         $res['Work'] = ['document_progress' => $work];
         $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
         $res['parent_id'] = $action['climb_id'];
@@ -147,242 +146,245 @@ class Server extends Service
     }
 
     /**
-     * @return string
-     * @param mixed $query
-     */
-    public static function dataMapper($query): string
-    {
-        $mapper = [
-            'cool_one' => 'm1',
-            'second_one' => 'm2',
-            'millionaire' => 'm3',
-        ];
-
-        return $mapper[$query];
-    }
-
-    /**
+     * @param mixed $context
      * @return array<int,array<string,array>>
-     * @param mixed $action
      */
-    public static function View(mixed $action): array
+    public static function View(mixed $context): array
     {
-        $climbId = $action['climb_id'];
-        $fileName = self::dataMapper($climbId) . '.json';
+        $climbId = $context['climb_id'];
+        $owner = $context['owner'];
+        $repo = $context['repo'];
+        $labels = ['climb-payload'];
 
-        $jsonFile = file_get_contents(__DIR__ . '/../Resource/' . $fileName);
-        $jsonFile = json_decode($jsonFile, true);
+        $fetcher = new Github(
+            $owner,
+            $repo,
+            $labels
+        );
+        $results = $fetcher->dispatch()[0];
+
+        $jsonFile = self::getIssue($results, $climbId);
+        $jsonFile = json_decode($jsonFile['details'], true);
 
         $jsonFile['Climb']['climb_id'] = $climbId;
+        $jsonFile['Climb']['url'] = $fetcher->url;
 
-        $tabsInfo = Component\getTabsInfo($jsonFile);
+        $tabsInfo = new TabsInfo($jsonFile);
+
+        $pearls = [];
+        $hierarchy = self::getHierarchy($results, $climbId);
+        foreach ($hierarchy['children'] as $issue) {
+            $visual1 = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number']);
+            $visual = new HTML('div');
+            $visual->content = <<<HTML
+                <div
+                class = "control" 
+                    data-api="/server.php"
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                    {$visual1}
+                </div>
+HTML;
+
+            $pearl = new Pearl($visual);
+            $pearls[] = $pearl;
+        }
+
+        $oyster = new Oyster(pearls: $pearls);
 
         return [[
-            'REFRESH' => ['#some_content > div' => $tabsInfo->render()],
+            'REFRESH' => [
+                '#some_content > div' => '<div>' . $tabsInfo . '</div>',
+                '.Toolbar > .active > ul' => $oyster->render(),
+            ],
         ]];
     }
 
     /**
-     * @return array<int,array<string,array>>
      * @param mixed $action
+     * @return array<int,array<string,array>>
      */
-    public static function Edit($action): array
+    public static function Edit(mixed $action): array
     {
         $climbId = $action['climb_id'];
         $url = $action['url'];
         $fetcher = new Github(url: $url);
-        $results = json_decode($fetcher->dispatch()[0]);
+        $results = $fetcher->dispatch()[0];
         $result = null;
         foreach ($results as $issue) {
-            if ($issue->number == $climbId) {
+            if ($issue['number'] == $climbId) {
                 $result = $issue;
                 break;
             }
         }
         if ($result == null) {
             return [[
-                'REFRESH' => ['#some_content > div' => '<p>Issue not found</p>'],
+                'REFRESH' => ['#some_content > div' => '<p>' . json_encode($result) . '</p>'],
             ]];
         }
         $result = json_decode(json_encode($result), true);
         $details = json_decode($result['details'], true);
 
-        $tabsForm = Component\getTabsForm($details);
+        $tabsForm = new TabsForm($details);
 
         return [[
             'REFRESH' => ['#some_content > div' => '<div>' . $tabsForm . '</div>'],
         ]];
     }
 
-    /**
-     * @return array<int,array<string,array<string,string>>>
-     * @param mixed $action
-     */
-    public static function Ran(mixed $action): array
+    public static function getBaseMenu(mixed $results): array
     {
-        return [[
-            'REFRESH' => ['#some_content > div' => '<div>Ran</div>'],
-        ]];
+        $parents = [];
+        // The setup loop, prepare the parents and details
+        foreach ($results as $issue) {
+            $issueVars = json_decode(json_encode($issue), true);
+            // append the parent to the parent's array
+            if (in_array('root', $issueVars['labels'], true)) {
+                $parents[] = $issueVars;
+            }
+        }
+        return $parents;
     }
 
-    public static function getHierarchy(mixed $context): array
+    public static function getIssue(mixed $results, mixed $id)
     {
-        $climbId = $context['climb_id'] ?? 0;
-        $climbId = (string) $climbId;
-        $owner = $context['owner'] ?? 'TheApproach';
-        $repo = $context['repo'] ?? 'Approach';
-        $labels = $context['labels'] ?? ['climb-payload'];
-
-        $fetcher = new Github(
-            $owner,
-            $repo,
-            $labels
-        );
-        $final = [];
-        $results = json_decode($fetcher->dispatch()[0]);
         foreach ($results as $issue) {
-            $issueVars = get_object_vars(json_decode(json_encode($issue)));
+            if ($issue['number'] == $id) {
+                return $issue;
+            }
+        }
+        return null;
+    }
+
+    public static function getHierarchy(mixed $results, mixed $climbId): array
+    {
+        $final = ['parent' => [], 'children' => []];
+        foreach ($results as $issue) {
+            $issueVars = json_decode(json_encode($issue), true);
             $details = json_decode($issueVars['details'], true);
             $details['number'] = $climbId;
             if ($details['parent_id'] == $climbId) {
-                $final[] = $details;
+                $final['children'][] = $issueVars;
+            } else if ($issueVars['number'] == $climbId) {
+                $final['parent'] = $issueVars;
             }
         }
 
         return $final;
     }
 
-    public static function makeMenu(mixed $context): array
+    public static function getMenu(mixed $context): array
     {
-        $results = Server::getHierarchy($context);
-
-        
-        $pearl = new Pearl();        
-        foreach($results as $result){
-            $visual = new Visual(title: $result['Climb']['title']);
-            $pearl[] = new Pearl(visual: $visual);
-        }
-
-        return [[
-            'REFRESH' => ['#some_content > div' => '<div>'  . $pearl . '</div>'],
-        ]];
-    }
-
-    /**
-     * @param mixed $context
-     * @return array<int,array<string,array<string,string>>>
-     */
-    public static function getIssues(mixed $context): array
-    {
-        $owner = $context['owner'] ?? 'TheApproach';
-        $repo = $context['repo'] ?? 'Approach';
-        $labels = $context['labels'] ?? ['climb-payload'];
-        $number = $context['climb_id'] ?? '0';
+        $climbId = $context['climb_id'];
+        $owner = $context['owner'];
+        $repo = $context['repo'];
+        $labels = ['climb-payload'];
 
         $fetcher = new Github(
             $owner,
             $repo,
             $labels
         );
-        $results = json_decode($fetcher->dispatch()[0]);
-        $result = null;
-        foreach ($results as $issue) {
-            if ($issue->number == $number) {
-                $result = $issue;
-                break;
-            }
+        $results = $fetcher->dispatch()[0];
+
+        $pearls = [];
+        $hierarchy = self::getHierarchy($results, $climbId);
+        foreach ($hierarchy['children'] as $issue) {
+            $visual1 = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number']);
+            $visual = new HTML('div');
+            $visual->content = <<<HTML
+                <div
+                class = "control" 
+                    data-api="/server.php"
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                    {$visual1}
+                </div>
+HTML;
+
+            $pearl = new Pearl($visual);
+            $pearls[] = $pearl;
+
         }
-        if ($result == null) {
-            return [[
-                'REFRESH' => ['#some_content > div' => '<p>Issue not found</p>'],
-            ]];
-        }
-        $result = get_object_vars(json_decode(json_encode($result)));
 
-        $div = new HTML('div', classes: ['p-3']);
-        $div[] = new HTML('h2', content: $result['title'] . ' #' . $result['number']);
-        $div[] = $main = new HTML('div');
-        $main[] = $imgDiv = new HTML('div');
-        $imgDiv[] = new HTML('img', attributes: ['src' => $result['user_avatar'], 'width' => '64']);
-        $imgDiv[] = new HTML('p', content: $result['user_login']);
-
-        $details = json_decode($result['details'], true);
-        $details['Climb']['climb_id'] = $result['number'];
-        $details['Climb']['url'] = $fetcher->url;
-
-        $main[] = Component\getTabsInfo($details);
-
+        $oyster = new Oyster(pearls: $pearls);
 
         return [[
-            'REFRESH' => ['#some_content > div' => '<div>' . $div . '</div>'],
+            'REFRESH' => [$context['_response_target'] => $oyster->render()],
         ]];
     }
 
-    /**
-     * @param mixed $context
-     * @return array<int,array<string,array<string,string>>>
-     */
-    public static function sendIssues(mixed $context): array
+    public static function makeMenu(mixed $context): array
     {
         $owner = $context['owner'];
         $repo = $context['repo'];
-        $labels = $context['labels'] ?? ['climb-payload'];
+        $labels = ['climb-payload'];
 
-        if (empty($owner) || empty($repo)) {
-            return [[
-                'REFRESH' => ['#some_content > div' => '<p>Owner and Repo are required</p>'],
-            ]];
-        }
-
-        $fetcher = new Issue(
+        $fetcher = new Github(
             $owner,
             $repo,
-            $labels,
-            $title = 'Hope this works :)',
-            $body = 'This is a test issue'
+            $labels
         );
-        $result = $fetcher->dispatch();
+        $results = $fetcher->dispatch()[0];
+
+        $pearls = [];
+        $base = self::getBaseMenu($results);
+        foreach ($base as $issue) {
+            $visualContent = new Visual($issue['title'], $issue['number']);
+            $visual = new HTML('div');
+            $visual->content = <<<HTML
+                <div
+                class = "control" 
+                    data-api="/server.php"
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                    {$visualContent}
+                </div>
+HTML;
+
+            $pearl = new Pearl($visual);
+            $pearls[] = $pearl;
+        }
+
+        $oyster = new Oyster(pearls: $pearls);
 
         return [[
-            'REFRESH' => ['#some_content > div' => '<p>' . json_encode($result) . '</p>'],
+            'REFRESH' => [
+                $context['_response_target'] => $oyster->render(),
+                '#some_content > div' => '<div>Choose a menu item</div>',
+            ],
         ]];
     }
 
     public function __construct(
-        flow $flow = flow::in,
-        bool $auto_dispatch = false,
+        flow    $flow = flow::in,
+        bool    $auto_dispatch = false,
         ?format $format_in = format::json,
         ?format $format_out = format::json,
         ?target $target_in = target::stream,
         ?target $target_out = target::stream,
-        $input = [Service::STDIN],
-        $output = [Service::STDOUT],
-        mixed $metadata = [],
-        bool $register_connection = true
-    ) {
-        self::$registrar['Climb']['Save'] = function ($context) {
+                $input = [Service::STDIN],
+                $output = [Service::STDOUT],
+        mixed   $metadata = [],
+    )
+    {
+        self::$registrar['Climb']['Save'] = static function ($context) {
             return self::Save($context);
         };
-        self::$registrar['Climb']['Edit'] = function ($context) {
+        self::$registrar['Climb']['Edit'] = static function ($context) {
             return self::Edit($context);
         };
-        self::$registrar['Climb']['View'] = function ($context) {
+        self::$registrar['Climb']['View'] = static function ($context) {
             return self::View($context);
         };
-        self::$registrar['Climb']['Ran'] = function ($context) {
-            return self::Ran($context);
-        };
-        self::$registrar['Climb']['Issues'] = function ($context) {
-            return self::getIssues($context);
-        };
-        self::$registrar['Climb']['Send'] = function ($context) {
-            return self::sendIssues($context);
-        };
-        self::$registrar['Climb']['Hierarchy'] = function ($context) {
-            return self::getHierarchy($context);
-        };
-        self::$registrar['Climb']['Menu'] = function ($context) {
+        self::$registrar['Climb']['Menu'] = static function ($context) {
             return self::makeMenu($context);
+        };
+        self::$registrar['Climb']['Hierarchy'] = static function ($context) {
+            return self::getMenu($context);
         };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
@@ -396,7 +398,7 @@ class Server extends Service
         foreach ($payload[0] as $intent) {
             foreach ($intent as $instruction) {
                 foreach ($instruction as $command => $context) {
-                    if ($command == 'Climb') {
+                    if ($command === 'Climb') {
                         $this->payload = self::$registrar[$command][$context]($action);
                     }
                 }

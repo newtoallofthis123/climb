@@ -1,21 +1,20 @@
 <?php
 
-namespace ClimbUI\Render;
+namespace ClimbUI\Render\OysterMenu;
 
-require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
+require_once __DIR__ . '/../../../support/lib/vendor/autoload.php';
 
+use Approach\Render\Attribute;
 use Approach\Render\Container;
-use \Approach\Render\HTML;
-use \Approach\Render\Node;
-use \Approach\Render\Stream;
-use \Approach\Render\Attribute;
-use \Stringable;
+use Approach\Render\HTML;
+use Approach\Render\Node;
+use Stringable;
 
 /* 
  * Pearl
  *
- * A Pearl is a self expanding list item that can be used to create a visual representation of a list
- * in a Oyster. 
+ * A Pearl is a self-expanding list item that can be used to create a visual representation of a list
+ * in an Oyster.
  * It takes in a visual representation of the list, a label for the list, and a list of children pearls
  *
  * @param string|null $visual - the visual representation of the list
@@ -29,8 +28,8 @@ use \Stringable;
  * @param array|Attribute|null $attributes - the attributes of the list
  * @param string|Stringable|Stream|null $content - the content of the list
  * @param array $styles - the styles of the list
- * @param bool $prerender - whether or not to prerender the list
- * @param bool $selfContained - whether or not the list is self contained
+ * @param bool $prerender - whether to prerender the list
+ * @param bool $selfContained - whether the list is self-contained
  *
  * @return Pearl
  * */
@@ -41,7 +40,7 @@ class Pearl extends HTML
     public HTML|string|Stringable $label;
     // The array|Container is used to represent the empty state
     // cause HTML doesn't consider null values
-    // This is cause we wouldn't want blank ul's that are
+    // This is because we wouldn't want blank ul's that are
     // uninitialized
     public null|array|Container|HTML $children;
 
@@ -86,21 +85,18 @@ class Pearl extends HTML
         }
 
         $this->nodes[] = $visual;
-        $this->visual = &$this->nodes[0];
+        $this->visual = &$this->nodes[count($this->nodes) - 1];
         
         if ($children !== null) {
-            $this->children = new HTML(tag: 'ul', classes: ['Pearl']);
+            $this->children = $ul = new HTML(tag: 'ul', classes: ['Pearl']);
             $index = count($this->nodes);
             foreach ($children as $child) {
-                $this->children[$child->label] = $child;
+                $ul[] = $child;
+                $this->nodes[$index] = $ul;
             }
         } else {
-            // if there are no children, we create an empty container
             $this->children = new \Approach\Render\Container();
         }
-
-        $this->nodes[] = $this->children;
-        $this->children = &$this->nodes[count($this->nodes) - 1];
     }
 
     /**
@@ -115,7 +111,8 @@ class Pearl extends HTML
             
             $this->children = new HTML(tag: 'ul');
         }
-        
+
+        $pearl->label = $pearl->label ?? count($this->children);
         $this->children[$pearl->label] = $pearl;
 
         return $this;

@@ -4,7 +4,6 @@
  * This is the server side of the ClimbUI application. It is a simple PHP script that
  * extends from the Server class defined in the Service layer
  */
-
 namespace ClimbUI;
 
 // Needed for apache2 servers
@@ -33,9 +32,9 @@ $scope = new Scope(
     ],
 );
 
-// The php://input stream is needed apache2
-// but essentially for now, we are explicitly using post requests
-// So, any and all get requests will be ignored
+// The php://input stream is needed apache2,
+// but essentially for now, we are explicitly using post-requests
+// So, any get requests will be ignored
 $service = new Server(
     auto_dispatch: false,
     format_in: format::json,

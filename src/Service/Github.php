@@ -23,11 +23,14 @@ class Github extends Service
         $url = null
     ) {
         $this->url = $url ?? 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues?labels=' . implode(',', $labels);
+        $apiKey = getenv('GITHUB_API_KEY');
         $context = [
             'http' => [
                 'method' => 'GET',
                 'header' => [
                     'User-Agent:curl/8.5.0',
+                    'Authorization: Bearer ' . $apiKey,
+                    'X-GitHub-Api-Version: 2022-11-28',
                     'Accept: */*', //TODO: Change this and handle application/vnd.github.v3+json
                 ],
             ]
@@ -36,6 +39,7 @@ class Github extends Service
         parent::__construct(
             auto_dispatch: false,
             format_in: format::json,
+            format_out: format::raw,
             target_in: target::stream,
             target_out: target::variable,
             input: [$this->url],
@@ -69,6 +73,15 @@ class Github extends Service
         ];
     }
 
+    public function returnLabelName($labels): array{
+        $labelNames = [];
+        foreach ($labels as $label){
+            $labelNames[] = $label['name'];
+        }
+
+        return $labelNames;
+    }
+
     /**
      * @param mixed $issue
      * @return array<string,mixed>
@@ -79,6 +92,7 @@ class Github extends Service
         $res['number'] = $issue['number'];
         $res['title'] = $issue['title'];
         $res['url'] = $issue['repository_url'];
+        $res['labels'] = $this->returnLabelName($issue['labels']);
         $res['user_login'] = $issue['user']['login'];
         $res['user_avatar'] = $issue['user']['avatar_url'];
         $res['is_admin'] = $issue['author_association'] === 'OWNER' || $issue['author_association'] === 'MEMBER';

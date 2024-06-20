@@ -1,13 +1,12 @@
 <?php
-namespace ClimbUI\Render;
+namespace ClimbUI\Render\OysterMenu;
 
-require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
+require_once __DIR__ . '/../../../support/lib/vendor/autoload.php';
 
-use \Approach\Render\HTML;
-use \Approach\Render\Node;
-use \Approach\Render\Stream;
-use \Approach\Render\Attribute;
-use \Stringable;
+use Approach\Render\Attribute;
+use Approach\Render\HTML;
+use Approach\Render\Node;
+use Stringable;
 
 /* 
  * Visual
