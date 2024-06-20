@@ -193,22 +193,34 @@ HTML;
 
         $oyster = new Oyster(pearls: $pearls);
 
+        $back = <<<HTML
+                <div
+                class = "control" 
+                    data-api="/server.php"
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "Hierarchy" } }'
+                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
+                   <i class="expand fa fa-angle-left"></i> 
+                </div>
+       HTML;
+
         return [[
             'REFRESH' => [
-                '#some_content > div' => '<div>' . $tabsInfo . '</div>',
+                '#some_content > div' => $tabsInfo->render(),
                 '.Toolbar > .active > ul' => $oyster->render(),
+                '.backBtn > div' => $back,
             ],
         ]];
     }
 
     /**
-     * @param mixed $action
+     * @param mixed $context
      * @return array<int,array<string,array>>
      */
-    public static function Edit(mixed $action): array
+    public static function Edit(mixed $context): array
     {
-        $climbId = $action['climb_id'];
-        $url = $action['url'];
+        $climbId = $context['climb_id'];
+        $url = $context['url'];
         $fetcher = new Github(url: $url);
         $results = $fetcher->dispatch()[0];
         $result = null;
@@ -220,7 +232,7 @@ HTML;
         }
         if ($result == null) {
             return [[
-                'REFRESH' => ['#some_content > div' => '<p>' . json_encode($result) . '</p>'],
+                'REFRESH' => [$context['_response_target'] => '<p>' . json_encode($result) . '</p>'],
             ]];
         }
         $result = json_decode(json_encode($result), true);
@@ -229,7 +241,7 @@ HTML;
         $tabsForm = new TabsForm($details);
 
         return [[
-            'REFRESH' => ['#some_content > div' => '<div>' . $tabsForm . '</div>'],
+            'REFRESH' => [$context['_response_target'] => '<div>' . $tabsForm . '</div>'],
         ]];
     }
 
@@ -290,6 +302,11 @@ HTML;
 
         $pearls = [];
         $hierarchy = self::getHierarchy($results, $climbId);
+
+        if(in_array('root', $hierarchy['parent']['labels'], true)){
+            return self::makeMenu($context);
+        }
+
         foreach ($hierarchy['children'] as $issue) {
             $visual1 = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number']);
             $visual = new HTML('div');
@@ -306,7 +323,6 @@ HTML;
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
-
         }
 
         $oyster = new Oyster(pearls: $pearls);
@@ -354,7 +370,6 @@ HTML;
         return [[
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
-                '#some_content > div' => '<div>Choose a menu item</div>',
             ],
         ]];
     }

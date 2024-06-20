@@ -21,7 +21,9 @@ $body->content = <<<HTML
             <div class="Oyster Interface controls animate__animated animate__fadeIn">
                 <section class="header">
                     <button class="backBtn">
-                        <i class="expand fa fa-angle-left"></i>
+                        <div>
+                            <i class="expand fa fa-angle-left"></i>
+                        </div>
                     </button>
                     <button
                         class="btn btn-secondary current-state ms-2 animate__animated animate__slideInDown"
@@ -34,15 +36,9 @@ $body->content = <<<HTML
                 </section>
                 <ul class="Toolbar controls">
                     <div class="signOut">
-                        <button>
-                            <p>
-                                <i class="bi bi-box-arrow-right"></i> Sign
-                                Out
-                            </p>
-                        </button>
                     </div>
                     <li>
-                        <div class="visual">
+                        <div class="visual" style="padding: 5px 12px">
                             <div
                             class="control"
                             data-api="/server.php"

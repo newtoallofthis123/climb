@@ -40,7 +40,7 @@ use Stringable;
  * @param string|Stringable|Stream|null $content - the content of the oyster
  * @param array $styles - the styles of the oyster
  * @param bool $prerender - whether to prerender the oyster
- * @param bool $selfContained - whether the oyster is self contained
+ * @param bool $selfContained - whether the oyster is self-contained
  *
  *
  * @return Oyster
