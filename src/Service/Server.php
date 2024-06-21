@@ -9,6 +9,7 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
+use Approach\help\render;
 use Approach\path;
 use Approach\Render\HTML;
 use Approach\Scope;
@@ -23,6 +24,7 @@ use ClimbUI\Render\OysterMenu\Visual;
 use Exception;
 use ClimbUI\Render\TabsInfo;
 use ClimbUI\Render\TabsForm;
+use function PHPUnit\Framework\assertFalse;
 
 class Server extends Service
 {
@@ -204,12 +206,41 @@ HTML;
                 </div>
        HTML;
 
+        $breadBtn = new Visual($jsonFile['Climb']['title'], $jsonFile['Climb']['climb_id']);
+        $breadRender = <<<HTML
+                 <div
+                    class = "control" 
+                    data-api="/server.php"
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "Hierarchy" } }'
+                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
+                    {$breadBtn}
+                </div>
+HTML;
+
+        // Check it the parent has no children
+        if (count($hierarchy['children']) == 0) {
+            return [[
+                'REFRESH' => [
+                    '#some_content > div' => $tabsInfo->render(),
+                    '.backBtn > div' => $back,
+                    '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+
+                ],
+            ]];
+        }
+
         return [[
             'REFRESH' => [
-                '#some_content > div' => $tabsInfo->render(),
+                '#some_content > div' => '<div>' . json_encode($results) . '</div>',
                 '.Toolbar > .active > ul' => $oyster->render(),
                 '.backBtn > div' => $back,
+                '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+
             ],
+            'APPEND' => [
+                '.breadcrumbs' => '<li>' . $breadRender . '</li>',
+            ]
         ]];
     }
 
@@ -269,16 +300,24 @@ HTML;
         return null;
     }
 
-    public static function getHierarchy(mixed $results, mixed $climbId): array
+    /*
+     * Takes a list of issues and a parent climb id and returns the parent and children
+     * The children are assigned to the parent through a simple O(N) loop
+     * @param mixed $issues
+     * @param mixed $parentClimbId
+     *
+     * @return array
+     *  */
+    public static function getHierarchy(mixed $issues, mixed $parentClimbId): array
     {
         $final = ['parent' => [], 'children' => []];
-        foreach ($results as $issue) {
+        foreach ($issues as $issue) {
             $issueVars = json_decode(json_encode($issue), true);
             $details = json_decode($issueVars['details'], true);
-            $details['number'] = $climbId;
-            if ($details['parent_id'] == $climbId) {
+            $details['number'] = $parentClimbId;
+            if ($details['parent_id'] == $parentClimbId) {
                 $final['children'][] = $issueVars;
-            } else if ($issueVars['number'] == $climbId) {
+            } else if ($issueVars['number'] == $parentClimbId) {
                 $final['parent'] = $issueVars;
             }
         }
@@ -303,7 +342,7 @@ HTML;
         $pearls = [];
         $hierarchy = self::getHierarchy($results, $climbId);
 
-        if(in_array('root', $hierarchy['parent']['labels'], true)){
+        if (in_array('root', $hierarchy['parent']['labels'], true)) {
             return self::makeMenu($context);
         }
 
@@ -328,7 +367,10 @@ HTML;
         $oyster = new Oyster(pearls: $pearls);
 
         return [[
-            'REFRESH' => [$context['_response_target'] => $oyster->render()],
+            'REFRESH' => [
+                $context['_response_target'] => $oyster->render(),
+                '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+            ],
         ]];
     }
 
@@ -364,7 +406,6 @@ HTML;
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
         }
-
         $oyster = new Oyster(pearls: $pearls);
 
         return [[
@@ -381,11 +422,10 @@ HTML;
         ?format $format_out = format::json,
         ?target $target_in = target::stream,
         ?target $target_out = target::stream,
-                $input = [Service::STDIN],
-                $output = [Service::STDOUT],
+        $input = [Service::STDIN],
+        $output = [Service::STDOUT],
         mixed   $metadata = [],
-    )
-    {
+    ) {
         self::$registrar['Climb']['Save'] = static function ($context) {
             return self::Save($context);
         };

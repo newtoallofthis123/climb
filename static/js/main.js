@@ -102,13 +102,13 @@ let onReadyHandle = function(element, selector, markup) {
 
     //animateCSS('.Oyster', 'fadeIn');
 
-    $(element)
-        .find('.Oyster .breadcrumbs')
-        .on('click', 'li', function(e) {
-            $('.Oyster .breadcrumbs li').removeClass('active');
-            e.stopPropagation();
-            $(this).addClass('active');
-        });
+    // $(element)
+    //     .find('.Oyster .breadcrumbs')
+    //     .on('click', 'li', function(e) {
+    //         $('.Oyster .breadcrumbs li').removeClass('active');
+    //         e.stopPropagation();
+    //         $(this).addClass('active');
+    //     });
     $(element)
         .find('#menuButton')
         .click(function(e) {

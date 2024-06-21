@@ -73,9 +73,10 @@ class Github extends Service
         ];
     }
 
-    public function returnLabelName($labels): array{
+    public function returnLabelName($labels): array
+    {
         $labelNames = [];
-        foreach ($labels as $label){
+        foreach ($labels as $label) {
             $labelNames[] = $label['name'];
         }
 
@@ -96,6 +97,7 @@ class Github extends Service
         $res['user_login'] = $issue['user']['login'];
         $res['user_avatar'] = $issue['user']['avatar_url'];
         $res['is_admin'] = $issue['author_association'] === 'OWNER' || $issue['author_association'] === 'MEMBER';
+        $res['assignees'] = $issue['assignees'];
         $parsed = $this->parseIssue($issue['body']);
         $res['body'] = $parsed['body'];
         $res['details'] = $parsed['details'];

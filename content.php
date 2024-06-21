@@ -18,7 +18,7 @@ require_once __DIR__ . '/head.php';
 $body->content = <<<HTML
     <div class="Stage">
         <div id="main" class="Screen">
-            <div class="Oyster Interface controls animate__animated animate__fadeIn">
+            <div class="Oyster InterfaceContent controls animate__animated animate__fadeIn">
                 <section class="header">
                     <button class="backBtn">
                         <div>
@@ -26,17 +26,15 @@ $body->content = <<<HTML
                         </div>
                     </button>
                     <button
-                        class="btn btn-secondary current-state ms-2 animate__animated animate__slideInDown"
+                        class="controls btn btn-secondary current-state ms-2 animate__animated animate__slideInDown"
                         id="menuButton"
                     >
-                        <span id="menuButtonText">Location</span>
+                        <span id="menuButtonText"><span></span></span>
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <ul class="breadcrumbs" style="display: none"></ul>
                 </section>
                 <ul class="Toolbar controls">
-                    <div class="signOut">
-                    </div>
                     <li>
                         <div class="visual" style="padding: 5px 12px">
                             <div
@@ -48,7 +46,7 @@ $body->content = <<<HTML
                             >
                                 <i class="icon bi bi-list-check"></i>
                             </div>
-                            <label>Procedures</label>
+                            <label>Root</label>
                             <i class="expand fa fa-angle-right"> </i>
                         </div>
                         <ul></ul>
