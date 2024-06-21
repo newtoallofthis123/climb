@@ -4,6 +4,7 @@
  * This is the server side of the ClimbUI application. It is a simple PHP script that
  * extends from the Server class defined in the Service layer
  */
+
 namespace ClimbUI;
 
 // Needed for apache2 servers

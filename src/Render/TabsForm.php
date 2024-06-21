@@ -6,8 +6,10 @@ require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
 use Approach\Render\HTML;
 
+/*
+Function that returns the form of a climb that can be used for a new climb or editing an existing one
+*/
 class TabsForm extends HTML{
-// Function that returns the form of a climb that can be used for a new climb or editing an existing one    
 public function __construct(array $json)
 {
     $data = $json;

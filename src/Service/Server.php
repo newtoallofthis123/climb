@@ -10,20 +10,21 @@ namespace ClimbUI\Service;
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
 use Approach\help\render;
-use Approach\path;
 use Approach\Render\HTML;
-use Approach\Scope;
 use Approach\Service\flow;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
+use Approach\path;
+use Approach\Scope;
 use ClimbUI\Imprint\Body\IssueBody;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\OysterMenu\Visual;
-use Exception;
-use ClimbUI\Render\TabsInfo;
 use ClimbUI\Render\TabsForm;
+use ClimbUI\Render\TabsInfo;
+use Exception;
+
 use function PHPUnit\Framework\assertFalse;
 
 class Server extends Service
@@ -49,7 +50,6 @@ class Server extends Service
                 $requirements[] = $value;
             }
         }
-
 
         $interests = [];
         $obstructions = [];
@@ -142,9 +142,9 @@ class Server extends Service
 
         $service->dispatch();
 
-        return [[
+        return [
             'REFRESH' => ['#result' => '<p>' . 'Saved!' . '</p>'],
-        ]];
+        ];
     }
 
     /**
@@ -175,7 +175,8 @@ class Server extends Service
 
         $pearls = [];
         $hierarchy = self::getHierarchy($results, $climbId);
-        foreach ($hierarchy['children'] as $issue) {
+        $base = $hierarchy['children'];
+        foreach ($base as $issue) {
             $visual1 = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number']);
             $visual = new HTML('div');
             $visual->content = <<<HTML
@@ -187,7 +188,7 @@ class Server extends Service
                     data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
                     {$visual1}
                 </div>
-HTML;
+            HTML;
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -196,15 +197,15 @@ HTML;
         $oyster = new Oyster(pearls: $pearls);
 
         $back = <<<HTML
-                <div
-                class = "control" 
-                    data-api="/server.php"
-                    data-api-method="POST"
-                    data-intent='{ "REFRESH": { "Climb" : "Hierarchy" } }'
-                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
-                   <i class="expand fa fa-angle-left"></i> 
-                </div>
-       HTML;
+                     <div
+                     class = "control" 
+                         data-api="/server.php"
+                         data-api-method="POST"
+                         data-intent='{ "REFRESH": { "Climb" : "Hierarchy" } }'
+                         data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
+                        <i class="expand fa fa-angle-left"></i> 
+                     </div>
+            HTML;
 
         $breadBtn = new Visual($jsonFile['Climb']['title'], $jsonFile['Climb']['climb_id']);
         $breadRender = <<<HTML
@@ -216,32 +217,29 @@ HTML;
                     data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
                     {$breadBtn}
                 </div>
-HTML;
+            HTML;
 
         // Check it the parent has no children
         if (count($hierarchy['children']) == 0) {
-            return [[
+            return [
                 'REFRESH' => [
                     '#some_content > div' => $tabsInfo->render(),
-                    '.backBtn > div' => $back,
                     '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
-
                 ],
-            ]];
+            ];
         }
 
-        return [[
+        return [
             'REFRESH' => [
-                '#some_content > div' => '<div>' . json_encode($results) . '</div>',
+                '#some_content > div' => $tabsInfo->render(),
                 '.Toolbar > .active > ul' => $oyster->render(),
                 '.backBtn > div' => $back,
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
-
             ],
             'APPEND' => [
                 '.breadcrumbs' => '<li>' . $breadRender . '</li>',
             ]
-        ]];
+        ];
     }
 
     /**
@@ -262,20 +260,23 @@ HTML;
             }
         }
         if ($result == null) {
-            return [[
+            return [
                 'REFRESH' => [$context['_response_target'] => '<p>' . json_encode($result) . '</p>'],
-            ]];
+            ];
         }
         $result = json_decode(json_encode($result), true);
         $details = json_decode($result['details'], true);
 
         $tabsForm = new TabsForm($details);
 
-        return [[
+        return [
             'REFRESH' => [$context['_response_target'] => '<div>' . $tabsForm . '</div>'],
-        ]];
+        ];
     }
 
+    /**
+     * @return mixed[]
+     */
     public static function getBaseMenu(mixed $results): array
     {
         $parents = [];
@@ -307,7 +308,7 @@ HTML;
      * @param mixed $parentClimbId
      *
      * @return array
-     *  */
+     */
     public static function getHierarchy(mixed $issues, mixed $parentClimbId): array
     {
         $final = ['parent' => [], 'children' => []];
@@ -325,6 +326,9 @@ HTML;
         return $final;
     }
 
+    /**
+     * @return array|array<int,array<string,array>>
+     */
     public static function getMenu(mixed $context): array
     {
         $climbId = $context['climb_id'];
@@ -350,15 +354,15 @@ HTML;
             $visual1 = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number']);
             $visual = new HTML('div');
             $visual->content = <<<HTML
-                <div
-                class = "control" 
-                    data-api="/server.php"
-                    data-api-method="POST"
-                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
-                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
-                    {$visual1}
-                </div>
-HTML;
+                                <div
+                                class = "control" 
+                                    data-api="/server.php"
+                                    data-api-method="POST"
+                                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                                    {$visual1}
+                                </div>
+                HTML;
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -366,14 +370,17 @@ HTML;
 
         $oyster = new Oyster(pearls: $pearls);
 
-        return [[
+        return [
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
             ],
-        ]];
+        ];
     }
 
+    /**
+     * @return array<int,array<string,array>>
+     */
     public static function makeMenu(mixed $context): array
     {
         $owner = $context['owner'];
@@ -394,25 +401,25 @@ HTML;
             $visual = new HTML('div');
             $visual->content = <<<HTML
                 <div
-                class = "control" 
+                    class = "control" 
                     data-api="/server.php"
                     data-api-method="POST"
                     data-intent='{ "REFRESH": { "Climb" : "View" } }'
                     data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
                     {$visualContent}
                 </div>
-HTML;
+            HTML;
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
         }
         $oyster = new Oyster(pearls: $pearls);
 
-        return [[
+        return [
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
             ],
-        ]];
+        ];
     }
 
     public function __construct(
@@ -422,10 +429,11 @@ HTML;
         ?format $format_out = format::json,
         ?target $target_in = target::stream,
         ?target $target_out = target::stream,
-        $input = [Service::STDIN],
-        $output = [Service::STDOUT],
+                $input = [Service::STDIN],
+                $output = [Service::STDOUT],
         mixed   $metadata = [],
-    ) {
+    )
+    {
         self::$registrar['Climb']['Save'] = static function ($context) {
             return self::Save($context);
         };
@@ -444,20 +452,58 @@ HTML;
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
 
+    function processIntents($intent)
+    {
+        $result = [];
+        if (
+            is_array($intent) &&
+            !isset($intent['support']) &&
+            !isset($intent['command'])
+        ) {
+            foreach ($intent as $i) {
+                $predicated_result = $this->processIntent($i);
+                $result = array_merge($result, $predicated_result);
+            }
+            return $result;
+        } else {
+            return $this->processIntent($intent);
+        }
+    }
+
+    /**
+     * Process a generic intent
+     *
+     * @param array<int,mixed> $intent
+     */
+    public function processIntent(array $intent): array
+    {
+        $result = [];
+        $context = $intent['support'];
+        $command = $intent['command'];
+        // TODO: If support is not set, then call processMultipleIntents
+        foreach ($command as $predicate => $action) {
+            $scope = key($action);
+            $call = $action[$scope];
+
+            if (!isset(self::$registrar[$scope][$call])) {
+                $result = [
+                    'APPEND' => ['#APPROACH_DEBUG_CONSOLE' => '<br /><p>' . 'Unmatched intent! <br />' . var_export($intent, true) . '</p><br />']
+                ];
+            } else {
+                $result = self::$registrar[$scope][$call]($context);
+            }
+            // var_export($result);
+            // $result = array_merge($result, $predicated_result);
+        }
+        return $result;
+    }
+
     public function Process(?array $payload = null): void
     {
         $payload = $payload ?? $this->payload;
 
-        $action = $payload[0]['support'];
-
-        foreach ($payload[0] as $intent) {
-            foreach ($intent as $instruction) {
-                foreach ($instruction as $command => $context) {
-                    if ($command === 'Climb') {
-                        $this->payload = self::$registrar[$command][$context]($action);
-                    }
-                }
-            }
+        foreach ($payload as $index => $intent) {
+            $this->payload[$index] = $this->processIntents($intent);
         }
     }
 }
