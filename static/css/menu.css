@@ -48,8 +48,8 @@
     width: 60px;
 }
 
-.Oyster .Toolbar>li.active>.visual {
-    background-color: #343451 !important;
+.Oyster .Toolbar>li.active>.visual>button {
+    background-color: #2ebbf5 !important;
 }
 
 .Oyster .Toolbar>li.active>.visual>.icon {

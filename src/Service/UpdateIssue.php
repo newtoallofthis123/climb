@@ -11,7 +11,7 @@ use Approach\Service\target;
 use Exception;
 use Stringable;
 
-class Issue extends Service
+class UpdateIssue extends Service
 {
     /**
      * @throws Exception
@@ -21,9 +21,10 @@ class Issue extends Service
         Stringable|string $repo,
         array $labels,
         $body = null,
-        Stringable|Node|string $title = null
+        Stringable|Node|string $title = null,
+        Stringable|Node|string $climbId = null,
     ) {
-        $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues';
+        $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . (string)$climbId;
 
         $apiKey = getenv('GITHUB_API_KEY');
         if ($apiKey === false) {
@@ -34,7 +35,7 @@ class Issue extends Service
 
         $context = [
             'http' => [
-                'method' => 'POST',
+                'method' => 'PATCH',
                 'header' => [
                     'User-Agent:curl/8.5.0',
                     'Accept: */*',

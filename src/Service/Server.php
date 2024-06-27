@@ -9,7 +9,6 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
-use Approach\help\render;
 use Approach\Render\HTML;
 use Approach\Service\flow;
 use Approach\Service\format;
@@ -25,8 +24,6 @@ use ClimbUI\Render\TabsForm;
 use ClimbUI\Render\TabsInfo;
 use Exception;
 
-use function PHPUnit\Framework\assertFalse;
-
 class Server extends Service
 {
     public static array $registrar = [];
@@ -36,7 +33,7 @@ class Server extends Service
      * @return array<int,array<string,array<string,string>>>
      * @throws Exception
      */
-    public static function Save(mixed $action): array
+    public static function Update(mixed $action): array
     {
         $title = $action['Climb']['title'];
 
@@ -101,7 +98,7 @@ class Server extends Service
 
         $res['Work'] = ['document_progress' => $work];
         $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
-        $res['parent_id'] = $action['climb_id'];
+        $res['parent_id'] = $action['Climb']['parent_id'];
 
         $path_to_project = __DIR__ . '/';
         $path_to_approach = __DIR__ . '/support/lib/approach/';
@@ -132,19 +129,55 @@ class Server extends Service
             'Metadata' => json_encode($res),
         ]);
 
-        $service = new Issue(
+        $service = new UpdateIssue(
             'newtoallofthis123',
             'test_for_issues',
             labels: ['climb-payload'],
             body: $body->render(),
-            title: $title
+            title: $title,
+            climbId: $action['climb_id'],
         );
 
         $service->dispatch();
 
         return [
-            'REFRESH' => ['#result' => '<p>' . 'Saved!' . '</p>'],
+            'REFRESH' => ['#result' => '<p>' . 'Updated!' . '</p>'],
         ];
+    }
+
+    public static function New(mixed $context): array
+    {
+        $details = [];
+        $details['Climb']['parent_id'] = $context['parent_id'];
+
+        $form = new TabsForm($details);
+
+        return [
+            'REFRESH' => [
+                $context['_response_target'] => $form->render(),
+            ],
+        ];
+    }
+
+    /**
+     * @param mixed $climbId
+     * @return string
+     */
+    static function getBtn(mixed $climbId): string
+    {
+        $newBtn = <<<HTML
+             <button
+                class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
+                id="newButton"
+                data-api="/server.php"
+                data-api-method="POST"
+                data-intent='{ "REFRESH": { "Climb" : "New" } }'
+                data-context='{ "_response_target": "#some_content > div", "parent_id": "$climbId"}'
+            >
+                New
+            </button>
+HTML;
+        return $newBtn;
     }
 
     /**
@@ -154,6 +187,7 @@ class Server extends Service
     public static function View(mixed $context): array
     {
         $climbId = $context['climb_id'];
+        $parentId = $context['parent_id'];
         $owner = $context['owner'];
         $repo = $context['repo'];
         $labels = ['climb-payload'];
@@ -170,6 +204,7 @@ class Server extends Service
 
         $jsonFile['Climb']['climb_id'] = $climbId;
         $jsonFile['Climb']['url'] = $fetcher->url;
+        $jsonFile['Climb']['parent_id'] = $parentId;
 
         $tabsInfo = new TabsInfo($jsonFile);
 
@@ -180,15 +215,15 @@ class Server extends Service
             $visual1 = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number']);
             $visual = new HTML('div');
             $visual->content = <<<HTML
-                <div
-                class = "control" 
-                    data-api="/server.php"
-                    data-api-method="POST"
-                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
-                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
-                    {$visual1}
-                </div>
-            HTML;
+                    <div
+                    class = "control" 
+                        data-api="/server.php"
+                        data-api-method="POST"
+                        data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                        data-context='{ "_response_target": "{$context['_response_target']}", "parent_id": "$climbId",  "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                        {$visual1}
+                    </div>
+                HTML;
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -202,7 +237,7 @@ class Server extends Service
                          data-api="/server.php"
                          data-api-method="POST"
                          data-intent='{ "REFRESH": { "Climb" : "Hierarchy" } }'
-                         data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
+                         data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "$climbId", "owner": "$owner", "repo": "$repo" }'>
                         <i class="expand fa fa-angle-left"></i> 
                      </div>
             HTML;
@@ -214,10 +249,11 @@ class Server extends Service
                     data-api="/server.php"
                     data-api-method="POST"
                     data-intent='{ "REFRESH": { "Climb" : "Hierarchy" } }'
-                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$climbId}", "owner": "$owner", "repo": "$repo" }'>
+                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "$climbId", "owner": "$owner", "repo": "$repo" }'>
                     {$breadBtn}
                 </div>
             HTML;
+
 
         // Check it the parent has no children
         if (count($hierarchy['children']) == 0) {
@@ -225,6 +261,7 @@ class Server extends Service
                 'REFRESH' => [
                     '#some_content > div' => $tabsInfo->render(),
                     '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+                    '#newButton' => self::getBtn($climbId),
                 ],
             ];
         }
@@ -235,6 +272,7 @@ class Server extends Service
                 '.Toolbar > .active > ul' => $oyster->render(),
                 '.backBtn > div' => $back,
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+                '#newButton' => self::getBtn($climbId)
             ],
             'APPEND' => [
                 '.breadcrumbs' => '<li>' . $breadRender . '</li>',
@@ -266,16 +304,19 @@ class Server extends Service
         }
         $result = json_decode(json_encode($result), true);
         $details = json_decode($result['details'], true);
+        $details['Climb']['parent_id'] = $context['parent_id'];
+        $details['Climb']['climb_id'] = $context['climb_id'];
 
         $tabsForm = new TabsForm($details);
 
         return [
-            'REFRESH' => [$context['_response_target'] => '<div>' . $tabsForm . '</div>'],
+            'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
         ];
     }
 
     /**
-     * @return mixed[]
+     * @param mixed $results
+     * @return array
      */
     public static function getBaseMenu(mixed $results): array
     {
@@ -302,7 +343,7 @@ class Server extends Service
     }
 
     /*
-     * Takes a list of issues and a parent climb id and returns the parent and children
+     * Takes a list of issues, and a parent climbs id and returns the parent and children
      * The children are assigned to the parent through a simple O(N) loop
      * @param mixed $issues
      * @param mixed $parentClimbId
@@ -355,11 +396,11 @@ class Server extends Service
             $visual = new HTML('div');
             $visual->content = <<<HTML
                                 <div
-                                class = "control" 
+                                    class = "control" 
                                     data-api="/server.php"
                                     data-api-method="POST"
                                     data-intent='{ "REFRESH": { "Climb" : "View" } }'
-                                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                                    data-context='{ "_response_target": "{$context['_response_target']}", "parent_id": "$climbId", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
                                     {$visual1}
                                 </div>
                 HTML;
@@ -374,6 +415,7 @@ class Server extends Service
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+                '#newButton' => self::getBtn($climbId)
             ],
         ];
     }
@@ -383,6 +425,7 @@ class Server extends Service
      */
     public static function makeMenu(mixed $context): array
     {
+        $climbId = $context['climbId'];
         $owner = $context['owner'];
         $repo = $context['repo'];
         $labels = ['climb-payload'];
@@ -400,15 +443,15 @@ class Server extends Service
             $visualContent = new Visual($issue['title'], $issue['number']);
             $visual = new HTML('div');
             $visual->content = <<<HTML
-                <div
-                    class = "control" 
-                    data-api="/server.php"
-                    data-api-method="POST"
-                    data-intent='{ "REFRESH": { "Climb" : "View" } }'
-                    data-context='{ "_response_target": "{$context['_response_target']}", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
-                    {$visualContent}
-                </div>
-            HTML;
+                    <div
+                        class = "control" 
+                        data-api="/server.php"
+                        data-api-method="POST"
+                        data-intent='{ "REFRESH": { "Climb" : "View" } }'
+                        data-context='{ "_response_target": "{$context['_response_target']}", "parent_id": "$climbId", "climb_id": "{$issue['number']}", "owner": "$owner", "repo": "$repo" }'>
+                        {$visualContent}
+                    </div>
+                HTML;
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -418,6 +461,7 @@ class Server extends Service
         return [
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
+                '#newButton' => self::getBtn($climbId)
             ],
         ];
     }
@@ -434,8 +478,8 @@ class Server extends Service
         mixed   $metadata = [],
     )
     {
-        self::$registrar['Climb']['Save'] = static function ($context) {
-            return self::Save($context);
+        self::$registrar['Climb']['Update'] = static function ($context) {
+            return self::Update($context);
         };
         self::$registrar['Climb']['Edit'] = static function ($context) {
             return self::Edit($context);
@@ -449,10 +493,13 @@ class Server extends Service
         self::$registrar['Climb']['Hierarchy'] = static function ($context) {
             return self::getMenu($context);
         };
+        self::$registrar['Climb']['New'] = static function ($context) {
+            return self::New($context);
+        };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
 
-    function processIntents($intent)
+    function processIntents($intent): array
     {
         $result = [];
         if (
@@ -480,7 +527,6 @@ class Server extends Service
         $result = [];
         $context = $intent['support'];
         $command = $intent['command'];
-        // TODO: If support is not set, then call processMultipleIntents
         foreach ($command as $predicate => $action) {
             $scope = key($action);
             $call = $action[$scope];
@@ -492,8 +538,6 @@ class Server extends Service
             } else {
                 $result = self::$registrar[$scope][$call]($context);
             }
-            // var_export($result);
-            // $result = array_merge($result, $predicated_result);
         }
         return $result;
     }

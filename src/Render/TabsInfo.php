@@ -44,7 +44,7 @@ class TabsInfo extends HTML
 
 
         $this->nodes[] = $editBTN = new HTML(tag: 'div', classes: ['controls']);
-        $intentInfo = '{ "_response_target": "#some_content > div", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
+        $intentInfo = '{ "_response_target": "#some_content > div", "parent_id": "'. $data['Climb']['parent_id'] .'", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
 
         $editBTN->content = <<<HTML
                 <button class="control btn" 
@@ -67,6 +67,10 @@ class TabsInfo extends HTML
         );
         $requirements[] = new HTML(tag: 'h3', classes: ["fs-4 ", "fw-bold "], content: '🎯 Goal: ' . $data['Climb']['title']);
         $requirements[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Requirements');
+        $requirements[] = new HTML(tag: 'p', classes: ['fs-6'], content: 'Tracked with Issue ID: ' . $data['Climb']['climb_id']);
+        if($data['Climb']['parent_id'] != ''){
+            $requirements[] = new HTML(tag: 'p', classes: ['fs-6'], content: 'Parent Issue ID: ' . $data['Climb']['parent_id']);
+        }
         $requirements[] = $requirementsList = new HTML(tag: 'ul');
         foreach ($data['Climb']['requirements'] as $requirement) {
             $requirementsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $requirement);

@@ -41,14 +41,14 @@ class Visual extends HTML{
         public bool $selfContained = false,
     ){
         //add .visual class to the classes array
-        //make sure classes is not null
+        // to make sure classes are not null
         if($classes === null){
             $classes = [];
         }
         $classes = array_merge($classes, [' visual']);
 
-        $icon = new HTML('i', classes: ['icon ', 'bi ', 'bi-list-check']);
-        $label = new HTML('label', content: $this->title);
+        $icon = new HTML('i', classes: ['icon ', 'bi ', 'bi-arrow-right']);
+        $label = new HTML('label', content: ' '. $this->title);
         $expand = new HTML('i', classes: ['expand ', 'fa ', 'fa-angle-right']);
 
         parent::__construct(
@@ -57,7 +57,7 @@ class Visual extends HTML{
             classes: $classes,
             attributes: $attributes,
             // TODO: Concatenation to be converted to nodes and children
-            content: $icon . $label . $expand . $content,
+            content: $icon . ' ' . $label . $expand . $content,
             styles: $styles,
             prerender: $prerender,
             selfContained: $selfContained

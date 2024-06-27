@@ -19,33 +19,45 @@ $body->content = <<<HTML
     <div class="Stage">
         <div id="main" class="Screen">
             <div class="Oyster InterfaceContent controls animate__animated animate__fadeIn">
-                <section class="header">
+                <section class="header controls">
                     <button class="backBtn">
                         <div>
                             <i class="expand fa fa-angle-left"></i>
                         </div>
                     </button>
                     <button
-                        class="controls btn btn-secondary current-state ms-2 animate__animated animate__slideInDown"
+                        class="controls btn btn-warning current-state ms-2 animate__animated animate__slideInDown"
                         id="menuButton"
                     >
                         <span id="menuButtonText"><span></span></span>
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <ul class="breadcrumbs" style="display: none"></ul>
+                    <span id="newButton">
+                         <button
+                            class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
+                            id="newButton"
+                            data-api="/server.php"
+                            data-api-method="POST"
+                            data-intent='{ "REFRESH": { "Climb" : "New" } }'
+                            data-context='{ "_response_target": "#some_content > div", "parent_id": ""}'
+                        >
+                            New
+                        </button>
+                    </span>
                 </section>
                 <ul class="Toolbar controls">
                     <li>
                         <div class="visual" style="padding: 5px 12px">
-                            <div
-                            class="control"
+                            <button
+                            class="control btn"
                             data-api="/server.php"
                             data-api-method="POST"
                             data-intent='{ "REFRESH": { "Climb" : "Menu" } }'
                             data-context='{ "_response_target": ".Toolbar > .active > ul", "climb_id": "28", "owner": "newtoallofthis123", "repo": "test_for_issues"}'
                             >
-                                <i class="icon bi bi-list-check"></i>
-                            </div>
+                                View
+                            </button>
                             <label>Root</label>
                             <i class="expand fa fa-angle-right"> </i>
                         </div>
