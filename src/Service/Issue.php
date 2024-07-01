@@ -60,3 +60,4 @@ class Issue extends Service
         );
     }
 }
+

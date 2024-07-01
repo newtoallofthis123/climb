@@ -8,7 +8,7 @@ use Approach\Render\HTML;
 use Approach\Render\Node;
 use Stringable;
 
-/* 
+/*
  * Header
  *
  * Defines a header section for the oyster that is used to hold the dynamic pearl menu and the signout button
@@ -25,9 +25,10 @@ use Stringable;
  *
  * @see HTML
  *
- * @return Header 
- * */
-class Header extends HTML{
+ * @return Header
+ */
+class Header extends HTML
+{
     public function __construct(
         public null|array $crumbs = null,
         public null|string|Stringable $id = null,
@@ -37,10 +38,10 @@ class Header extends HTML{
         public array $styles = [],
         public bool $prerender = false,
         public bool $selfContained = false,
-    ){
-        //add .visual class to the classes array
-        //make sure classes is not null
-        if($classes === null){
+    ) {
+        // add .visual class to the classes array
+        // make sure classes is not null
+        if ($classes === null) {
             $classes = [];
         }
 
@@ -61,15 +62,15 @@ class Header extends HTML{
 
         $toolBar = new HTML(tag: 'ul', classes: ['Toolbar']);
         $signoutContent = <<<HTML
-        <button>
-            <p>
-                <i class="bi bi-box-arrow-right"></i> SignOut
-            </p>
-        </button>
-        HTML;
+            <button>
+                <p>
+                    <i class="bi bi-box-arrow-right"></i> SignOut
+                </p>
+            </button>
+            HTML;
         $toolBar[] = $menuBtn;
         $toolBar[] = new HTML(tag: 'div', classes: ['signOut'], content: $signoutContent);
-        
+
         parent::__construct(
             tag: 'section',
             id: $id,
@@ -81,4 +82,4 @@ class Header extends HTML{
             selfContained: $selfContained
         );
     }
-} 
+}

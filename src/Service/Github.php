@@ -4,11 +4,14 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
-use Approach\Resource\weighable;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
 
+/*
+ * Github
+ * Gets information from a GitHub repo and returns a list of issues
+ */
 class Github extends Service
 {
     /**
@@ -31,7 +34,6 @@ class Github extends Service
                     'User-Agent:curl/8.5.0',
                     'Authorization: Bearer ' . $apiKey,
                     'X-GitHub-Api-Version: 2022-11-28',
-                    'Accept: */*', //TODO: Change this and handle application/vnd.github.v3+json
                 ],
             ]
         ];
@@ -54,7 +56,7 @@ class Github extends Service
     public function parseIssue($body): array
     {
         $dom = new \DOMDocument();
-        //FIXME: This suppresses all the errors, but should handled
+        // FIXME: This suppresses all the errors, but should handled
         libxml_use_internal_errors(true);
         $dom->loadHTML($body);
         libxml_clear_errors();
@@ -73,6 +75,9 @@ class Github extends Service
         ];
     }
 
+    /**
+     * @param mixed $labels
+     */
     public function returnLabelName($labels): array
     {
         $labelNames = [];
@@ -116,5 +121,11 @@ class Github extends Service
             $p = $res;
         }
         $this->payload = $payload;
+    }
+
+    public function getIssues(): array
+    {
+        $results = $this->dispatch();
+        return $results;
     }
 }

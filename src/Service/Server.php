@@ -166,17 +166,17 @@ class Server extends Service
     static function getBtn(mixed $climbId): string
     {
         $newBtn = <<<HTML
-             <button
-                class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
-                id="newButton"
-                data-api="/server.php"
-                data-api-method="POST"
-                data-intent='{ "REFRESH": { "Climb" : "New" } }'
-                data-context='{ "_response_target": "#some_content > div", "parent_id": "$climbId"}'
-            >
-                New
-            </button>
-HTML;
+                         <button
+                            class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
+                            id="newButton"
+                            data-api="/server.php"
+                            data-api-method="POST"
+                            data-intent='{ "REFRESH": { "Climb" : "New" } }'
+                            data-context='{ "_response_target": "#some_content > div", "parent_id": "$climbId"}'
+                        >
+                            New
+                        </button>
+            HTML;
         return $newBtn;
     }
 
@@ -253,7 +253,6 @@ HTML;
                     {$breadBtn}
                 </div>
             HTML;
-
 
         // Check it the parent has no children
         if (count($hierarchy['children']) == 0) {
@@ -467,17 +466,16 @@ HTML;
     }
 
     public function __construct(
-        flow    $flow = flow::in,
-        bool    $auto_dispatch = false,
+        flow $flow = flow::in,
+        bool $auto_dispatch = false,
         ?format $format_in = format::json,
         ?format $format_out = format::json,
         ?target $target_in = target::stream,
         ?target $target_out = target::stream,
-                $input = [Service::STDIN],
-                $output = [Service::STDOUT],
-        mixed   $metadata = [],
-    )
-    {
+        $input = [Service::STDIN],
+        $output = [Service::STDOUT],
+        mixed $metadata = [],
+    ) {
         self::$registrar['Climb']['Update'] = static function ($context) {
             return self::Update($context);
         };

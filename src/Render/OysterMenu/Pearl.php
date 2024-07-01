@@ -10,7 +10,7 @@ use Approach\Render\HTML;
 use Approach\Render\Node;
 use Stringable;
 
-/* 
+/*
  * Pearl
  *
  * A Pearl is a self-expanding list item that can be used to create a visual representation of a list
@@ -32,12 +32,13 @@ use Stringable;
  * @param bool $selfContained - whether the list is self-contained
  *
  * @return Pearl
- * */
+ */
 
 class Pearl extends HTML
 {
     public HTML $visual;
     public HTML|string|Stringable $label;
+
     // The array|Container is used to represent the empty state
     // cause HTML doesn't consider null values
     // This is because we wouldn't want blank ul's that are
@@ -48,7 +49,6 @@ class Pearl extends HTML
         null|string|HTML|Stringable $visual = null,
         null|string|HTML|Stringable $label = null,
         null|array|Container $children = null,
-
         public null|string|Stringable $id = null,
         null|string|array|Node|Attribute $classes = null,
         public null|array|Attribute $attributes = new Attribute,
@@ -61,7 +61,7 @@ class Pearl extends HTML
             tag: 'li',
             id: $id,
             classes: $classes,
-            attributes: new Attribute('data-pearl', $label), 
+            attributes: new Attribute('data-pearl', $label),
             styles: $styles,
             prerender: $prerender,
             selfContained: $selfContained
@@ -73,7 +73,6 @@ class Pearl extends HTML
             if ($visual === null) {
                 $visual = new HTML(tag: 'div');
                 $visual[] = new HTML(tag: 'i');
-                // NOTE: The Label content may be used as a fallback
                 $visual[] = $this->label = new HTML(tag: 'label', content: $label);
                 $visual[] = new HTML(tag: 'i', classes: ['fas', 'fa-angle-right']);
             }
@@ -86,7 +85,7 @@ class Pearl extends HTML
 
         $this->nodes[] = $visual;
         $this->visual = &$this->nodes[count($this->nodes) - 1];
-        
+
         if ($children !== null) {
             $this->children = $ul = new HTML(tag: 'ul', classes: ['Pearl']);
             $index = count($this->nodes);
@@ -101,14 +100,13 @@ class Pearl extends HTML
 
     /**
      * Add a pearl to the children list
-     * 
+     *
      * @param Pearl $pearl The pearl to add
      * @return self
      */
     public function addPearl(Pearl $pearl): self
     {
-        if(!($this->children instanceof \Approach\Render\HTML)){    
-            
+        if (!($this->children instanceof \Approach\Render\HTML)) {
             $this->children = new HTML(tag: 'ul');
         }
 
@@ -120,7 +118,7 @@ class Pearl extends HTML
 
     /**
      * Populate child levels of this pearl with the given array
-     * 
+     *
      * @param array $array An array of pearls to add
      *      Each pearl should be an associative array with the following keys:
      *          visual: string | HTML | null
@@ -133,14 +131,16 @@ class Pearl extends HTML
         foreach ($array as $pearl) {
             $this->addPearl(new Pearl(
                 // can be visual, but need not be
-                visual: $pearl['visual'] instanceof HTML 
-                    ? $pearl['visual'] : new Visual(title: $pearl['visual']) , 
+                visual: $pearl['visual'] instanceof HTML
+                    ? $pearl['visual']
+                    : new Visual(title: $pearl['visual']),
                 label: $pearl['label'],
                 children: $pearl['children'] ?? null
             ));
         }
         return $this;
     }
+
     /**
      * Create a Pearl from an array
      * @param array<int,mixed> $array

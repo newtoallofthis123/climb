@@ -2,83 +2,83 @@
  * Random CSS
  * */
 
-.menu button{
-    background-color: rgb(239, 238, 238);
-    color: rgb(3, 3, 3);
-    cursor: pointer;
-    width: 100%;
+.menu button {
+  background-color: rgb(239, 238, 238);
+  color: rgb(3, 3, 3);
+  cursor: pointer;
+  width: 100%;
 }
 
-.menu button#active{
-    background-color: #070707;
-    color: white;
+.menu button#active {
+  background-color: #070707;
+  color: white;
 }
 
-.menu button i{
-    margin-right: 10px;
-    font-size: 1.2rem;
+.menu button i {
+  margin-right: 10px;
+  font-size: 1.2rem;
 }
 
-.menu button p{
-    font-weight: 600;
-    font-size: 1rem;
+.menu button p {
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .signout button {
-    background-color: inherit;
-    border: 0;
-    font-size: 1.2rem;
-    cursor: pointer;
+  background-color: inherit;
+  border: 0;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
-.gray{
-    color: rgb(117, 117, 117);
+.gray {
+  color: rgb(117, 117, 117);
 }
 
 .tab {
-    display: none;
+  display: none;
 }
 
 .tab.active {
-    display: block;
+  display: block;
 }
 
 .tab-button {
-    cursor: pointer;
-    padding: 8px 12px;
-    text-align: center;
-    background-color: #cccccc;
-    width: calc(100% / 6);
+  cursor: pointer;
+  padding: 8px 12px;
+  text-align: center;
+  background-color: #cccccc;
+  width: calc(100% / 6);
 }
 
 .tab-button.active {
-    background-color: #999;
-    color: #fff;
+  background-color: #999;
+  color: #fff;
 }
 
 .TabBar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 #Requirements form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .input-group {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 #Survey form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .input-group {
-    margin-top: 10px;
+  margin-top: 10px;
 }

@@ -48,7 +48,7 @@
                     "email": "tom@suiteux.com"
                 }
             ],
-            "description": "TODO: make a better description",
+            "description": "Climbs UI is a UI to handle Climbs using GitHub Issues",
             "support": {
                 "source": "https://github.com/TheApproach/Approach/tree/master",
                 "issues": "https://github.com/TheApproach/Approach/issues"

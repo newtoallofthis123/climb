@@ -24,7 +24,7 @@ class UpdateIssue extends Service
         Stringable|Node|string $title = null,
         Stringable|Node|string $climbId = null,
     ) {
-        $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . (string)$climbId;
+        $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . (string) $climbId;
 
         $apiKey = getenv('GITHUB_API_KEY');
         if ($apiKey === false) {
@@ -61,3 +61,4 @@ class UpdateIssue extends Service
         );
     }
 }
+

@@ -7,8 +7,8 @@ require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 use Approach\Render\HTML;
 
 /*
-Function that returns the form of a climb that can be used for a new climb or editing an existing one
-*/
+ * Function that returns the form of a climb that can be used for a new climb or editing an existing one
+ */
 
 class TabsForm extends HTML
 {
@@ -32,26 +32,27 @@ class TabsForm extends HTML
 
         $rightArrow = new HTML(tag: 'i', classes: ['bi ', 'bi-arrow-right']);
 
-        foreach ($tabs as $index => $tab) $TabBar[] = new HTML(
-            tag: 'div',
-            classes: ['tab-button'],
-            attributes: [
-                'id' => 'tabBtn' . $index,
-            ],
-            content: $tab . $rightArrow
-        );
+        foreach ($tabs as $index => $tab)
+            $TabBar[] = new HTML(
+                tag: 'div',
+                classes: ['tab-button'],
+                attributes: [
+                    'id' => 'tabBtn' . $index,
+                ],
+                content: $tab . $rightArrow
+            );
 
         $firstNode = new HTML(tag: 'div', classes: ['New']);
         $firstNode[] = $TabBar;
 
         $this->nodes[] = $firstNode;
 
-        $this->nodes[] = $formBody = new HTML(tag: 'div',  attributes: ['id' => 'tabs_stuff']);
+        $this->nodes[] = $formBody = new HTML(tag: 'div', attributes: ['id' => 'tabs_stuff']);
 
         $formBody[] = $requirementsForm = new HTML(tag: 'div', classes: ['tab ', 'tab1 ', 'active ', 'Interface ', 'InterfaceContent ', ' p-3', ' pb-0'], attributes: ['id' => 'Requirements']);
         $requirementsForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '1. Decide a Goal');
-        $requirementsForm[] = new HTML(tag: 'p', content: '🎯 What\'s the goal?');
-        $requirementsForm[] = $reqForm =  new HTML(tag: 'form', classes: ['p-3 ', 'pt-0 ', 'Autoform'], attributes: ['data-action' => 'Climb']);
+        $requirementsForm[] = new HTML(tag: 'p', content: "🎯 What's the goal?");
+        $requirementsForm[] = $reqForm = new HTML(tag: 'form', classes: ['p-3 ', 'pt-0 ', 'Autoform'], attributes: ['data-action' => 'Climb']);
         $reqForm[] = $inputTitle = new HTML(tag: 'div', classes: ['mb-3']);
         $reqForm[] = $parent = new HTML(tag: 'div');
         $parent[] = new HTML(tag: 'label', classes: ['form-label'], content: 'Parent Id');
@@ -68,7 +69,6 @@ class TabsForm extends HTML
         $requirementsForm[] = $div = new HTML(tag: 'div');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary ', 'ms-3'], attributes: ['id' => 'add-input-group'], content: 'Add New Requirement');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-input-group'], content: 'Remove Last Requirement');
-
 
         $formBody[] = $surveyForm = new HTML(tag: 'div', classes: ['tab ', 'tab2 ', 'Interface ', 'InterfaceContent'], attributes: ['id' => 'Survey']);
         $surveyForm[] = $surveyFormBody = new HTML(tag: 'form', classes: ['p-3 ', 'Autoform'], attributes: ['data-action' => 'Survey']);
@@ -88,7 +88,7 @@ class TabsForm extends HTML
         }
 
         $surveyFormBody[] = $div = new HTML(tag: 'div', classes: ['pt-3']);
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary ', 'ms-3'], attributes: ['id' => 'add-interest-group', 'type' => "reset"], content: 'Add New Interest');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary ', 'ms-3'], attributes: ['id' => 'add-interest-group', 'type' => 'reset'], content: 'Add New Interest');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-interest-group', 'type' => 'reset'], content: 'Remove Last Point');
 
         $surveyFormBody[] = $p = new HTML(tag: 'p', classes: ['pt-4'], content: 'Points of Concern and Hazards');
@@ -102,7 +102,7 @@ class TabsForm extends HTML
 
         $surveyForm[] = $div = new HTML(tag: 'div');
 
-        $div[] = new HTML(tag: 'button',  classes: ['btn ', 'btn-info ', 'ms-3'], attributes: ['id' => 'add-obstacle', 'type' => 'button'], content: 'Add New Obstacle');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-info ', 'ms-3'], attributes: ['id' => 'add-obstacle', 'type' => 'button'], content: 'Add New Obstacle');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-obstacle', 'type' => 'button'], content: 'Remove Last Obstacle');
 
         $surveyForm[] = $div = new HTML(tag: 'div', classes: ['p-3']);
@@ -199,7 +199,7 @@ class TabsForm extends HTML
 
         $this->nodes[] = new HTML(tag: 'style', content: '#Survey form { display: flex; flex-direction: column; justify-content: space-between; } .input-group { margin-top: 10px; }');
 
-        $this->nodes[] = $adapt =  new HTML(tag: 'div', classes: ['tab ', 'tab6 ', 'p-3']);
+        $this->nodes[] = $adapt = new HTML(tag: 'div', classes: ['tab ', 'tab6 ', 'p-3']);
 
         $adapt[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '6. Adapt from Finding');
         $adapt[] = new HTML(tag: 'p', content: '<span class="fw-bolder">🔧 Adapt:</span> Adapt from the findings');
@@ -210,20 +210,20 @@ class TabsForm extends HTML
     post-split"></i> Branch');
 
         $submitContent = <<<HTML
-    <div class="controls">
-    <button
-        type="button"
-        class="visual control btn btn-success mt-3"
-        data-api="/server.php"
-        data-role='autoform'
-        data-api-method="POST"
-        data-intent='{ "REFRESH": { "Climb" : "Update" } }'
-        data-context='{ "_response_target": "#result", "climb_id": "{$data['Climb']['climb_id']}", "owner": "newtoallofthis123", "repo": "test_for_issues" }'
-    >
-        Save
-    </button>
-    </div>
-HTML;
+                <div class="controls">
+                <button
+                    type="button"
+                    class="visual control btn btn-success mt-3"
+                    data-api="/server.php"
+                    data-role='autoform'
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "Update" } }'
+                    data-context='{ "_response_target": "#result", "climb_id": "{$data['Climb']['climb_id']}", "owner": "newtoallofthis123", "repo": "test_for_issues" }'
+                >
+                    Save
+                </button>
+                </div>
+            HTML;
 
         $this->nodes[] = new HTML(tag: 'div', content: $submitContent);
     }

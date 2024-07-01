@@ -8,7 +8,7 @@ use Approach\Render\HTML;
 use Approach\Render\Node;
 use Stringable;
 
-/* 
+/*
  * Visual
  *
  * The Visual class is used to create a visual representation of a list in a pearl.
@@ -27,8 +27,9 @@ use Stringable;
  * @param bool $selfContained - whether or not the visual is self contained
  *
  * @return Visual
- * */
-class Visual extends HTML{
+ */
+class Visual extends HTML
+{
     public function __construct(
         public null|string|Stringable $title = null,
         public null|bool $isTodo = false,
@@ -39,16 +40,16 @@ class Visual extends HTML{
         public array $styles = [],
         public bool $prerender = false,
         public bool $selfContained = false,
-    ){
-        //add .visual class to the classes array
+    ) {
+        // add .visual class to the classes array
         // to make sure classes are not null
-        if($classes === null){
+        if ($classes === null) {
             $classes = [];
         }
         $classes = array_merge($classes, [' visual']);
 
         $icon = new HTML('i', classes: ['icon ', 'bi ', 'bi-arrow-right']);
-        $label = new HTML('label', content: ' '. $this->title);
+        $label = new HTML('label', content: ' ' . $this->title);
         $expand = new HTML('i', classes: ['expand ', 'fa ', 'fa-angle-right']);
 
         parent::__construct(
@@ -63,4 +64,4 @@ class Visual extends HTML{
             selfContained: $selfContained
         );
     }
-} 
+}
