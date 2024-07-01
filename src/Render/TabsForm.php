@@ -50,7 +50,7 @@ class TabsForm extends HTML
         $this->nodes[] = $formBody = new HTML(tag: 'div', attributes: ['id' => 'tabs_stuff']);
 
         $formBody[] = $requirementsForm = new HTML(tag: 'div', classes: ['tab ', 'tab1 ', 'active ', 'Interface ', 'InterfaceContent ', ' p-3', ' pb-0'], attributes: ['id' => 'Requirements']);
-        $requirementsForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '1. Decide a Goal');
+        $requirementsForm[] = new HTML(tag: 'h4', content: '1. Decide a Goal');
         $requirementsForm[] = new HTML(tag: 'p', content: "🎯 What's the goal?");
         $requirementsForm[] = $reqForm = new HTML(tag: 'form', classes: ['p-3 ', 'pt-0 ', 'Autoform'], attributes: ['data-action' => 'Climb']);
         $reqForm[] = $inputTitle = new HTML(tag: 'div', classes: ['mb-3']);
@@ -75,7 +75,6 @@ class TabsForm extends HTML
 
         $surveyFormBody[] = new HTML(tag: 'h4', classes: ['pb-3 ', 'fw-bolder'], content: '2. Survey of the Environment');
 
-        $surveyFormBody[] = new HTML(tag: 'div', classes: ['mb-3'], content: '🎯 Find the Path of Least Resistance!');
         $surveyFormBody[] = new HTML(tag: 'p', content: 'Note the obstacles, check if the obstacles disqualify the goal, and check if the goal is still worth pursuing.');
 
         $surveyFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Interest for new Destinations');
@@ -112,8 +111,7 @@ class TabsForm extends HTML
 
         $formBody[] = $reviewForm = new HTML(tag: 'div', classes: ['tab ', 'tab3 ', 'p-3 ', 'Interface ', 'InterfaceContent']);
 
-        $reviewForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '3. Review Findings');
-        $reviewForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">🎯 Goal:</span> ' . $data['Climb']['title']);
+        $reviewForm[] = new HTML(tag: 'h4', content: '3. Review Findings');
         $reviewForm[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Budgets']);
 
         $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: '<span class="fw-bolder">🕧️ Budget:</span>');
@@ -144,18 +142,17 @@ class TabsForm extends HTML
         $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'basic-addon7'], content: '<i class="bi bi-currency-dollar me-2"></i> Dollars');
 
         $formBody[] = $workForm = new HTML(tag: 'div', classes: ['tab ', 'tab4 ', 'p-3 ', 'Interface ', 'InterfaceContent']);
-        $workForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '4. Time To Work');
+        $workForm[] = new HTML(tag: 'h4', content: '4. Time To Work');
         $workForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">🔨 Action:</span> Work on the goal');
         $workForm[] = $workFormBody = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Work']);
 
         $workFormBody[] = $inputProgress = new HTML(tag: 'div', classes: ['mb-3']);
-        $inputProgress[] = new HTML(tag: 'label', classes: ['form-label'], content: 'Document Progress 🪜');
         $inputProgress[] = new HTML(tag: 'textarea', classes: ['form-control'], attributes: ['name' => 'document_progress', 'id' => 'exampleFormControlTextarea1', 'rows' => '3'], content: $data['Work']['document_progress']);
         $workFormBody[] = $p = new HTML(tag: 'div', classes: ['form-text'], content: 'Continue to work on the goal and document your progress here.');
 
         $formBody[] = $describeForm = new HTML(tag: 'div', classes: ['tab ', 'tab5 ', 'p-3', 'Interface ', 'InterfaceContent']);
 
-        $describeForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '5. Describe your Work');
+        $describeForm[] = new HTML(tag: 'h4', content: '5. Describe your Work');
         $describeForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">📔 Reflection:</span> Describe your work');
         $describeForm[] = $describeFormBody = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Describe']);
         $describeFormBody[] = $inputBudget = new HTML(tag: 'div', classes: ['mb-3']);
@@ -201,7 +198,7 @@ class TabsForm extends HTML
 
         $this->nodes[] = $adapt = new HTML(tag: 'div', classes: ['tab ', 'tab6 ', 'p-3']);
 
-        $adapt[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '6. Adapt from Finding');
+        $adapt[] = new HTML(tag: 'h4', content: '6. Adapt from Finding');
         $adapt[] = new HTML(tag: 'p', content: '<span class="fw-bolder">🔧 Adapt:</span> Adapt from the findings');
         $adapt[] = $formAdapt = new HTML(tag: 'div', classes: ['btn-group ', 'btn-group-lg'], attributes: ['role' => 'group', 'aria-label' => 'Basic mixed styles example']);
 

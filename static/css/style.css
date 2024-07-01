@@ -82,3 +82,120 @@
 .input-group {
   margin-top: 10px;
 }
+
+.p-3 {
+  padding: 3px;
+}
+
+.tab h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  padding-top: 10px;
+}
+
+.tab h4 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  padding: 10px 0;
+}
+
+.tab h5 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-top: 0.5rem;
+}
+
+.tab p,
+ul {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.tab {
+  padding-top: 10px;
+}
+
+/* .fs-6 { */
+/*   font-size: 1.2rem; */
+/* } */
+
+.btn {
+  border: 0;
+  padding: 6px 8px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  color: white;
+  background-color: #007bff;
+}
+
+.btn-secondary {
+  color: white;
+  background-color: #6c757d;
+}
+
+.btn-danger {
+  color: white;
+  background-color: #dc3545;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+}
+
+.btn-success {
+  color: white;
+  background-color: #28a745;
+}
+
+.p-3 {
+  padding: 3px;
+}
+
+.mb-3 {
+  margin-bottom: 3px;
+}
+
+.Autoform {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.Autoform .form-label {
+  font-size: 1rem;
+  margin-right: 8px;
+}
+
+.Autoform .form-control {
+  padding: 5px;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #ccc;
+}
+
+.Autoform .form-control:focus {
+  border: 1px solid #007bff;
+}
+
+.Autoform .form-control::placeholder {
+  color: #ccc;
+}
+
+.Autoform .input-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.Autoform .input-group .input-group-text {
+  background-color: #ccc;
+  border: 1px solid #c1c1c1;
+  border-radius: 5px 0 0 5px;
+  padding: 5px;
+}
