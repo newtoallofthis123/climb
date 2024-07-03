@@ -25,6 +25,6 @@ class UiCest
         $I->amOnPage('/');
         // The below checks if the content view box is rendered
         $I->wantToTest("if the content view box is rendered");
-        $I->seeElement('.Viewport > #some_content > div');
+        $I->seeElement('.Viewport > #content > div');
     }
 }

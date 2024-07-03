@@ -172,7 +172,7 @@ class Server extends Service
                             data-api="/server.php"
                             data-api-method="POST"
                             data-intent='{ "REFRESH": { "Climb" : "New" } }'
-                            data-context='{ "_response_target": "#some_content > div", "parent_id": "$climbId"}'
+                            data-context='{ "_response_target": "#content"> div", "parent_id": "$climbId"}'
                         >
                             New
                         </button>
@@ -258,7 +258,7 @@ class Server extends Service
         if (count($hierarchy['children']) == 0) {
             return [
                 'REFRESH' => [
-                    '#some_content > div' => $tabsInfo->render(),
+                    '#content > div' => $tabsInfo->render(),
                     '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
                     '#newButton' => self::getBtn($climbId),
                 ],
@@ -267,7 +267,7 @@ class Server extends Service
 
         return [
             'REFRESH' => [
-                '#some_content > div' => $tabsInfo->render(),
+                '#content > div' => $tabsInfo->render(),
                 '.Toolbar > .active > ul' => $oyster->render(),
                 '.backBtn > div' => $back,
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',

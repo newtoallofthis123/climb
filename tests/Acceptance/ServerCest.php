@@ -10,6 +10,6 @@ class ServerCest
     public function checkService(AcceptanceTester $I)
     {
         $I->amOnPage('/');
-        $I->tryToSendAjaxPostRequest('/service.php', ['json' => 'json="{\"support\":{\"_response_target\":\"#some_content\"},\"command\":{\"REFRESH\":{\"Climb\":\"New\"}}}"']);
+        $I->tryToSendAjaxPostRequest('/service.php', ['json' => 'json="{\"support\":{\"_response_target\":\"#content\"},\"command\":{\"REFRESH\":{\"Climb\":\"New\"}}}"']);
     }
 }

@@ -61,14 +61,14 @@ class TabsForm extends HTML
         $inputTitle[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'title', 'id' => 'title', 'value' => $json['Climb']['title'], 'placeholder' => 'Become a billionaire']);
 
         foreach ($data['Climb']['requirements'] as $key => $value) {
-            $reqForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group ', 'flex-nowrap'], attributes: ['id' => 'input-group-' . $key]);
+            $reqForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-group-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
             $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'requirements_' . $key, 'value' => $value, 'placeholder' => 'Add a Requirement', 'aria-label' => 'requirement', 'aria-describedby' => 'addon-wrapping-' . $key]);
         }
 
         $requirementsForm[] = $div = new HTML(tag: 'div');
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary ', 'ms-3'], attributes: ['id' => 'add-input-group'], content: 'Add New Requirement');
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-input-group'], content: 'Remove Last Requirement');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary '], attributes: ['id' => 'add-input-group'], content: 'Add New Requirement');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-input-group'], content: 'Remove Last Requirement');
 
         $formBody[] = $surveyForm = new HTML(tag: 'div', classes: ['tab ', 'tab2 ', 'Interface ', 'InterfaceContent'], attributes: ['id' => 'Survey']);
         $surveyForm[] = $surveyFormBody = new HTML(tag: 'form', classes: ['p-3 ', 'Autoform'], attributes: ['data-action' => 'Survey']);
@@ -81,30 +81,30 @@ class TabsForm extends HTML
         $surveyFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Interests']);
 
         foreach ($data['Survey']['interests'] as $key => $value) {
-            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group ', 'flex-nowrap'], attributes: ['id' => 'input-interest-' . $key]);
+            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-interest-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
             $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'interest_' . $key, 'value' => $value, 'placeholder' => 'Add a Point of Interest', 'aria-label' => 'interest', 'aria-describedby' => 'addon-wrapping-' . $key]);
         }
 
-        $surveyFormBody[] = $div = new HTML(tag: 'div', classes: ['pt-3']);
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary ', 'ms-3'], attributes: ['id' => 'add-interest-group', 'type' => 'reset'], content: 'Add New Interest');
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-interest-group', 'type' => 'reset'], content: 'Remove Last Point');
+        $surveyFormBody[] = $div = new HTML(tag: 'div');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary '], attributes: ['id' => 'add-interest-group', 'type' => 'reset'], content: 'Add New Interest');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-interest-group', 'type' => 'reset'], content: 'Remove Last Point');
 
-        $surveyFormBody[] = $p = new HTML(tag: 'p', classes: ['pt-4'], content: 'Points of Concern and Hazards');
+        $surveyFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Concern and Hazards');
         $surveyFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Obstructions']);
 
         foreach ($data['Survey']['obstructions'] as $key => $value) {
-            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group ', 'flex-nowrap'], attributes: ['id' => 'input-group-' . $key]);
+            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-group-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
             $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'obstruction_' . $key, 'value' => $value, 'placeholder' => 'Add an obstacle', 'aria-label' => 'requirement', 'aria-describedby' => 'addon-wrapping-' . $key]);
         }
 
         $surveyForm[] = $div = new HTML(tag: 'div');
 
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-info ', 'ms-3'], attributes: ['id' => 'add-obstacle', 'type' => 'button'], content: 'Add New Obstacle');
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-obstacle', 'type' => 'button'], content: 'Remove Last Obstacle');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-info '], attributes: ['id' => 'add-obstacle', 'type' => 'button'], content: 'Add New Obstacle');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-obstacle', 'type' => 'button'], content: 'Remove Last Obstacle');
 
-        $surveyForm[] = $div = new HTML(tag: 'div', classes: ['p-3']);
+        $surveyForm[] = $div = new HTML(tag: 'div', classes: []);
 
         $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: 'Found a problem?');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-danger'], attributes: ['type' => 'button'], content: '💀 Give Up');
@@ -114,7 +114,7 @@ class TabsForm extends HTML
         $reviewForm[] = new HTML(tag: 'h4', content: '3. Review Findings');
         $reviewForm[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Budgets']);
 
-        $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: '<span class="fw-bolder">🕧️ Budget:</span>');
+        $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: '<span>🕧️ Budget:</span>');
         $div[] = $budgetForm = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Time']);
 
         $budgetForm[] = $inputTime = new HTML(tag: 'div', classes: ['mb-4']);
@@ -143,17 +143,17 @@ class TabsForm extends HTML
 
         $formBody[] = $workForm = new HTML(tag: 'div', classes: ['tab ', 'tab4 ', 'p-3 ', 'Interface ', 'InterfaceContent']);
         $workForm[] = new HTML(tag: 'h4', content: '4. Time To Work');
-        $workForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">🔨 Action:</span> Work on the goal');
+        $workForm[] = $p = new HTML(tag: 'p', content: '<span>🔨 Action:</span> Work on the goal');
         $workForm[] = $workFormBody = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Work']);
 
         $workFormBody[] = $inputProgress = new HTML(tag: 'div', classes: ['mb-3']);
         $inputProgress[] = new HTML(tag: 'textarea', classes: ['form-control'], attributes: ['name' => 'document_progress', 'id' => 'exampleFormControlTextarea1', 'rows' => '3'], content: $data['Work']['document_progress']);
         $workFormBody[] = $p = new HTML(tag: 'div', classes: ['form-text'], content: 'Continue to work on the goal and document your progress here.');
 
-        $formBody[] = $describeForm = new HTML(tag: 'div', classes: ['tab ', 'tab5 ', 'p-3', 'Interface ', 'InterfaceContent']);
+        $formBody[] = $describeForm = new HTML(tag: 'div', classes: ['tab ', 'tab5 ', 'Interface ', 'InterfaceContent']);
 
         $describeForm[] = new HTML(tag: 'h4', content: '5. Describe your Work');
-        $describeForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">📔 Reflection:</span> Describe your work');
+        $describeForm[] = $p = new HTML(tag: 'p', content: '<span>📔 Reflection:</span> Describe your work');
         $describeForm[] = $describeFormBody = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Describe']);
         $describeFormBody[] = $inputBudget = new HTML(tag: 'div', classes: ['mb-3']);
 
@@ -175,31 +175,31 @@ class TabsForm extends HTML
         $describeFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Interest for new Destinations');
         $describeFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'InterestsD']);
         foreach ($data['Describe']['d_interests'] as $key => $value) {
-            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group ', 'flex-nowrap'], attributes: ['id' => 'input-interest-d-' . $key]);
+            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-interest-d-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
             $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'd_interest_' . $key, 'value' => $value, 'placeholder' => 'Add a Point of Interest', 'aria-label' => 'interest', 'aria-describedby' => 'addon-wrapping-' . $key]);
         }
 
-        $describeFormBody[] = $div = new HTML(tag: 'div', classes: ['pt-3']);
+        $describeFormBody[] = $div = new HTML(tag: 'div');
 
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary ', 'ms-3'], attributes: ['id' => 'add-interest-d-group'], content: 'Add New Interest');
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary ', 'ms-3'], attributes: ['id' => 'remove-interest-d-group'], content: 'Remove Last Point');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary '], attributes: ['id' => 'add-interest-d-group'], content: 'Add New Interest');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-interest-d-group'], content: 'Remove Last Point');
 
-        $describeFormBody[] = $p = new HTML(tag: 'p', classes: ['pt-4'], content: 'Points of Concern and Hazards');
+        $describeFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Concern and Hazards');
         $describeFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Hazards']);
 
         foreach ($data['Describe']['hazards'] as $key => $value) {
-            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group ', 'flex-nowrap'], attributes: ['id' => 'input-hazard-' . $key]);
+            $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-hazard-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
             $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'hazard_' . $key, 'value' => $value, 'placeholder' => 'Add a Point of Hazard', 'aria-label' => 'interest', 'aria-describedby' => 'addon-wrapping-' . $key]);
         }
 
         $this->nodes[] = new HTML(tag: 'style', content: '#Survey form { display: flex; flex-direction: column; justify-content: space-between; } .input-group { margin-top: 10px; }');
 
-        $this->nodes[] = $adapt = new HTML(tag: 'div', classes: ['tab ', 'tab6 ', 'p-3']);
+        $this->nodes[] = $adapt = new HTML(tag: 'div', classes: ['tab ', 'tab6 ', ]);
 
         $adapt[] = new HTML(tag: 'h4', content: '6. Adapt from Finding');
-        $adapt[] = new HTML(tag: 'p', content: '<span class="fw-bolder">🔧 Adapt:</span> Adapt from the findings');
+        $adapt[] = new HTML(tag: 'p', content: '<span>🔧 Adapt:</span> Adapt from the findings');
         $adapt[] = $formAdapt = new HTML(tag: 'div', classes: ['btn-group ', 'btn-group-lg'], attributes: ['role' => 'group', 'aria-label' => 'Basic mixed styles example']);
 
         $formAdapt[] = new HTML(tag: 'button', classes: ['btn ', 'btn-warning'], content: '<i class="bi bi-arrow-repeat"></i> Iterate');

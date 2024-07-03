@@ -43,7 +43,7 @@ class TabsInfo extends HTML
         $firstNode[] = $TabBar;
 
         $this->nodes[] = $editBTN = new HTML(tag: 'div', classes: ['controls']);
-        $intentInfo = '{ "_response_target": "#some_content > div", "parent_id": "' . $data['Climb']['parent_id'] . '", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
+        $intentInfo = '{ "_response_target": "#content > div", "parent_id": "' . $data['Climb']['parent_id'] . '", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
 
         $editBTN->content = <<<HTML
                         <button class="control btn" 
@@ -62,92 +62,92 @@ class TabsInfo extends HTML
 
         $requirements = new HTML(
             tag: 'div',
-            classes: ['tab ', 'active ', 'tab1 ', 'pt-4'],
+            classes: ['tab ', 'active ', 'tab1 '],
         );
-        $requirements[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold '], content: '🎯 Goal: ' . $data['Climb']['title']);
-        $requirements[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Requirements');
-        $requirements[] = new HTML(tag: 'p', classes: ['fs-6'], content: 'Tracked with Issue ID: ' . $data['Climb']['climb_id']);
+        $requirements[] = new HTML(tag: 'h3', classes: ['fw-bold '], content: '🎯 Goal: ' . $data['Climb']['title']);
+        $requirements[] = new HTML(tag: 'h5', content: 'Requirements');
+        $requirements[] = new HTML(tag: 'p', content: 'Tracked with Issue ID: ' . $data['Climb']['climb_id']);
         if ($data['Climb']['parent_id'] != '') {
-            $requirements[] = new HTML(tag: 'p', classes: ['fs-6'], content: 'Parent Issue ID: ' . $data['Climb']['parent_id']);
+            $requirements[] = new HTML(tag: 'p', content: 'Parent Issue ID: ' . $data['Climb']['parent_id']);
         }
         $requirements[] = $requirementsList = new HTML(tag: 'ul');
         foreach ($data['Climb']['requirements'] as $requirement) {
-            $requirementsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $requirement);
+            $requirementsList[] = new HTML(tag: 'li', content: $requirement);
         }
 
         $tabBarBody[] = $requirements;
 
         $survey = new HTML(
             tag: 'div',
-            classes: ['tab ', 'tab2 ', 'pt-4'],
+            classes: ['tab ', 'tab2 '],
         );
 
-        $survey[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '🔍️ Survey');
-        $survey[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Interests');
+        $survey[] = new HTML(tag: 'h3', content: '🔍️ Survey');
+        $survey[] = new HTML(tag: 'h5', content: 'Interests');
         $survey[] = $surveyList = new HTML(tag: 'ul');
         foreach ($data['Survey']['interests'] as $interest) {
-            $surveyList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $interest);
+            $surveyList[] = new HTML(tag: 'li', content: $interest);
         }
 
-        $survey[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Obstructions');
+        $survey[] = new HTML(tag: 'h5', content: 'Obstructions');
         $survey[] = $obstructionsList = new HTML(tag: 'ul');
         foreach ($data['Survey']['obstructions'] as $obstruction) {
-            $obstructionsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $obstruction);
+            $obstructionsList[] = new HTML(tag: 'li', content: $obstruction);
         }
 
         $tabBarBody[] = $survey;
 
         $review = new HTML(
             tag: 'div',
-            classes: ['tab ', 'tab3 ', 'pt-4'],
+            classes: ['tab ', 'tab3 '],
         );
 
-        $review[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '😵‍💫 Review');
-        $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Time Intent');
-        $review[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Time']['time_intent']);
-        $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Energy Intent');
-        $review[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Time']['energy_req']);
-        $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Resources Intent');
-        $review[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Time']['resources']);
+        $review[] = new HTML(tag: 'h3', content: '😵‍💫 Review');
+        $review[] = new HTML(tag: 'h5', content: 'Time Intent');
+        $review[] = new HTML(tag: 'p', content: $data['Time']['time_intent']);
+        $review[] = new HTML(tag: 'h5', content: 'Energy Intent');
+        $review[] = new HTML(tag: 'p', content: $data['Time']['energy_req']);
+        $review[] = new HTML(tag: 'h5', content: 'Resources Intent');
+        $review[] = new HTML(tag: 'p', content: $data['Time']['resources']);
 
         $tabBarBody[] = $review;
 
         $work = new HTML(
             tag: 'div',
-            classes: ['tab ', 'tab4 ', 'pt-4'],
+            classes: ['tab ', 'tab4 '],
         );
 
-        $work[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '🏗️ Work');
-        $work[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Document Progress');
-        $work[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Work']['document_progress']);
-        $work[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Budget');
-        $work[] = new HTML(tag: 'p', classes: ['fs-6'], content: $data['Describe']['budget_res']);
+        $work[] = new HTML(tag: 'h3', content: '🏗️ Work');
+        $work[] = new HTML(tag: 'h5', content: 'Document Progress');
+        $work[] = new HTML(tag: 'p', content: $data['Work']['document_progress']);
+        $work[] = new HTML(tag: 'h5', content: 'Budget');
+        $work[] = new HTML(tag: 'p', content: $data['Describe']['budget_res']);
 
         $tabBarBody[] = $work;
 
         $describe = new HTML(
             tag: 'div',
-            classes: ['tab ', 'tab5 ', 'pt-4'],
+            classes: ['tab ', 'tab5 '],
         );
 
-        $describe[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '📔 Describe');
-        $describe[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Interests');
+        $describe[] = new HTML(tag: 'h3', content: '📔 Describe');
+        $describe[] = new HTML(tag: 'h5', content: 'Interests');
         $describe[] = $describeList = new HTML(tag: 'ul');
         foreach ($data['Describe']['d_interests'] as $d_interest) {
-            $describeList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $d_interest);
+            $describeList[] = new HTML(tag: 'li', content: $d_interest);
         }
 
-        $describe[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Hazards');
+        $describe[] = new HTML(tag: 'h5', content: 'Hazards');
         $describe[] = $hazardsList = new HTML(tag: 'ul');
         foreach ($data['Describe']['hazards'] as $hazard) {
-            $hazardsList[] = new HTML(tag: 'li', classes: ['fs-6'], content: $hazard);
+            $hazardsList[] = new HTML(tag: 'li', content: $hazard);
         }
 
         $tabBarBody[] = $describe;
 
         $tabBarBody[] = $adaptContent = new HTML(
             tag: 'div',
-            classes: ['tab ', 'tab6 ', 'pt-4'],
+            classes: ['tab ', 'tab6 '],
         );
 
         $adaptContent->content = <<<HTML
