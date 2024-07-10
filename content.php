@@ -40,7 +40,7 @@ $body->content = <<<HTML
                             data-api="/server.php"
                             data-api-method="POST"
                             data-intent='{ "REFRESH": { "Climb" : "New" } }'
-                            data-context='{ "_response_target": "#content > div", "parent_id": ""}'
+                            data-context='{ "_response_target": "#content > div", "parent_id": "", "repo": "test_for_issues", "owner": "newtoallofthis123" }'
                         >
                             New
                         </button>

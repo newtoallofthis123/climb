@@ -63,7 +63,12 @@ class TabsForm extends HTML
         foreach ($data['Climb']['requirements'] as $key => $value) {
             $reqForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-group-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
-            $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'requirements_' . $key, 'value' => $value, 'placeholder' => 'Add a Requirement', 'aria-label' => 'requirement', 'aria-describedby' => 'addon-wrapping-' . $key]);
+            // check if $key is in $data['Climb']['read_only']
+            if(isset($data['Climb']['read_only']) && in_array($key, $data['Climb']['read_only'])){
+                $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'requirement_' . $key, 'value' => $value, 'placeholder' => 'Add a Requirement', 'aria-label' => 'requirement', 'aria-describedby' => 'addon-wrapping-' . $key, 'readonly' => 'readonly']);
+            } else {
+                $inputGroup[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'requirement_' . $key, 'value' => $value, 'placeholder' => 'Add a Requirement', 'aria-label' => 'requirement', 'aria-describedby' => 'addon-wrapping-' . $key]);
+            }
         }
 
         $requirementsForm[] = $div = new HTML(tag: 'div');
@@ -109,10 +114,10 @@ class TabsForm extends HTML
         $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: 'Found a problem?');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-danger'], attributes: ['type' => 'button'], content: '💀 Give Up');
 
-        $formBody[] = $reviewForm = new HTML(tag: 'div', classes: ['tab ', 'tab3 ', 'p-3 ', 'Interface ', 'InterfaceContent']);
+        $formBody[] = $reviewForm = new HTML(tag: 'div', classes: ['tab ', 'tab3 ', 'p-3 ', 'Interface ', 'InterfaceContent'], attributes: ['id' => 'Budgets']);
 
         $reviewForm[] = new HTML(tag: 'h4', content: '3. Review Findings');
-        $reviewForm[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Budgets']);
+        $reviewForm[] = $div = new HTML(tag: 'div');
 
         $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: '<span>🕧️ Budget:</span>');
         $div[] = $budgetForm = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Time']);
@@ -182,8 +187,8 @@ class TabsForm extends HTML
 
         $describeFormBody[] = $div = new HTML(tag: 'div');
 
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary '], attributes: ['id' => 'add-interest-d-group'], content: 'Add New Interest');
-        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-interest-d-group'], content: 'Remove Last Point');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary '], attributes: ['id' => 'add-interest-d-group', 'type' => 'button'], content: 'Add New Interest');
+        $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-interest-d-group', 'type' => 'button'], content: 'Remove Last Point');
 
         $describeFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Concern and Hazards');
         $describeFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Hazards']);
@@ -206,7 +211,26 @@ class TabsForm extends HTML
         $formAdapt[] = new HTML(tag: 'button', classes: ['btn ', 'btn-success'], content: '<i class="bi bi-sign
     post-split"></i> Branch');
 
-        $submitContent = <<<HTML
+        $submitContent = '';
+        if(isset($data['save']) && $data['save'] == 'true'){
+            $submitContent = <<<HTML
+                <div class="controls">
+                <button
+                    type="button"
+                    class="visual control btn btn-success mt-3"
+                    data-api="/server.php"
+                    data-role='autoform'
+                    data-api-method="POST"
+                    data-intent='{ "REFRESH": { "Climb" : "Update" } }'
+                    data-context='{ "_response_target": "#result", "climb_id": "{$data['Climb']['climb_id']}", "owner": "newtoallofthis123", "repo": "test_for_issues", "save": "true" }'
+                >
+                    Save
+                </button>
+                </div>
+            HTML;
+
+        } else{
+            $submitContent = <<<HTML
                 <div class="controls">
                 <button
                     type="button"
@@ -221,6 +245,8 @@ class TabsForm extends HTML
                 </button>
                 </div>
             HTML;
+
+        }
 
         $this->nodes[] = new HTML(tag: 'div', content: $submitContent);
     }

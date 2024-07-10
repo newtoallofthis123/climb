@@ -28,12 +28,7 @@ class Server extends Service
 {
     public static array $registrar = [];
 
-    /**
-     * @param mixed $action
-     * @return array<int,array<string,array<string,string>>>
-     * @throws Exception
-     */
-    public static function Update(mixed $action): array
+    public static function compileForm(mixed $action): array
     {
         $title = $action['Climb']['title'];
 
@@ -95,10 +90,29 @@ class Server extends Service
         $res = [];
         $res['Climb'] = ['title' => $title, 'requirements' => $requirements];
         $res['Survey'] = ['interests' => $interests, 'obstructions' => $obstructions];
-
+        $res['Time'] = ['time_intent' => $time_intent, 'energy_req' => $energy_intent, 'resources' => $resources_intent];
         $res['Work'] = ['document_progress' => $work];
         $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
         $res['parent_id'] = $action['Climb']['parent_id'];
+
+        return [$res, $div];
+    }
+
+    /**
+     * @param mixed $action
+     * @return array<int,array<string,array<string,string>>>
+     * @throws Exception
+     */
+    public static function Update(mixed $action): array
+    {
+        $title = $action['Climb']['title'];
+        $compiled = self::compileForm($action);
+        $res = $compiled[0];
+        $div = $compiled[1];
+        $toSave = false;
+        if($action['save'] == 'true'){
+            $toSave = true;
+        }
 
         $path_to_project = __DIR__ . '/';
         $path_to_approach = __DIR__ . '/support/lib/approach/';
@@ -129,16 +143,27 @@ class Server extends Service
             'Metadata' => json_encode($res),
         ]);
 
-        $service = new UpdateIssue(
-            'newtoallofthis123',
-            'test_for_issues',
-            labels: ['climb-payload'],
-            body: $body->render(),
-            title: $title,
-            climbId: $action['climb_id'],
-        );
+        if($toSave){
+            $service = new Issue(
+                'newtoallofthis123',
+                'test_for_issues',
+                labels: ['climb-payload'],
+                body: $body->render(),
+                title: $title,
+            );
 
-        $service->dispatch();
+            $service->dispatch();
+        } else{
+            $service = new UpdateIssue(
+                'newtoallofthis123',
+                'test_for_issues',
+                labels: ['climb-payload'],
+                body: $body->render(),
+                title: $title,
+                climbId: $action['climb_id'],
+            );
+            $service->dispatch();
+        }
 
         return [
             'REFRESH' => ['#result' => '<p>' . 'Updated!' . '</p>'],
@@ -149,6 +174,32 @@ class Server extends Service
     {
         $details = [];
         $details['Climb']['parent_id'] = $context['parent_id'];
+        $details['save'] = 'true';
+
+        $climbId = $context['parent_id'];
+        $repo = $context['repo'];
+        $owner = $context['owner'];
+        $labels = ['climb-payload'];
+
+        if($context['parent_id'] != ''){
+            $fetcher = new Github(
+                $owner,
+                $repo,
+                $labels
+            );
+            $results = $fetcher->dispatch()[0];
+
+            $jsonFile = self::getIssue($results, $climbId);
+            $jsonFile = json_decode($jsonFile['details'], true);
+            // get the requirements and put it into $jsonFile['Climb']['read_only']
+            foreach ($jsonFile['Climb']['requirements'] as $key => $value){
+                $jsonFile['Climb']['read_only'][] = $key;
+            }
+
+            $jsonFile['Climb']['parent_id'] = $climbId;
+            unset($jsonFile['Climb']['title']);
+            $details['Climb'] = $jsonFile['Climb'];
+        }
 
         $form = new TabsForm($details);
 
@@ -161,23 +212,25 @@ class Server extends Service
 
     /**
      * @param mixed $climbId
+     * @param mixed $owner
+     * @param mixed $repo
+     * @param mixed $labels
      * @return string
      */
-    static function getBtn(mixed $climbId): string
+    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = []): string
     {
-        $newBtn = <<<HTML
+        return <<<HTML
                          <button
                             class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
                             id="newButton"
                             data-api="/server.php"
                             data-api-method="POST"
                             data-intent='{ "REFRESH": { "Climb" : "New" } }'
-                            data-context='{ "_response_target": "#content"> div", "parent_id": "$climbId"}'
+                            data-context='{ "_response_target": "#content> div", "parent_id": "$climbId", "owner": "$owner", "repo": "$repo" }'
                         >
                             New
                         </button>
             HTML;
-        return $newBtn;
     }
 
     /**
@@ -260,7 +313,7 @@ class Server extends Service
                 'REFRESH' => [
                     '#content > div' => $tabsInfo->render(),
                     '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
-                    '#newButton' => self::getBtn($climbId),
+                    '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
                 ],
             ];
         }
@@ -271,7 +324,7 @@ class Server extends Service
                 '.Toolbar > .active > ul' => $oyster->render(),
                 '.backBtn > div' => $back,
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
-                '#newButton' => self::getBtn($climbId)
+                '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
             ],
             'APPEND' => [
                 '.breadcrumbs' => '<li>' . $breadRender . '</li>',
@@ -414,7 +467,7 @@ class Server extends Service
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
                 '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
-                '#newButton' => self::getBtn($climbId)
+                '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
             ],
         ];
     }
@@ -460,7 +513,7 @@ class Server extends Service
         return [
             'REFRESH' => [
                 $context['_response_target'] => $oyster->render(),
-                '#newButton' => self::getBtn($climbId)
+                '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
             ],
         ];
     }
