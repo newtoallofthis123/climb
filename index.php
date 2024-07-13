@@ -6,6 +6,9 @@
 
 namespace ClimbUI;
 
+// disable errors
+error_reporting(0);
+
 global $webpage;
 
 require_once __DIR__ . '/support/lib/vendor/autoload.php';

@@ -8,3 +8,5 @@
 
 /support/lib
 /run.sh
+
+/.env

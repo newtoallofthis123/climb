@@ -7,8 +7,16 @@
 
 namespace ClimbUI;
 
+use Exception;
+
 // Needed for apache2 servers
-ob_flush();
+// try {
+//     ob_flush();
+// } catch (Exception $e) {
+// }
+
+// disable errors
+error_reporting(0);
 
 require_once __DIR__ . '/support/lib/vendor/autoload.php';
 
