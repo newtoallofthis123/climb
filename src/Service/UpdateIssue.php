@@ -19,7 +19,7 @@ class UpdateIssue extends Service
     public function __construct(
         Stringable|string $owner,
         Stringable|string $repo,
-        array $labels,
+        array $labels = null,
         $body = null,
         Stringable|Node|string $title = null,
         Stringable|Node|string $climbId = null,
@@ -46,7 +46,7 @@ class UpdateIssue extends Service
                 'content' => json_encode([
                     'title' => $title,
                     'body' => $body,
-                    'labels' => $labels
+                    // 'labels' => $labels
                 ])
             ]
         ];

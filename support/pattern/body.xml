@@ -3,7 +3,30 @@
         <div>
             <h2>Body</h2>
             <main>
-                [@ Body @]
+                <h2> Requirements </h2>
+                <details>
+                    [@ Requirements @]
+                </details>
+                <h2> Survey </h2>
+                <details>
+                    [@ Survey @]
+                </details>
+                <h2> Review </h2>
+                <details>
+                    [@ Review @]
+                </details>
+                <h2> Work </h2>
+                <details>
+                    [@ Work @]
+                </details>
+                <h2> Describe </h2>
+                <details>
+                    [@ Describe @]
+                </details>
+                <h2> Adapt </h2>
+                <details>
+                    [@ Adapt @]
+                </details>
             </main>
             <h2>
                 Metadata

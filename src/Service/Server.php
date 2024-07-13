@@ -9,6 +9,7 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
+use Approach\Imprint\Imprint;
 use Approach\Render\HTML;
 use Approach\Service\flow;
 use Approach\Service\format;
@@ -28,6 +29,12 @@ class Server extends Service
 {
     public static array $registrar = [];
 
+    /**
+     * Compiles the form data from the given action array and returns the structured data.
+     *
+     * @param mixed $action The array containing the form data for Climb, Survey, Describe sections.
+     * @return array An array containing the compiled form data structured for different sections.
+     */
     public static function compileForm(mixed $action): array
     {
         $title = $action['Climb']['title'];
@@ -125,18 +132,18 @@ class Server extends Service
             ],
         );
 
-        $fileDir = $scope->GetPath(path::pattern);
+        $fileDir = $scope->getPath(path::pattern);
         // FIXME: Fix the need for removing the ..
         $fileDir = str_replace('/../', '', $fileDir);
 
-        //        $imp = new Imprint(
-        //            imprint: 'body.xml',
-        //            imprint_dir: $fileDir,
-        //        );
+        $imp = new Imprint(
+            imprint: 'body.xml',
+            imprint_dir: $fileDir,
+        );
 
-        //        $prepSuccess = $imp->Prepare();
+        $success = $imp->Prepare();
 
-        //          $imp->Mint('IssueBody');
+        $imp->Mint('IssueBody');
 
         $body = new IssueBody(tokens: [
             'Body' => $div->render(),
@@ -157,7 +164,6 @@ class Server extends Service
             $service = new UpdateIssue(
                 'newtoallofthis123',
                 'test_for_issues',
-                labels: ['climb-payload'],
                 body: $body->render(),
                 title: $title,
                 climbId: $action['climb_id'],
@@ -166,10 +172,16 @@ class Server extends Service
         }
 
         return [
-            'REFRESH' => ['#result' => '<p>' . 'Updated!' . '</p>'],
+            'REFRESH' => ['#result' => '<p>' . $fileDir . '</p>'],
         ];
     }
 
+    /**
+     * Function to create a new climb based on the provided context.
+     *
+     * @param mixed $context The context containing parent_id, repo, owner, and other climb details
+     * @return array Returns an array with a 'REFRESH' key containing the refreshed form data
+     */
     public static function New(mixed $context): array
     {
         $details = [];
@@ -234,8 +246,10 @@ class Server extends Service
     }
 
     /**
-     * @param mixed $context
-     * @return array<int,array<string,array>>
+     * Renders the view based on the provided context, including fetching data and generating necessary components.
+     *
+     * @param mixed $context The context containing climb_id, parent_id, owner, and repo.
+     * @return array The refreshed view content and additional components based on the context.
      */
     public static function View(mixed $context): array
     {
@@ -333,8 +347,10 @@ class Server extends Service
     }
 
     /**
-     * @param mixed $context
-     * @return array<int,array<string,array>>
+     * Edits a climb based on the provided context data.
+     *
+     * @param mixed $context The context data for the climb.
+     * @return array An array containing the refreshed content or appended breadcrumbs.
      */
     public static function Edit(mixed $context): array
     {
@@ -366,7 +382,8 @@ class Server extends Service
         ];
     }
 
-    /**
+    /** Get the base menu of parents 
+     * 
      * @param mixed $results
      * @return array
      */
@@ -394,7 +411,7 @@ class Server extends Service
         return null;
     }
 
-    /*
+    /** 
      * Takes a list of issues, and a parent climbs id and returns the parent and children
      * The children are assigned to the parent through a simple O(N) loop
      * @param mixed $issues
@@ -419,7 +436,8 @@ class Server extends Service
         return $final;
     }
 
-    /**
+    /** Gets the menu from the provided context
+     * 
      * @return array|array<int,array<string,array>>
      */
     public static function getMenu(mixed $context): array
@@ -472,7 +490,8 @@ class Server extends Service
         ];
     }
 
-    /**
+    /** Makes an oysterMenu based on the provided context 
+     * 
      * @return array<int,array<string,array>>
      */
     public static function makeMenu(mixed $context): array
