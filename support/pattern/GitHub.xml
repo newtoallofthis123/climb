@@ -1,5 +1,5 @@
 <Imprint xmlns:Imprint="Render://approach.local">
-    <Imprint:Pattern name="IssueBody" type="HTML">
+    <Imprint:Pattern name="Issue" type="HTML">q
         <div>
             <h2>Body</h2>
             <main>
