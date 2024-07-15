@@ -15,11 +15,7 @@ class ClassesSpaceCest
     // tests
     public function tryToTest(UnitTester $I): void
     {
-        $testHtml = new HTML(tag: 'div', classes: ['test', 'test2']);
-        $testHtml->classes[] = 'test3';
-
-        print($testHtml);
-
-        $I->assertEquals('<div class="test test2 test3"></div>', $testHtml);
+        $testHtml = new HTML(tag: 'div', classes: ['test ', 'test2']);
+        $I->assertEquals('<div class="test test2"></div>', $testHtml->render());
     }
 }

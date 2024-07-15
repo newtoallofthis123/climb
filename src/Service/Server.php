@@ -9,6 +9,7 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
+use Approach\Imprint\GitHub\Issue as IssueBody;
 use Approach\Imprint\Imprint;
 use Approach\Render\HTML;
 use Approach\Service\flow;
@@ -17,7 +18,6 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\path;
 use Approach\Scope;
-use ClimbUI\Imprint\Body\IssueBody;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\OysterMenu\Visual;
@@ -137,13 +137,13 @@ class Server extends Service
         $fileDir = str_replace('/../', '', $fileDir);
 
         $imp = new Imprint(
-            imprint: 'body.xml',
+            imprint: 'GitHub.xml',
             imprint_dir: $fileDir,
         );
 
-        $success = $imp->Prepare();
+        // $success = $imp->Prepare();
 
-        $imp->Mint('IssueBody');
+        // $imp->Mint('Issue');
 
         $body = new IssueBody(tokens: [
             'Body' => $div->render(),
@@ -159,7 +159,7 @@ class Server extends Service
                 title: $title,
             );
 
-            $service->dispatch();
+            // $service->dispatch();
         } else{
             $service = new UpdateIssue(
                 'newtoallofthis123',
@@ -168,7 +168,7 @@ class Server extends Service
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            $service->dispatch();
+            // $service->dispatch();
         }
 
         return [
