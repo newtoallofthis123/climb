@@ -147,8 +147,9 @@ class TabsInfo extends HTML
 
         $tabBarBody[] = $adaptContent = new HTML(
             tag: 'div',
-            classes: ['tab ', 'tab6 '],
+            classes: ['tab ', 'tab6 ', 'controls'],
         );
+        $intentInfo = '{ "_response_target": "#content > div", "parent_id": "' . $data['Climb']['parent_id'] . '", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
 
         $adaptContent->content = <<<HTML
                 <h4 class="pb-2 fw-bolder">
@@ -165,10 +166,15 @@ class TabsInfo extends HTML
                         <i class="bi bi-signpost-split"></i>
                         Branch
                     </button>
-                    <button type="button" class="btn btn-danger">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        Terminate
+                    <button class="control btn" 
+                        data-api="/server.php"
+                        data-api-method="POST"
+                        data-intent='{ "REFRESH": { "Climb" : "Close" } }'
+                        data-context='$intentInfo'>
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Terminate
                     </button>
+
                 </div>
             HTML;
 

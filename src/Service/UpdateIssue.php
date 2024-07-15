@@ -17,20 +17,39 @@ class UpdateIssue extends Service
      * @throws Exception
      */
     public function __construct(
-        Stringable|string $owner,
-        Stringable|string $repo,
+        Stringable|string $owner = null,
+        Stringable|string $repo = null,
         array $labels = null,
         $body = null,
         Stringable|Node|string $title = null,
         Stringable|Node|string $climbId = null,
+        string $state = "open",
+        string $url = null 
     ) {
-        $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . (string) $climbId;
+        if($url == null){
+            $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . (string) $climbId;
+        } else{
+            $url = substr($url, 0, strpos($url, '?'));
+            $url = $url . '/' . (string) $climbId;
+        }
 
         $apiKey = getenv('GITHUB_API_KEY');
         if ($apiKey === false) {
             throw new Exception('GITHUB_API_KEY not set');
         }
 
+        $params = [
+            'state' => $state
+        ];
+        if($title != null){
+            $params['title'] = $title;
+        } 
+        if($body != null){
+            $params['body'] = $body;
+        }
+        if($labels != null){
+            $params['labels'] = $labels;
+        }
         $context = [];
 
         $context = [
@@ -43,11 +62,7 @@ class UpdateIssue extends Service
                     'X-GitHub-Api-Version: 2022-11-28',
                     'Content-Type: application/vnd.github+json'
                 ],
-                'content' => json_encode([
-                    'title' => $title,
-                    'body' => $body,
-                    // 'labels' => $labels
-                ])
+                'content' => json_encode($params) 
             ]
         ];
 

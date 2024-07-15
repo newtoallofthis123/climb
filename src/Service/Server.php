@@ -9,7 +9,6 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
-use Approach\Imprint\GitHub\Issue as IssueBody;
 use Approach\Imprint\Imprint;
 use Approach\Render\HTML;
 use Approach\Service\flow;
@@ -18,11 +17,13 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\path;
 use Approach\Scope;
+use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\OysterMenu\Visual;
 use ClimbUI\Render\TabsForm;
 use ClimbUI\Render\TabsInfo;
+use ClimbUI\Service\Issue;
 use Exception;
 
 class Server extends Service
@@ -79,19 +80,25 @@ class Server extends Service
             }
         }
 
+        $sep = [];
         $div = new HTML(tag: 'div', classes: ['p-3']);
         $div[] = new HTML(tag: 'h1', content: 'Form Submitted!');
         $div[] = $main = new HTML(tag: 'main');
         $main[] = $climbRes = new HTML(tag: 'div');
         $climbRes->content = 'Title: ' . $title . '<br>Requirements: ' . implode(', ', $requirements);
+        $sep[] = $climbRes->render();
         $main[] = $surveyRes = new HTML(tag: 'div');
         $surveyRes->content = 'Interests: ' . implode(', ', $interests) . '<br>Obstructions: ' . implode(', ', $obstructions);
+        $sep[] = $surveyRes->render();
         $main[] = $timeRes = new HTML(tag: 'div');
         $timeRes->content = 'Time Intent: ' . $time_intent . '<br>Energy Intent: ' . $energy_intent . '<br>Resources Intent: ' . $resources_intent;
+        $sep[] = $timeRes->render();
         $main[] = $workRes = new HTML(tag: 'div');
         $workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
+        $sep[] = $workRes->render();
         $main[] = $describeRes = new HTML(tag: 'div', content: $describeForm);
         $describeRes->content = 'Interests: ' . implode(', ', $d_interests) . '<br>Hazards: ' . implode(', ', $hazards);
+        $sep[] = $describeRes->render();
 
         // add json
         $res = [];
@@ -102,7 +109,7 @@ class Server extends Service
         $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
         $res['parent_id'] = $action['Climb']['parent_id'];
 
-        return [$res, $div];
+        return [$res, $div, $sep];
     }
 
     /**
@@ -116,6 +123,7 @@ class Server extends Service
         $compiled = self::compileForm($action);
         $res = $compiled[0];
         $div = $compiled[1];
+        $sep = $compiled[2];
         $toSave = false;
         if($action['save'] == 'true'){
             $toSave = true;
@@ -145,8 +153,13 @@ class Server extends Service
 
         // $imp->Mint('Issue');
 
-        $body = new IssueBody(tokens: [
-            'Body' => $div->render(),
+        $body = new GitHubIssue(tokens: [
+            'Requirements' => $sep[0],
+            'Survey' => $sep[1],
+            'Review' => $sep[2],
+            'Work' => $sep[3],
+            'Describe' => $sep[4],
+            'Adapt' => 'TODO',
             'Metadata' => json_encode($res),
         ]);
 
@@ -172,7 +185,38 @@ class Server extends Service
         }
 
         return [
-            'REFRESH' => ['#result' => '<p>' . $fileDir . '</p>'],
+            'REFRESH' => [$action['_response_target'] => '<p>' . $body . '</p>'],
+        ];
+    }
+
+    public static function Close(mixed $context): array
+    {
+        $climbId = $context['climb_id'];
+        $url = $context['url'];
+        
+        // find all of the issues whose parent is the climb id
+        $fetcher = new Github(
+        url: $url,
+        );
+        $results = $fetcher->dispatch()[0];
+
+        $hierarchy = self::getHierarchy($results, $climbId);
+
+        $service = new UpdateIssue(
+            url: $url,
+            climbId: $climbId,
+            state: 'closed',
+        );
+
+        $service->dispatch();
+
+        foreach($hierarchy['children'] as $issue){
+            $s = new UpdateIssue(url: $url, climbId: $issue['number'], state: 'closed');
+            $s->dispatch();
+        }
+
+        return [
+            'REFRESH' => [$context['_response_target'] => '<p>' . 'Issue ' . $climbId . ' closed.' . '</p>'],
         ];
     }
 
@@ -565,6 +609,9 @@ class Server extends Service
         };
         self::$registrar['Climb']['New'] = static function ($context) {
             return self::New($context);
+        };
+        self::$registrar['Climb']['Close'] = static function ($context) {
+            return self::Close($context);
         };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
