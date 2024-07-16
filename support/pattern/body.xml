@@ -4,7 +4,7 @@
             <h2>Body</h2>
             <main>
                 [@ Body @]
-            </main>
+            </main> 
             <h2>
                 Metadata
             </h2>

@@ -1,0 +1,120 @@
+<li class="mappable-target selected confirmed controls">
+    <div class="header">
+		<span class="setting-name">[@ setting_name @]</span> 
+		<span class="control-type">( [@ control_type @] )</span>
+		<button class="delete">
+	        <i aria-hidden="true" class="fa fa-times"></i>
+    	</button>
+    </div>
+	<form data-action="mapping://field">
+    <div class="body" >
+      <label>
+		Control Type
+		<select class="mapper-input source-select">
+          <option value="TextInput">TextInput</option>
+          <option value="TextArea">TextArea</option>
+          <option value="NumericRange">NumericRange</option>
+          <option value="NumericRange_WithSuggestions">NumericRange_WithSuggestions</option>
+          <option value="DateRange">DateRange</option>
+          <option value="LinkInput">LinkInput</option>
+          <option value="DropDown">DropDown</option>
+          <option value="Upload">Upload</option>
+          <option value="Toggle">Toggle</option>
+          <option value="Preset">Preset</option>
+          <option value="ColorPicker">ColorPicker</option>
+          <option value="RichText">RichText</option>
+          <option value="RangeSlider">RangeSlider</option>
+          <option value="Compositor_ContainerSettings">Compositor_ContainerSettings</option>
+          <option value="Approach_Subcomponent">Approach_Subcomponent</option>
+          <option disabled>---------</option>
+          <option value="Checklist">Checklist</option>
+          <option value="Multiselect">Multiselect</option>
+          <option value="Radio">Radio</option>
+          <option value="Checkgroup">Checkgroup</option>
+          <option value="Tabs">Tabs</option>
+          <option value="Actions">Actions</option>
+          <option value="Teams">Teams</option>
+          <option value="Date">Date</option>
+          <option value="NumericInput">NumericInput</option>
+        </select>
+      </label>
+      <div>
+        <label>
+			formatter <input name="formatter" />
+        </label>
+      </div>
+      <div>
+        <label>
+			sanitizer <input name="sanitizer" />
+        </label>
+      </div>
+      <div>
+        <label>
+			validator <input name="validator" />
+        </label>
+      </div>
+      <div>
+        <label>
+			default <input name="default" />
+        </label>
+      </div>
+      <div>
+        <label>
+			label <input name="label" />
+        </label>
+      </div>
+      <div>
+        <label>
+			disabled <input name="disabled" type="checkbox" />
+        </label>
+      </div>
+      <div>
+        <label>
+			hidden <input name="hidden" type="checkbox" />
+        </label>
+      </div>
+      <div>
+        <label>
+			group number <input name="group" type="number" />
+        </label>
+      </div>
+      <div>
+        <label>
+			required <input name="required" type="checkbox" />
+        </label>
+      </div>
+      <div>
+        <label>
+			toolbar <input name="toolbar" type="checkbox" />
+        </label>
+      </div>
+      <div>
+        <label>
+			source <input name="source" />
+        </label>
+      </div>
+      <div>
+        <label>
+			extra <input name="extra" />
+        </label>
+      </div>
+      <div class="composed">
+		<!-- this is the list of fields that were dragged onto it, you can re-order them with up/down arrow -->
+        <div class="composed-item confirmed">
+			[@ source_type @] : [@ source_field @] 
+			<div class="composed-controls">
+				<button class="control" data-action="sort-composed-field-down.mapper">
+				<i aria-hidden="true" class="fa fa-chevron-down"></i>
+				</button>
+				<button class="control" data-action="sort-composed-field-up.mapper">
+				<i aria-hidden="true" class="fa fa-chevron-up"></i>
+				</button>
+				<button class="control" data-action="delete-composed-field.mapper">
+				<i aria-hidden="true" class="fa fa-times"></i>
+				</button>
+          	</div>
+        </div>
+      </div>
+    </div>
+</form>
+</li>

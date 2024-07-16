@@ -1,5 +1,35 @@
 addScopeJS(["Approach", "Displacer"], {});
 
+
+/** 
+
+Example interface .controls that hold a move icon .control which can be dragged
+
+<ul class="Toolbar CompositorUI South controls">
+	<li class="ToolbarButton componentHandle" 
+		data-displace-what=".Component" 
+	>
+		<i class="bi bi-arrows-move"></i>
+	</li>
+</ul>
+
+import { Displacer } from "./displace.js";
+
+...
+// inside plugin body
+
+$elf.managed.component_displacer = new Displacer({
+	what: 	$elf.config.component.group,				// drag this
+	where: 	$elf.config.column.selector,				// drop in this
+	deny: 	".embedded_text, .SlideContainer *",		// can't drop here
+	how: {
+		handle: ".Toolbar .componentHandle",			// handle for dragged thing
+		deny: 	".embedded_text, .SlideContainer *"		// don't handles in this
+	}
+});
+
+*/
+
 Approach.Displacer = function(config = {}) {
 	let $elf = this;
 	// config default

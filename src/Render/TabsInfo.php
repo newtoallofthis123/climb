@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
 use Approach\Render\HTML;
 
+
 class TabsInfo extends HTML
 {
     // Function that returns the information of a climb
@@ -102,14 +103,35 @@ class TabsInfo extends HTML
             classes: ['tab ', 'tab3 '],
         );
 
-        $review[] = new HTML(tag: 'h3', content: '😵‍💫 Review');
-        $review[] = new HTML(tag: 'h5', content: 'Time Intent');
-        $review[] = new HTML(tag: 'p', content: $data['Time']['time_intent']);
-        $review[] = new HTML(tag: 'h5', content: 'Energy Intent');
-        $review[] = new HTML(tag: 'p', content: $data['Time']['energy_req']);
-        $review[] = new HTML(tag: 'h5', content: 'Resources Intent');
-        $review[] = new HTML(tag: 'p', content: $data['Time']['resources']);
 
+        $review[] = new HTML(tag: 'h3', classes: ['fs-4 ', 'fw-bold'], content: '😊 Review');
+
+        $review[] = new Quantity(amount: 10, unit: 'hours');
+        // $review[] = new HTML(tag: 'h5', classes: ['pt-2 ', 'underline'], content: 'Amount | Units');
+        $container = new HTML(
+            tag: 'div',
+            classes: ['d-flex', 'flex-row', 'align-items-center', 'inline-block'],
+        );
+        
+        // Add the numbers as inline elements
+        $container->content .= new HTML(
+            tag: 'span',
+            classes: ['fs-6', 'm-0', 'me-2'], 
+            content: $data['Time']['time_intent']
+        );
+
+        $container->content .= new HTML(
+            tag: 'span',
+            content: '<span style="margin-right: 4em;"></span>'
+        );
+        
+        $container->content .= new HTML(
+            tag: 'span',
+            classes: ['fs-6', 'm-0'],
+            content: $data['Time']['energy_req']
+        );
+        
+        $review[] = $container;
         $tabBarBody[] = $review;
 
         $work = new HTML(
