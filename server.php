@@ -7,9 +7,6 @@
 
 namespace ClimbUI;
 
-
-ini_set('display_errors', 0);
-
 // Needed for apache2 servers
 ob_flush();
 
