@@ -75,15 +75,26 @@ class TabsForm extends HTML
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-primary '], attributes: ['id' => 'add-input-group'], content: 'Add New Requirement');
         $div[] = new HTML(tag: 'button', classes: ['btn ', 'btn-secondary '], attributes: ['id' => 'remove-input-group'], content: 'Remove Last Requirement');
 
-        $formBody[] = $surveyForm = new HTML(tag: 'div', classes: ['tab ', 'tab2 ', 'Interface ', 'InterfaceContent'], attributes: ['id' => 'Survey']);
-        $surveyForm[] = $surveyFormBody = new HTML(tag: 'form', classes: ['p-3 ', 'Autoform'], attributes: ['data-action' => 'Survey']);
+        $formBody[] = $reviewForm = new HTML(tag: 'div', classes: ['tab ', 'tab3 ', 'p-3 ', 'Interface ', 'InterfaceContent']);
+    
+        $reviewForm[] = new HTML(tag: 'h4', classes: ['pb-2 ', 'fw-bolder'], content: '3. Review Findings');
+        $reviewForm[] = $p = new HTML(tag: 'p', content: '<span class="fw-bolder">🎯 Goal:</span> ' . $data['Climb']['title']);
+        $reviewForm[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Budgets']);
+    
+        $div[] = new HTML(tag: 'p', classes: ['fs-5'], content: '<span class="fw-bolder">🕧️ Budget:</span>');
+        $div[] = $budgetForm = new HTML(tag: 'form', classes: ['Autoform'], attributes: ['data-action' => 'Time']);
+    
+        $budgetForm[] = $budgetSection = new HTML(tag: 'div', classes: ['mb-4', 'budget-section']);
+        $budgetSection[] = $budgetItem = new HTML(tag: 'div', classes:['budget-item']);
+        $budgetItem[] = $labels = new HTML(tag: 'div');
+        $labels[] = new HTML(tag: 'label', classes: ['form-label'], content: '<span class= "amount">Amount</span><span>|</span><span class= "unit">Units</span>');
+    
+        $budgetItem[] = new HTML(tag: 'input', classes: [''], attributes: ['type' => 'text', 'name' => 'budget_item', 'aria-describedby' => 'basic-addon3 basic-addon4', 'value' => $data['Time']['time_intent']]);
+        $budgetItem[] = new HTML(tag: 'input', classes: [''], attributes: ['type' => 'text', 'name' => 'budget_unit', 'aria-describedby' => 'basic-addon3 basic-addon4', 'value' => $data['Time']['energy_req']]);
+    
+        $budgetSection[] = new HTML(tag: 'button', classes: ['btn', 'btn-primary', 'ms-3', 'control'], attributes: ['type' => 'button', 'data-action' => 'new-budget-item.climb'], content: 'New Amount');
+        $budgetSection[] = new HTML(tag: 'button', classes: ['btn', 'btn-primary', 'ms-3', 'control'], attributes: ['type' => 'button', 'data-action' => 'remove-item.climb'], content: 'Remove Last');
 
-        $surveyFormBody[] = new HTML(tag: 'h4', classes: ['pb-3 ', 'fw-bolder'], content: '2. Survey of the Environment');
-
-        $surveyFormBody[] = new HTML(tag: 'p', content: 'Note the obstacles, check if the obstacles disqualify the goal, and check if the goal is still worth pursuing.');
-
-        $surveyFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Interest for new Destinations');
-        $surveyFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Interests']);
 
         foreach ($data['Survey']['interests'] as $key => $value) {
             $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-interest-' . $key]);
