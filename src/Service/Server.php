@@ -172,7 +172,7 @@ class Server extends Service
                 title: $title,
             );
 
-            // $service->dispatch();
+            $service->dispatch();
         } else{
             $service = new UpdateIssue(
                 'newtoallofthis123',
@@ -181,11 +181,11 @@ class Server extends Service
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            // $service->dispatch();
+            $service->dispatch();
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<p>' . $body . '</p>'],
+            'REFRESH' => [$action['_response_target'] => '<div>Updated to GitHub</div>'],  
         ];
     }
 

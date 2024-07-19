@@ -1,5 +1,6 @@
 <?php
 namespace ClimbUI\Imprint\GitHub;
+use \Approach\Render as ProjectRender;
 use \Approach\Render;
 	
 	/**
@@ -192,8 +193,10 @@ use \Approach\Render;
 
 		$HTML_0[] = $HTML_16 = new Render\HTML( tag : 'details', classes: $HTML_16__classes, attributes: $HTML_16__attributes, content: $HTML_16__content );
 
+
+
 		foreach($tokens as $key => $value){
-			$this->token_nodes[$key]->content = $value;
+			$this->token_nodes[$key]->content = $tokens[$key];
 		}
 		$this->nodes[] = $Node_0;
 	}
