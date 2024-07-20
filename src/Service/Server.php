@@ -112,6 +112,22 @@ class Server extends Service
         return [$res, $div, $sep];
     }
 
+    public static function getConfig(): array{
+        $owner = null;
+        $repo = null;
+        
+        if(getenv('CLIMBSUI_OWNER') != "" && getenv('CLIMBSUI_REPO') != "") {
+            $owner = getenv('CLIMBSUI_OWNER');
+            $repo = getenv('CLIMBSUI_REPO');
+        } else{
+            echo "Please set the CLIMBSUI_OWNER and CLIMBSUI_REPO environment variables";
+            echo $_ENV['CLIMBSUI_REPO'];
+            exit;
+        }
+
+        return ['owner' => $owner, 'repo' => $repo];
+    }
+
     /**
      * @param mixed $action
      * @return array<int,array<string,array<string,string>>>
@@ -163,10 +179,12 @@ class Server extends Service
             'Metadata' => json_encode($res),
         ]);
 
+        $config = self::getConfig();
+
         if($toSave){
             $service = new Issue(
-                'newtoallofthis123',
-                'test_for_issues',
+                $config['owner'],
+                $config['repo'],
                 labels: ['climb-payload'],
                 body: $body->render(),
                 title: $title,
@@ -175,8 +193,8 @@ class Server extends Service
             $service->dispatch();
         } else{
             $service = new UpdateIssue(
-                'newtoallofthis123',
-                'test_for_issues',
+                $config['owner'],
+                $config['repo'],
                 body: $body->render(),
                 title: $title,
                 climbId: $action['climb_id'],
