@@ -156,14 +156,15 @@ class Server extends Service
             ],
         );
 
-        $fileDir = $scope->getPath(path::pattern);
-        // FIXME: Fix the need for removing the ..
-        $fileDir = str_replace('/../', '', $fileDir);
-
-        $imp = new Imprint(
-            imprint: 'GitHub.xml',
-            imprint_dir: $fileDir,
-        );
+        // NOTE: Activate only to mint new imprint 
+        //
+        // $fileDir = $scope->getPath(path::pattern);
+        // $fileDir = str_replace('/../', '', $fileDir);
+        //
+        // $imp = new Imprint(
+        //     imprint: 'GitHub.xml',
+        //     imprint_dir: $fileDir,
+        // );
 
         // $success = $imp->Prepare();
 
@@ -294,16 +295,16 @@ class Server extends Service
     static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = []): string
     {
         return <<<HTML
-                         <button
-                            class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
-                            id="newButton"
-                            data-api="/server.php"
-                            data-api-method="POST"
-                            data-intent='{ "REFRESH": { "Climb" : "New" } }'
-                            data-context='{ "_response_target": "#content> div", "parent_id": "$climbId", "owner": "$owner", "repo": "$repo" }'
-                        >
-                            New
-                        </button>
+             <button
+                class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
+                id="newButton"
+                data-api="/server.php"
+                data-api-method="POST"
+                data-intent='{ "REFRESH": { "Climb" : "New" } }'
+                data-context='{ "_response_target": "#content> div", "parent_id": "$climbId", "owner": "$owner", "repo": "$repo" }'
+            >
+                New
+            </button>
             HTML;
     }
 
