@@ -60,7 +60,11 @@ class Github extends Service
         libxml_use_internal_errors(true);
         $dom->loadHTML($body);
         libxml_clear_errors();
-        $details = $dom->getElementsByTagName('details')->item(0);
+        $details = $dom->getElementsByTagName('details')->item(6);
+        // check if details in empty
+        if (!$details) {
+            $details = $dom->getElementsByTagName('details')->item(0); 
+        }
         $detailsContent = $details->nodeValue;
 
         $main = $dom->getElementsByTagName('main')->item(0);
