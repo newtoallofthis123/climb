@@ -50,7 +50,6 @@ class Visual extends HTML
 
         $icon = new HTML('i', classes: ['icon ', 'bi ', 'bi-arrow-right']);
         $label = new HTML('label', content: ' ' . $this->title);
-        $expand = new HTML('i', classes: ['expand ', 'fa ', 'fa-angle-right']);
 
         parent::__construct(
             tag: 'div',
@@ -58,7 +57,7 @@ class Visual extends HTML
             classes: $classes,
             attributes: $attributes,
             // TODO: Concatenation to be converted to nodes and children
-            content: $icon . ' ' . $label . $expand . $content,
+            content: $icon . ' ' . $label . $content,
             styles: $styles,
             prerender: $prerender,
             selfContained: $selfContained
