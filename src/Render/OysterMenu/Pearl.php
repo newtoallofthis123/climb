@@ -74,7 +74,6 @@ class Pearl extends HTML
                 $visual = new HTML(tag: 'div');
                 $visual[] = new HTML(tag: 'i');
                 $visual[] = $this->label = new HTML(tag: 'label', content: $label);
-                $visual[] = new HTML(tag: 'i', classes: ['fas', 'fa-angle-right']);
             }
 
             // If visual was anything else besides blank or HTML use it as content

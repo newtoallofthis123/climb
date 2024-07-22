@@ -32,7 +32,6 @@ class Visual extends HTML
 {
     public function __construct(
         public null|string|Stringable $title = null,
-        public null|bool $isTodo = false,
         public null|string|Stringable $id = null,
         null|string|array|Node|Attribute $classes = null,
         public null|array|Attribute $attributes = new Attribute,

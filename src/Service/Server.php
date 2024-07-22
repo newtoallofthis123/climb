@@ -21,6 +21,7 @@ use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\OysterMenu\Visual;
+use ClimbUI\Render\Intent;
 use ClimbUI\Render\TabsForm;
 use ClimbUI\Render\TabsInfo;
 use ClimbUI\Service\Issue;
@@ -112,15 +113,19 @@ class Server extends Service
         return [$res, $div, $sep];
     }
 
-    public static function getConfig(): array{
+    /**
+     * @return array<string,null|string|array|bool>
+     */
+    public static function getConfig(): array
+    {
         $owner = null;
         $repo = null;
-        
-        if(getenv('CLIMBSUI_OWNER') != "" && getenv('CLIMBSUI_REPO') != "") {
+
+        if (getenv('CLIMBSUI_OWNER') != '' && getenv('CLIMBSUI_REPO') != '') {
             $owner = getenv('CLIMBSUI_OWNER');
             $repo = getenv('CLIMBSUI_REPO');
-        } else{
-            echo "Please set the CLIMBSUI_OWNER and CLIMBSUI_REPO environment variables";
+        } else {
+            echo 'Please set the CLIMBSUI_OWNER and CLIMBSUI_REPO environment variables';
             echo $_ENV['CLIMBSUI_REPO'];
             exit;
         }
@@ -141,7 +146,7 @@ class Server extends Service
         $div = $compiled[1];
         $sep = $compiled[2];
         $toSave = false;
-        if($action['save'] == 'true'){
+        if ($action['save'] == 'true') {
             $toSave = true;
         }
 
@@ -156,7 +161,7 @@ class Server extends Service
             ],
         );
 
-        // NOTE: Activate only to mint new imprint 
+        // NOTE: Activate only to mint new imprint
         //
         // $fileDir = $scope->getPath(path::pattern);
         // $fileDir = str_replace('/../', '', $fileDir);
@@ -182,7 +187,7 @@ class Server extends Service
 
         $config = self::getConfig();
 
-        if($toSave){
+        if ($toSave) {
             $service = new Issue(
                 $config['owner'],
                 $config['repo'],
@@ -192,7 +197,7 @@ class Server extends Service
             );
 
             $service->dispatch();
-        } else{
+        } else {
             $service = new UpdateIssue(
                 $config['owner'],
                 $config['repo'],
@@ -204,18 +209,21 @@ class Server extends Service
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>Updated to GitHub</div>'],  
+            'REFRESH' => [$action['_response_target'] => '<div>Updated to GitHub</div>'],
         ];
     }
 
+    /**
+     * @return array<string,array>
+     */
     public static function Close(mixed $context): array
     {
         $climbId = $context['climb_id'];
         $url = $context['url'];
-        
+
         // find all of the issues whose parent is the climb id
         $fetcher = new Github(
-        url: $url,
+            url: $url,
         );
         $results = $fetcher->dispatch()[0];
 
@@ -229,7 +237,7 @@ class Server extends Service
 
         $service->dispatch();
 
-        foreach($hierarchy['children'] as $issue){
+        foreach ($hierarchy['children'] as $issue) {
             $s = new UpdateIssue(url: $url, climbId: $issue['number'], state: 'closed');
             $s->dispatch();
         }
@@ -256,7 +264,7 @@ class Server extends Service
         $owner = $context['owner'];
         $labels = ['climb-payload'];
 
-        if($context['parent_id'] != ''){
+        if ($context['parent_id'] != '') {
             $fetcher = new Github(
                 $owner,
                 $repo,
@@ -267,7 +275,7 @@ class Server extends Service
             $jsonFile = self::getIssue($results, $climbId);
             $jsonFile = json_decode($jsonFile['details'], true);
             // get the requirements and put it into $jsonFile['Climb']['read_only']
-            foreach ($jsonFile['Climb']['requirements'] as $key => $value){
+            foreach ($jsonFile['Climb']['requirements'] as $key => $value) {
                 $jsonFile['Climb']['read_only'][] = $key;
             }
 
@@ -343,11 +351,13 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number'], classes: ['control']);
-            $visual->attributes['data-api'] = '/server.php';
-            $visual->attributes['data-api-method'] = 'POST';
-            $visual->attributes['data-intent'] = '{ &quot;REFRESH&quot;: { &quot;Climb&quot; : &quot;View&quot; } }';
-            $visual->attributes['data-context'] = '{ &quot;_response_target&quot;: &quot;' . $target . '&quot;, &quot;climb_id&quot;: &quot;' . $curr_climbid . '&quot;, &quot;owner&quot;: &quot;' . $owner . '&quot;, &quot;repo&quot;: &quot;' . $repo . '&quot; }';
+            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], api: '/server.php',
+                method: 'POST',
+                intent: ['REFRESH' => ['Climb' => 'View']],
+                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
+            );
+            $visual->content .= '<i class="bi bi-chevron-right"></i>';
+            $visual->content .= self::getIssue($results, $issue['number'])['title'];
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -434,6 +444,9 @@ class Server extends Service
         ];
     }
 
+    /**
+     * Get the base menu of parents
+     *
      * @param mixed $results
      * @return array
      */
@@ -451,6 +464,9 @@ class Server extends Service
         return $parents;
     }
 
+    /**
+     * @return <missing>|null
+     */
     public static function getIssue(mixed $results, mixed $id)
     {
         foreach ($results as $issue) {
@@ -461,7 +477,7 @@ class Server extends Service
         return null;
     }
 
-    /** 
+    /**
      * Takes a list of issues, and a parent climbs id and returns the parent and children
      * The children are assigned to the parent through a simple O(N) loop
      * @param mixed $issues
@@ -486,8 +502,9 @@ class Server extends Service
         return $final;
     }
 
-    /** Gets the menu from the provided context
-     * 
+    /**
+     * Gets the menu from the provided context
+     *
      * @return array|array<int,array<string,array>>
      */
     public static function getMenu(mixed $context): array
@@ -515,11 +532,13 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number'], classes: ['control']);
-            $visual->attributes['data-api'] = '/server.php';
-            $visual->attributes['data-api-method'] = 'POST';
-            $visual->attributes['data-intent'] = '{ &quot;REFRESH&quot;: { &quot;Climb&quot; : &quot;View&quot; } }';
-            $visual->attributes['data-context'] = '{ &quot;_response_target&quot;: &quot;' . $target . '&quot;, &quot;climb_id&quot;: &quot;' . $curr_climbid . '&quot;, &quot;owner&quot;: &quot;' . $owner . '&quot;, &quot;repo&quot;: &quot;' . $repo . '&quot; }';
+            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], api: '/server.php',
+                method: 'POST',
+                intent: ['REFRESH' => ['Climb' => 'View']],
+                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
+            );
+            $visual->content .= '<i class="bi bi-chevron-right"></i>';
+            $visual->content .= self::getIssue($results, $issue['number'])['title'];
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -536,8 +555,9 @@ class Server extends Service
         ];
     }
 
-    /** Makes an oysterMenu based on the provided context 
-     * 
+    /**
+     * Makes an oysterMenu based on the provided context
+     *
      * @return array<int,array<string,array>>
      */
     public static function makeMenu(mixed $context): array
@@ -560,11 +580,13 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Visual(self::getIssue($results, $issue['number'])['title'], $issue['number'], classes: ['control']);
-            $visual->attributes['data-api'] = '/server.php';
-            $visual->attributes['data-api-method'] = 'POST';
-            $visual->attributes['data-intent'] = '{ &quot;REFRESH&quot;: { &quot;Climb&quot; : &quot;View&quot; } }';
-            $visual->attributes['data-context'] = '{ &quot;_response_target&quot;: &quot;' . $target . '&quot;, &quot;climb_id&quot;: &quot;' . $curr_climbid . '&quot;, &quot;owner&quot;: &quot;' . $owner . '&quot;, &quot;repo&quot;: &quot;' . $repo . '&quot; }';
+            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], api: '/server.php',
+                method: 'POST',
+                intent: ['REFRESH' => ['Climb' => 'View']],
+                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
+            );
+            $visual->content .= '<i class="bi bi-chevron-right"></i>';
+            $visual->content .= self::getIssue($results, $issue['number'])['title'];
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
