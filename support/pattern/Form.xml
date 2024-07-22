@@ -16,8 +16,8 @@
                     <h4>1. Decide a Goal</h4>
                     <p>🎯 What's the goal?</p>
                     <form class="p-3 pt-0 Autoform" data-action="Climb">
-                        <div class="mb-3"><label class="form-label">Set a Destination</label><input class="form-control" type="text" name="title" id="title" placeholder="Become a billionaire"></div>
-                        <div><label class="form-label">Parent Id</label><input class="form-control" type="text" name="parent_id" value="[@ parentId @]" placeholder="Parent ID"></div>
+                        [@ Title @]
+                        [@ Parent @]
                         [@ Requirements @]
                     </form>
                     <div><button class="btn btn-primary " id="add-input-group">Add New Requirement</button></div>
@@ -65,7 +65,7 @@
                     <h4>5. Describe your Work</h4>
                     <p><span>📔 Reflection:</span> Describe your work</p>
                     <form class="Autoform" data-action="Describe">
-                        <div class="mb-3"><label class="form-label">Budget: Expectations vs Reality</label><select class="form-select" name="budget_res" aria-label="Default select example" aria-describedby="budget-reality">Choose an option<option value="1">Budget Met Expectations</option><option value="2">Budget Exceeded Expectations</option><option value="3">Low Budget</option></select></div>
+                        <div class="mb-3"><label class="form-label">Budget: Expectations vs Reality</label><select class="form-select" name="budget_res" aria-label="Default select example"><option value="1">Budget Met Expectations</option><option value="2">Budget Exceeded Expectations</option><option value="3">Low Budget</option></select></div>
                         <p>Points of Interest for new Destinations</p>
                         <div id="InterestsD">
                             [@ InterestsD @]
@@ -85,7 +85,7 @@
             </div>
             <div>
                 <div class="controls">
-                    <button type="button" class="visual control btn btn-success mt-3" data-api="/server.php" data-role="autoform" data-api-method="POST" data-intent="{ "REFRESH": { "Climb" : "Update" } }" data-context="{ "_response_target": "#result", "climb_id": "31", "owner": "newtoallofthis123", "repo": "test_for_issues" }">
+                    <button type="button" class="visual control btn btn-success mt-3" data-api="/server.php" data-role="autoform" data-api-method="POST" data-intent="{ &quot;REFRESH&quot;: { &quot;Climb&quot; : &quot;Update&quot; } }" data-context="{ &quot;_response_target&quot;: &quot;#result&quot;, &quot;climb_id&quot;: &quot;31&quot;, &quot;owner&quot;: &quot;newtoallofthis123&quot;, &quot;repo&quot;: &quot;test_for_issues&quot; }">
                         Save
                     </button>
                 </div>
