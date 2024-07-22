@@ -55,10 +55,10 @@ class TabsForm extends HTML
         $requirementsForm[] = $reqForm = new HTML(tag: 'form', classes: ['p-3 ', 'pt-0 ', 'Autoform'], attributes: ['data-action' => 'Climb']);
         $reqForm[] = $inputTitle = new HTML(tag: 'div', classes: ['mb-3']);
         $reqForm[] = $parent = new HTML(tag: 'div');
-        $parent[] = new HTML(tag: 'label', classes: ['form-label'], content: 'Parent Id');
-        $parent[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'parent_id', 'value' => $data['Climb']['parent_id'], 'placeholder' => 'Parent ID']);
-        $inputTitle[] = new HTML(tag: 'label', classes: ['form-label'], content: 'Set a Destination');
-        $inputTitle[] = new HTML(tag: 'input', classes: ['form-control'], attributes: ['type' => 'text', 'name' => 'title', 'id' => 'title', 'value' => $json['Climb']['title'], 'placeholder' => 'Become a billionaire']);
+        $parent[] = new HTML(tag: 'label', content: 'Parent Id');
+        $parent[] = new HTML(tag: 'input', attributes: ['type' => 'text', 'name' => 'parent_id', 'value' => $data['Climb']['parent_id'], 'placeholder' => 'Parent ID']);
+        $inputTitle[] = new HTML(tag: 'label', content: 'Set a Destination');
+        $inputTitle[] = new HTML(tag: 'input', attributes: ['type' => 'text', 'name' => 'title', 'id' => 'title', 'value' => $json['Climb']['title'], 'placeholder' => 'Become a billionaire']);
 
         foreach ($data['Climb']['requirements'] as $key => $value) {
             $reqForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-group-' . $key]);

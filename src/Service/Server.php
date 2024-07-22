@@ -17,10 +17,10 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\path;
 use Approach\Scope;
+use ClimbUI\Imprint\Form\Issueform;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
-use ClimbUI\Render\OysterMenu\Visual;
 use ClimbUI\Render\Intent;
 use ClimbUI\Render\TabsForm;
 use ClimbUI\Render\TabsInfo;
@@ -221,7 +221,7 @@ class Server extends Service
         $climbId = $context['climb_id'];
         $url = $context['url'];
 
-        // find all of the issues whose parent is the climb id
+        // find all the issues whose parent is the climb id
         $fetcher = new Github(
             url: $url,
         );
@@ -230,15 +230,15 @@ class Server extends Service
         $hierarchy = self::getHierarchy($results, $climbId);
 
         $service = new UpdateIssue(
-            url: $url,
             climbId: $climbId,
             state: 'closed',
+            url: $url,
         );
 
         $service->dispatch();
 
         foreach ($hierarchy['children'] as $issue) {
-            $s = new UpdateIssue(url: $url, climbId: $issue['number'], state: 'closed');
+            $s = new UpdateIssue(climbId: $issue['number'], state: 'closed', url: $url);
             $s->dispatch();
         }
 
@@ -303,13 +303,13 @@ class Server extends Service
     static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = []): string
     {
         $btn = new Intent(tag: 'button',
-            classes: ['control', ' btn', ' btn-primary', ' current-state', ' animate__animated', ' animate__slideInDown'],
-            api: '/server.php',
-            method: 'POST',
             id: 'newButton',
-            intent: ['REFRESH' => ['Climb' => 'New']],
+            classes: ['control', ' btn', ' btn-primary', ' current-state', ' animate__animated', ' animate__slideInDown'],
+            content: 'New',
             context: ['_response_target' => '#content> div', 'parent_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
-            content: 'New');
+            intent: ['REFRESH' => ['Climb' => 'New']],
+            api: '/server.php',
+            method: 'POST');
 
         return $btn->render();
     }
@@ -351,10 +351,10 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], api: '/server.php',
-                method: 'POST',
+            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
                 intent: ['REFRESH' => ['Climb' => 'View']],
-                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
+                api: '/server.php',
+                method: 'POST',
             );
             $visual->content .= '<i class="bi bi-chevron-right"></i>';
             $visual->content .= self::getIssue($results, $issue['number'])['title'];
@@ -368,19 +368,19 @@ class Server extends Service
         $back = new Intent(
             tag: 'div',
             classes: ['control'],
+            context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
+            intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
             api: '/server.php',
             method: 'POST',
-            intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
-            context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
         );
 
         $breadRender = new Intent(
             tag: 'div',
             classes: ['control'],
+            context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
+            intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
             api: '/server.php',
             method: 'POST',
-            intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
-            context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
         );
 
         // Check it the parent has no children
@@ -427,6 +427,29 @@ class Server extends Service
                 break;
             }
         }
+
+        $path_to_project = __DIR__ . '/';
+        $path_to_approach = __DIR__ . '/support/lib/approach/';
+        $path_to_support = __DIR__ . '//support//';
+        $scope = new Scope(
+            path: [
+                path::project->value => $path_to_project,
+                path::installed->value => $path_to_approach,
+                path::support->value => $path_to_support,
+            ],
+        );
+        $fileDir = $scope->GetPath(path::pattern);
+        $fileDir = str_replace('/../', '', $fileDir);
+
+        $imp = new Imprint(
+            imprint: 'Form.xml',
+            imprint_dir: $fileDir,
+        );
+
+        // $success = $imp->Prepare();
+        //
+        // $imp->Mint('Issueform');
+
         if ($result == null) {
             return [
                 'REFRESH' => [$context['_response_target'] => '<p>' . json_encode($result) . '</p>'],
@@ -437,7 +460,21 @@ class Server extends Service
         $details['Climb']['parent_id'] = $context['parent_id'];
         $details['Climb']['climb_id'] = $context['climb_id'];
 
-        $tabsForm = new TabsForm($details);
+        $tokens = [
+            'Title' => $details['Climb']['title'],
+            'Parent' => $details['Climb']['parent_id'],
+            'Requirements' => '',
+            'Survey' => '',
+            'Obstacles' => '',
+            'Review' => '',
+            'Progress',
+            'InterestsD',
+            'Hazards',
+            'Adapt',
+            'Update'
+        ];
+
+        $tabsForm = new Issueform(tokens: $tokens);
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
@@ -465,8 +502,7 @@ class Server extends Service
     }
 
     /**
-     * @return <missing>|null
-     */
+     * @return <missing>|null*/
     public static function getIssue(mixed $results, mixed $id)
     {
         foreach ($results as $issue) {
@@ -637,8 +673,7 @@ class Server extends Service
     }
 
     /**
-     * @return array<<missing>|array-key,<missing>>|array
-     */
+     * @return array<<missing>|array-key,<missing>>|array*/
     function processIntents($intent): array
     {
         $result = [];
@@ -660,7 +695,7 @@ class Server extends Service
     /**
      * Process a generic intent
      *
-     * @param array<int,mixed> $intent
+     * @param array $intent
      * @return <missing>|array<string,array>
      */
     public function processIntent(array $intent): array
