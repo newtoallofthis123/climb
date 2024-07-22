@@ -95,7 +95,15 @@ class TabsForm extends HTML
         $budgetSection[] = new HTML(tag: 'button', classes: ['btn', 'btn-primary', 'ms-3', 'control'], attributes: ['type' => 'button', 'data-action' => 'new-budget-item.climb'], content: 'New Amount');
         $budgetSection[] = new HTML(tag: 'button', classes: ['btn', 'btn-primary', 'ms-3', 'control'], attributes: ['type' => 'button', 'data-action' => 'remove-item.climb'], content: 'Remove Last');
 
+        $formBody[] = $surveyForm = new HTML(tag: 'div', classes: ['tab ', 'tab2 ', 'Interface ', 'InterfaceContent'], attributes: ['id' => 'Survey']);
+        $surveyForm[] = $surveyFormBody = new HTML(tag: 'form', classes: ['p-3 ', 'Autoform'], attributes: ['data-action' => 'Survey']);
 
+        $surveyFormBody[] = new HTML(tag: 'h4', classes: ['pb-3 ', 'fw-bolder'], content: '2. Survey of the Environment');
+
+        $surveyFormBody[] = new HTML(tag: 'p', content: 'Note the obstacles, check if the obstacles disqualify the goal, and check if the goal is still worth pursuing.');
+
+        $surveyFormBody[] = $p = new HTML(tag: 'p', content: 'Points of Interest for new Destinations');
+        $surveyFormBody[] = $div = new HTML(tag: 'div', attributes: ['id' => 'Interests']);
         foreach ($data['Survey']['interests'] as $key => $value) {
             $div[] = $inputGroup = new HTML(tag: 'div', classes: ['input-group '], attributes: ['id' => 'input-interest-' . $key]);
             $inputGroup[] = new HTML(tag: 'span', classes: ['input-group-text'], attributes: ['id' => 'addon-wrapping-' . $key], content: $key);
