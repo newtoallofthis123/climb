@@ -1,4 +1,5 @@
 <?php
+
 namespace ClimbUI\Render;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
@@ -15,17 +16,22 @@ use Approach\Render\HTML;
  *
  * @return UIList
  */
-class UIList extends HTML{
+class UIList extends HTML
+{
     public function __construct(array $arr)
     {
         parent::__construct(
             tag: 'ul',
         );
-        foreach($arr as $key => $value){
-            $this->nodes[] = new HTML(
-                tag: 'li',
-                content: $value
-            );
+        foreach ($arr as $key => $value) {
+            if ($value instanceof HTML) {
+                $this->nodes[] = $value;
+            } else {
+                $this->nodes[] = new HTML(
+                    tag: 'li',
+                    content: $value
+                );
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\Intent;
 use ClimbUI\Render\TabsForm;
 use ClimbUI\Render\TabsInfo;
+use ClimbUI\Render\UIInput;
 use ClimbUI\Render\UIList;
 use ClimbUI\Service\Issue;
 use Exception;
@@ -65,9 +66,10 @@ class Server extends Service
             }
         }
 
-        $time_intent = $action['Time']['time_intent'];
-        $energy_intent = $action['Time']['energy_req'];
-        $resources_intent = $action['Time']['resources'];
+        $plans = [];
+        foreach ($action['Plan'] as $amount){
+            $plans[] = $amount;
+        }
 
         $work = $action['Work']['document_progress'];
         $budget_res = $describeForm['budget_res'];
@@ -75,7 +77,7 @@ class Server extends Service
         $d_interests = [];
         $hazards = [];
         foreach ($describeForm as $key => $value) {
-            if (str_starts_with($key, 'd_interest')) {
+            if (str_starts_with($key, 'interestsd')) {
                 $d_interests[] = $value;
             }
             if (str_starts_with($key, 'hazard')) {
@@ -93,9 +95,9 @@ class Server extends Service
         $main[] = $surveyRes = new HTML(tag: 'div');
         $surveyRes->content = 'Interests: ' . implode(', ', $interests) . '<br>Obstructions: ' . implode(', ', $obstructions);
         $sep[] = $surveyRes->render();
-        $main[] = $timeRes = new HTML(tag: 'div');
-        $timeRes->content = 'Time Intent: ' . $time_intent . '<br>Energy Intent: ' . $energy_intent . '<br>Resources Intent: ' . $resources_intent;
-        $sep[] = $timeRes->render();
+        $main[] = $plan = new HTML(tag: 'div');
+        $plan->content = 'Plans: ' . implode(', ', $plans); 
+        $sep[] = $plan->render();
         $main[] = $workRes = new HTML(tag: 'div');
         $workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
         $sep[] = $workRes->render();
@@ -107,7 +109,7 @@ class Server extends Service
         $res = [];
         $res['Climb'] = ['title' => $title, 'requirements' => $requirements];
         $res['Survey'] = ['interests' => $interests, 'obstructions' => $obstructions];
-        $res['Time'] = ['time_intent' => $time_intent, 'energy_req' => $energy_intent, 'resources' => $resources_intent];
+        $res['Plan'] = ['plans' => $plans];
         $res['Work'] = ['document_progress' => $work];
         $res['Describe'] = ['budget_res' => $budget_res, 'd_interests' => $d_interests, 'hazards' => $hazards];
         $res['parent_id'] = $action['Climb']['parent_id'];
@@ -198,7 +200,7 @@ class Server extends Service
                 title: $title,
             );
 
-            $service->dispatch();
+            // $service->dispatch();
         } else {
             $service = new UpdateIssue(
                 $config['owner'],
@@ -207,11 +209,11 @@ class Server extends Service
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            $service->dispatch();
+            // $service->dispatch();
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>Updated to GitHub</div>'],
+            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($compiled[0]) . '</div>'],
         ];
     }
 
@@ -286,7 +288,43 @@ class Server extends Service
             $details['Climb'] = $jsonFile['Climb'];
         }
 
-        $form = new TabsForm($details);
+                $requirementsForm = new HTML(tag: 'div');
+
+        foreach ($details['Climb']['requirements'] as $key => $requirement) {
+            if(isset($details['Climb']['read_only']) && in_array($key, $details['Climb']['read_only'])) {
+                $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+                $inputGroup[] = new UIInput('requirements' . $key, $requirement, readonly: true);
+                $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            }
+        }
+
+        $update = new HTML(tag: 'div', classes: ['controls']);
+        $update[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-sucess'],
+            api: '/server.php',
+            role: 'autoform',
+            method: 'POST',
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            content: 'Save'
+        );
+
+        $tokens = [
+            'Title' => new UIInput('title', $details['Climb']['title'] ?? ''),
+            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
+            'Requirements' => $requirementsForm,
+            'Survey' => '',
+            'Obstacles' => '',
+            'Plan' => '',
+            'Progress' => new HTML(tag: 'textarea', content: $details['Work']['document_progress'], attributes: ['name' => 'document_progress']),
+            'InterestsD' => '',
+            'Hazards' => '',
+            'Adapt' => 'TODO',
+            'Update' => $update,
+        ];
+
+        $form = new Issueform(tokens: $tokens);
 
         return [
             'REFRESH' => [
@@ -304,14 +342,16 @@ class Server extends Service
      */
     static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = [])
     {
-        $btn = new Intent(tag: 'button',
+        $btn = new Intent(
+            tag: 'button',
             id: 'newButton',
             classes: ['control', ' btn', ' btn-primary', ' current-state', ' animate__animated', ' animate__slideInDown'],
             content: 'New',
             context: ['_response_target' => '#content> div', 'parent_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
             intent: ['REFRESH' => ['Climb' => 'New']],
             api: '/server.php',
-            method: 'POST');
+            method: 'POST'
+        );
 
         return $btn->render();
     }
@@ -371,15 +411,19 @@ class Server extends Service
         $requirements[] = new HTML(tag: 'p', content: 'Tracked with Issue ID: ' . $jsonFile['Climb']['climb_id']);
         $requirements[] = new HTML(tag: 'p', content: 'Parent ID: ' . $jsonFile['Climb']['parent_id']);
         $requirements[] = new HTML(tag: 'h4', content: 'Requirements');
-        $requirements[] = new UIList($jsonFile['Climb']['requirements']); 
+        $requirements[] = new UIList($jsonFile['Climb']['requirements']);
 
         $edit = new HTML(tag: 'div', classes: ['controls']);
         //$intentInfo = '{ "_response_target": "#content > div", "parent_id": "' . $data['Climb']['parent_id'] . '", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
-        $edit[] = new Intent(tag: 'button', 
-            api: '/server.php', method: 'POST', intent: ['REFRESH' => ['Climb' => 'Edit']], 
-            classes: ['control', ' btn', ' btn-primary', ' animate__animated', ' animate__slideInDown'], 
-            content: 'Edit', 
-            context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']]);
+        $edit[] = new Intent(
+            tag: 'button',
+            api: '/server.php',
+            method: 'POST',
+            intent: ['REFRESH' => ['Climb' => 'Edit']],
+            classes: ['control', ' btn', ' btn-primary', ' animate__animated', ' animate__slideInDown'],
+            content: 'Edit',
+            context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']]
+        );
 
         $tokens = [
             'Edit' => $edit,
@@ -401,7 +445,10 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
+            $visual = new Intent(
+                tag: 'div',
+                classes: ['control', ' visual'],
+                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $climbId],
                 intent: ['REFRESH' => ['Climb' => 'View']],
                 api: '/server.php',
                 method: 'POST',
@@ -497,7 +544,7 @@ class Server extends Service
         );
 
         // $success = $imp->Prepare();
-        //
+
         // $imp->Mint('Issueform');
 
         if ($result == null) {
@@ -510,18 +557,82 @@ class Server extends Service
         $details['Climb']['parent_id'] = $context['parent_id'];
         $details['Climb']['climb_id'] = $context['climb_id'];
 
+        $requirementsForm = new HTML(tag: 'div');
+
+        foreach ($details['Climb']['requirements'] as $key => $requirement) {
+            $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('requirements' . $key, $requirement);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $surveyForm = new HTML(tag: 'div');
+
+        foreach ($details['Survey']['interests'] as $key => $interest) {
+            $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('interests' . $key, $interest);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $obstaclesForm = new HTML(tag: 'div');
+
+        foreach ($details['Survey']['obstructionsobstructions'] as $key => $obstruction) {
+            $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        // FIXME: Remove this, this is only there temporarily
+        $details['Plan'] = [['10', 'days'], ['12', 'hours']];
+
+        $reviewForm = new HTML(tag: 'div');
+        foreach ($details['Plan'] as $key => $amount) {
+            $quantity = $amount[0];
+            $unit = $amount[1];
+
+            $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity);
+            $inputGroup[] = new UIInput('review' . $key . '-unit', $unit);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $interestsDForm = new HTML(tag: 'div');
+        foreach ($details['Describe']['d_interests'] as $key => $interest) {
+            $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('interestsd' . $key, $interest);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $hazardsForm = new HTML(tag: 'div');
+        foreach ($details['Describe']['hazards'] as $key => $hazard) {
+            $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('hazards' . $key, $hazard);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $update = new HTML(tag: 'div', classes: ['controls']);
+        $update[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-sucess'],
+            api: '/server.php',
+            role: 'autoform',
+            method: 'POST',
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            content: 'Save'
+        );
+
         $tokens = [
-            'Title' => $details['Climb']['title'],
-            'Parent' => $details['Climb']['parent_id'],
-            'Requirements' => '',
-            'Survey' => '',
-            'Obstacles' => '',
-            'Review' => '',
-            'Progress' => '',  
-            'InterestsD' => '',
-            'Hazards' => '',
-            'Adapt' => '',
-            'Update' => '',
+            'Title' => new UIInput('title', $details['Climb']['title']),
+            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id']),
+            'Requirements' => $requirementsForm,
+            'Survey' => $surveyForm,
+            'Obstacles' => $obstaclesForm,
+            'Plan' => $reviewForm,
+            'Progress' => new HTML(tag: 'textarea', content: $details['Work']['document_progress'], attributes: ['name' => 'document_progress']),
+            'InterestsD' => $interestsDForm,
+            'Hazards' => $hazardsForm,
+            'Adapt' => 'TODO',
+            'Update' => $update,
         ];
 
         $tabsForm = new Issueform(tokens: $tokens);
@@ -618,7 +729,10 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], api: '/server.php',
+            $visual = new Intent(
+                tag: 'div',
+                classes: ['control', ' visual'],
+                api: '/server.php',
                 method: 'POST',
                 intent: ['REFRESH' => ['Climb' => 'View']],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
@@ -666,7 +780,10 @@ class Server extends Service
             $curr_climbid = $issue['number'];
             $target = $context['_response_target'];
 
-            $visual = new Intent(tag: 'div', classes: ['control', ' visual'], api: '/server.php',
+            $visual = new Intent(
+                tag: 'div',
+                classes: ['control', ' visual'],
+                api: '/server.php',
                 method: 'POST',
                 intent: ['REFRESH' => ['Climb' => 'View']],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],

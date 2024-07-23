@@ -10,7 +10,7 @@ use \Approach\Render;
 	class Issueform extends Render\Node
 	{
 	public static array $tokens = [
-		'Title','Parent','Requirements','Survey','Obstacles','Review','Progress','InterestsD','Hazards','Adapt','Update'
+		'Title','Parent','Requirements','Survey','Obstacles','Plan','Progress','InterestsD','Hazards','Adapt','Update'
 	];
 	public array $token_nodes = [];
 	
@@ -449,7 +449,7 @@ use \Approach\Render;
 				// Instantiating HTML_38__attributes for upcoming attributes assignment
 					$HTML_38__attributes = new Render\Attribute( );
 
-				$HTML_37[] = $HTML_38 = new Render\HTML( tag : 'h4', classes: $HTML_38__classes, attributes: $HTML_38__attributes, content : '3. Review the Environment' );
+				$HTML_37[] = $HTML_38 = new Render\HTML( tag : 'h4', classes: $HTML_38__classes, attributes: $HTML_38__attributes, content : '3. Plan' );
 				// Instantiating HTML_39__classes for upcoming classes assignment
 					$HTML_39__classes = new Render\Node( );
 
@@ -465,7 +465,7 @@ use \Approach\Render;
 				// Instantiating HTML_40__attributes for upcoming attributes assignment
 					$HTML_40__attributes = new Render\Attribute( );
 						$HTML_40__attributes[] = $Attribute_81 = new Render\Attribute( name : 'class', content : 'Autoform' );
-						$HTML_40__attributes[] = $Attribute_83 = new Render\Attribute( name : 'data-action', content : 'Review' );
+						$HTML_40__attributes[] = $Attribute_83 = new Render\Attribute( name : 'data-action', content : 'Plan' );
 
 
 				$HTML_37[] = $HTML_40 = new Render\HTML( tag : 'form', classes: $HTML_40__classes, attributes: $HTML_40__attributes );
@@ -475,30 +475,30 @@ use \Approach\Render;
 					// Instantiating HTML_41__attributes for upcoming attributes assignment
 						$HTML_41__attributes = new Render\Attribute( );
 
-					$HTML_40[] = $HTML_41 = new Render\HTML( tag : 'p', classes: $HTML_41__classes, attributes: $HTML_41__attributes, content : 'Review Findings' );
+					$HTML_40[] = $HTML_41 = new Render\HTML( tag : 'p', classes: $HTML_41__classes, attributes: $HTML_41__attributes, content : 'Plan' );
 					// Instantiating HTML_42__classes for upcoming classes assignment
 						$HTML_42__classes = new Render\Node( );
-							$HTML_42__classes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'review_inputs input-container' );
+							$HTML_42__classes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'plan_inputs input-container' );
 
 
 					// Instantiating HTML_42__attributes for upcoming attributes assignment
 						$HTML_42__attributes = new Render\Attribute( );
-							$HTML_42__attributes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'review_inputs input-container' );
+							$HTML_42__attributes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'plan_inputs input-container' );
 
 
 					// Instantiating HTML_42__content for upcoming content assignment
-						$HTML_42__content = $this->token_nodes['Review'] = new Render\Token( name : 'Review' );
+						$HTML_42__content = $this->token_nodes['Plan'] = new Render\Token( name : 'Plan' );
 
-					$HTML_40[] = $HTML_42 = new Render\HTML( tag : 'div', id : 'review', classes: $HTML_42__classes, attributes: $HTML_42__attributes, content: $HTML_42__content );
+					$HTML_40[] = $HTML_42 = new Render\HTML( tag : 'div', id : 'plan', classes: $HTML_42__classes, attributes: $HTML_42__attributes, content: $HTML_42__content );
 						// Instantiating HTML_43__classes for upcoming classes assignment
 							$HTML_43__classes = new Render\Node( );
-								$HTML_43__classes[] = $Attribute_87 = new Render\Attribute( name : 'class', content : 'add btn btn-primary' );
+								$HTML_43__classes[] = $Attribute_87 = new Render\Attribute( name : 'class', content : 'add_plan btn btn-primary' );
 
 
 						// Instantiating HTML_43__attributes for upcoming attributes assignment
 							$HTML_43__attributes = new Render\Attribute( );
 								$HTML_43__attributes[] = $Attribute_89 = new Render\Attribute( name : 'type', content : 'button' );
-								$HTML_43__attributes[] = $Attribute_87 = new Render\Attribute( name : 'class', content : 'add btn btn-primary' );
+								$HTML_43__attributes[] = $Attribute_87 = new Render\Attribute( name : 'class', content : 'add_plan btn btn-primary' );
 
 
 						$HTML_42[] = $HTML_43 = new Render\HTML( tag : 'button', classes: $HTML_43__classes, attributes: $HTML_43__attributes, content : 'Add' );

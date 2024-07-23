@@ -59,15 +59,15 @@
                     </form>
                 </div>
                 <div class="tab tab3">
-                    <h4>3. Review the Environment</h4>
+                    <h4>3. Plan</h4>
                     <p>
                         Describe the environment.
                     </p>
-                    <form class="Autoform" data-action="Review">
-                        <p> Review Findings </p>
-                        <div class="review_inputs input-container" id="review">
-                            [@ Review @]
-                            <button type="button" class="add btn btn-primary">
+                    <form class="Autoform" data-action="Plan">
+                        <p> Plan </p>
+                        <div class="plan_inputs input-container" id="plan">
+                            [@ Plan @]
+                            <button type="button" class="add_plan btn btn-primary">
                                 Add
                             </button>
                         </div>
