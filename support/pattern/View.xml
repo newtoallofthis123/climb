@@ -1,0 +1,64 @@
+<Imprint xmlns:Imprint="Render://approach.local">
+    <Imprint:Pattern name="IssueView" type="HTML">
+        <div class="TabsForm Interface"> [@ Edit @] <div class="TabBar">
+                <div class="tabBtn" tab-activate="1">Requirements<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn" tab-activate="2">Survey<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn" tab-activate="3">Review<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn" tab-activate="4">Work<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn" tab-activate="5">Describe<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn" tab-activate="6">Adapt<i class="bi bi-arrow-right"></i></div>
+            </div>
+            <main>
+                <div class="tab active tab1">
+                    [@ Requirements @]
+                </div>
+                <div class="tab tab2">
+                    <h3>🔍️ Survey</h3>
+                    <h5>Interests</h5>
+                    <div>
+                    [@ Interests @]
+                    </div>
+                    <h5>Obstructions</h5>
+                    <div>
+                    [@ Obstructions @]
+                    </div>
+                </div>
+                <div class="tab tab3">
+                    <h3 class="fs-4 fw-bold">Review</h3> 
+                    [@ Review @]
+                </div>
+                <div class="tab tab4">
+                    <h3>🏗️ Work</h3>
+                    <h5>Document Progress</h5> 
+                    [@ Progress @] 
+                </div>
+                <div class="tab tab5">
+                    <h3>📔 Describe</h3>
+                    <h5>Interests</h5>
+                    <div>
+                    [@ InterestsD @]
+                    </div>
+                    <h5>Hazards</h5>
+                    <div>
+                    [@ Hazards @] 
+                    </div>
+                </div>
+                <div class="tab tab6 controls">
+                    <h4 class="pb-2 fw-bolder">
+                        6. Adapt from Findings
+                    </h4>
+                    <p>
+                        <span class="fw-bolder">🦎 Adapt:</span> Adapt from the findings </p>
+                    <div class="btn-group btn-group-lg" role="group"
+                        aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-warning">
+                            <i class="bi bi-arrow-repeat"></i> Iterate</button>
+                        <button type="button" class="btn btn-success">
+                            <i class="bi bi-signpost-split"></i> Branch </button>
+                        <!-- TODO: Add End -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </Imprint:Pattern>
+</Imprint>

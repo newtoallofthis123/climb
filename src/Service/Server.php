@@ -19,11 +19,13 @@ use Approach\path;
 use Approach\Scope;
 use ClimbUI\Imprint\Form\Issueform;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
+use ClimbUI\Imprint\View\IssueView;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\Intent;
 use ClimbUI\Render\TabsForm;
 use ClimbUI\Render\TabsInfo;
+use ClimbUI\Render\UIList;
 use ClimbUI\Service\Issue;
 use Exception;
 
@@ -300,7 +302,7 @@ class Server extends Service
      * @param mixed $labels
      * @return string
      */
-    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = []): string
+    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = [])
     {
         $btn = new Intent(tag: 'button',
             id: 'newButton',
@@ -342,7 +344,55 @@ class Server extends Service
         $jsonFile['Climb']['url'] = $fetcher->url;
         $jsonFile['Climb']['parent_id'] = $parentId;
 
-        $tabsInfo = new TabsInfo($jsonFile);
+        $path_to_project = __DIR__ . '/';
+        $path_to_approach = __DIR__ . '/support/lib/approach/';
+        $path_to_support = __DIR__ . '//support//';
+        $scope = new Scope(
+            path: [
+                path::project->value => $path_to_project,
+                path::installed->value => $path_to_approach,
+                path::support->value => $path_to_support,
+            ],
+        );
+        $fileDir = $scope->GetPath(path::pattern);
+        $fileDir = str_replace('/../', '', $fileDir);
+
+        // $imp = new Imprint(
+        //     imprint: 'View.xml',
+        //     imprint_dir: $fileDir,
+        // );
+        //
+        // $success = $imp->Prepare();
+        //
+        // $imp->Mint('IssueView');
+
+        $requirements = new HTML(tag: 'div', classes: ['New']);
+        $requirements[] = new HTML(tag: 'h4', content: '🎯 Goal: ' . $jsonFile['Climb']['title']);
+        $requirements[] = new HTML(tag: 'p', content: 'Tracked with Issue ID: ' . $jsonFile['Climb']['climb_id']);
+        $requirements[] = new HTML(tag: 'p', content: 'Parent ID: ' . $jsonFile['Climb']['parent_id']);
+        $requirements[] = new HTML(tag: 'h4', content: 'Requirements');
+        $requirements[] = new UIList($jsonFile['Climb']['requirements']); 
+
+        $edit = new HTML(tag: 'div', classes: ['controls']);
+        //$intentInfo = '{ "_response_target": "#content > div", "parent_id": "' . $data['Climb']['parent_id'] . '", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
+        $edit[] = new Intent(tag: 'button', 
+            api: '/server.php', method: 'POST', intent: ['REFRESH' => ['Climb' => 'Edit']], 
+            classes: ['control', ' btn', ' btn-primary', ' animate__animated', ' animate__slideInDown'], 
+            content: 'Edit', 
+            context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']]);
+
+        $tokens = [
+            'Edit' => $edit,
+            'Requirements' => $requirements,
+            'Interests' => new UIList($jsonFile['Survey']['interests']),
+            'Obstructions' => new UIList($jsonFile['Survey']['obstructions']),
+            'Review' => new UIList($jsonFile['Review'] ?? ['Review']),
+            'Progress' => $jsonFile['Work']['document_progress'],
+            'InterestsD' => new UIList($jsonFile['Describe']['d_interests']),
+            'Hazards' => new UIList($jsonFile['Describe']['hazards']),
+        ];
+
+        $tabsInfo = new IssueView($tokens);
 
         $pearls = [];
         $hierarchy = self::getHierarchy($results, $climbId);
@@ -467,11 +517,11 @@ class Server extends Service
             'Survey' => '',
             'Obstacles' => '',
             'Review' => '',
-            'Progress',
-            'InterestsD',
-            'Hazards',
-            'Adapt',
-            'Update'
+            'Progress' => '',  
+            'InterestsD' => '',
+            'Hazards' => '',
+            'Adapt' => '',
+            'Update' => '',
         ];
 
         $tabsForm = new Issueform(tokens: $tokens);
