@@ -67,8 +67,21 @@ class Server extends Service
         }
 
         $plans = [];
-        foreach ($action['Plan'] as $amount){
-            $plans[] = $amount;
+        $i = 1;
+        $curr = [];
+        foreach ($action['Plan'] as $key => $value) {
+            if (str_ends_with($key, 'quantity')) {
+                $curr[] = $value;
+            } elseif (str_ends_with($key, 'units')){
+                $curr[] = $value;
+            }
+            if($i == 0){
+                $plans[] = $curr;
+                $curr = [];
+                $i = 1;
+            } else{
+                $i--;
+            }
         }
 
         $work = $action['Work']['document_progress'];
@@ -96,7 +109,7 @@ class Server extends Service
         $surveyRes->content = 'Interests: ' . implode(', ', $interests) . '<br>Obstructions: ' . implode(', ', $obstructions);
         $sep[] = $surveyRes->render();
         $main[] = $plan = new HTML(tag: 'div');
-        $plan->content = 'Plans: ' . implode(', ', $plans); 
+        $plan->content = 'Plans: ' . implode(', ', $plans);
         $sep[] = $plan->render();
         $main[] = $workRes = new HTML(tag: 'div');
         $workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
@@ -200,7 +213,7 @@ class Server extends Service
                 title: $title,
             );
 
-            // $service->dispatch();
+            $service->dispatch();
         } else {
             $service = new UpdateIssue(
                 $config['owner'],
@@ -209,11 +222,11 @@ class Server extends Service
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            // $service->dispatch();
+            $service->dispatch();
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($compiled[0]) . '</div>'],
+            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($res) . '</div>'],
         ];
     }
 
@@ -288,10 +301,10 @@ class Server extends Service
             $details['Climb'] = $jsonFile['Climb'];
         }
 
-                $requirementsForm = new HTML(tag: 'div');
+        $requirementsForm = new HTML(tag: 'div');
 
         foreach ($details['Climb']['requirements'] as $key => $requirement) {
-            if(isset($details['Climb']['read_only']) && in_array($key, $details['Climb']['read_only'])) {
+            if (isset($details['Climb']['read_only']) && in_array($key, $details['Climb']['read_only'])) {
                 $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
                 $inputGroup[] = new UIInput('requirements' . $key, $requirement, readonly: true);
                 $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
@@ -414,7 +427,6 @@ class Server extends Service
         $requirements[] = new UIList($jsonFile['Climb']['requirements']);
 
         $edit = new HTML(tag: 'div', classes: ['controls']);
-        //$intentInfo = '{ "_response_target": "#content > div", "parent_id": "' . $data['Climb']['parent_id'] . '", "climb_id": "' . $data['Climb']['climb_id'] . '", "url": "' . $data['Climb']['url'] . '"  }';
         $edit[] = new Intent(
             tag: 'button',
             api: '/server.php',
@@ -581,19 +593,14 @@ class Server extends Service
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
         }
 
-        // FIXME: Remove this, this is only there temporarily
-        $details['Plan'] = [['10', 'days'], ['12', 'hours']];
-
         $reviewForm = new HTML(tag: 'div');
         foreach ($details['Plan'] as $key => $amount) {
-            $quantity = $amount[0];
-            $unit = $amount[1];
-
+            foreach($amount as $quantity){
             $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity);
-            $inputGroup[] = new UIInput('review' . $key . '-unit', $unit);
+            $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity[0]);
+            $inputGroup[] = new UIInput('review' . $key . '-unit', $quantity[1]);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
-        }
+        }}
 
         $interestsDForm = new HTML(tag: 'div');
         foreach ($details['Describe']['d_interests'] as $key => $interest) {
@@ -623,7 +630,7 @@ class Server extends Service
 
         $tokens = [
             'Title' => new UIInput('title', $details['Climb']['title']),
-            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id']),
+            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
             'Requirements' => $requirementsForm,
             'Survey' => $surveyForm,
             'Obstacles' => $obstaclesForm,

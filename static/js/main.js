@@ -128,7 +128,6 @@ let onReadyHandle = function (element, selector, markup) {
     });
 
   // --> Add your custom event handlers here
-
   $('.add').click(function (e) {
     e.preventDefault();
     console.log('add');
@@ -147,15 +146,15 @@ let onReadyHandle = function (element, selector, markup) {
     let removeButton = $('<button>', { type: 'button', class: 'remove' });
     removeButton.append($('<i>', { class: 'bi bi-x' }));
 
-    $('.remove').click(function (e) {
-      e.preventDefault();
-      console.log('remove');
-      // remove it's parent
-      $(this).parent().remove();
-    });
-
     container.append(input, removeButton);
     parent.append(container);
+  });
+
+  $('.remove').click(function (e) {
+    e.preventDefault();
+    console.log('remove');
+    // remove it's parent
+    $(this).closest('.input-container').remove();
   });
 
   $('.add_plan').click(function (e) {
@@ -179,16 +178,15 @@ let onReadyHandle = function (element, selector, markup) {
       class: 'remove_plan',
     });
 
+    $('.remove_plan').click(function (e) {
+      e.preventDefault();
+      console.log('remove');
+      // remove it's parent
+      $(this).parent().remove();
+    });
     removeButton.append($('<i>', { class: 'bi bi-x' }));
     container.append(input, otherInput, removeButton);
     parent.append(container);
-  });
-
-  $('.remove_plan').click(function (e) {
-    e.preventDefault();
-    console.log('remove');
-    // remove it's parent
-    $(this).parent().remove();
   });
 
   $('.TabBar div').click(function () {
