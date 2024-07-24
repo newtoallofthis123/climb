@@ -1,18 +1,20 @@
 <Imprint xmlns:Imprint="Render://approach.local">
     <Imprint:Pattern name="IssueView" type="HTML">
-        <div class="TabsForm Interface"> [@ Edit @] <div class="TabBar">
-                <div class="tabBtn" tab-activate="1">Requirements<i class="bi bi-arrow-right"></i></div>
-                <div class="tabBtn" tab-activate="2">Survey<i class="bi bi-arrow-right"></i></div>
-                <div class="tabBtn" tab-activate="3">Review<i class="bi bi-arrow-right"></i></div>
-                <div class="tabBtn" tab-activate="4">Work<i class="bi bi-arrow-right"></i></div>
-                <div class="tabBtn" tab-activate="5">Describe<i class="bi bi-arrow-right"></i></div>
-                <div class="tabBtn" tab-activate="6">Adapt<i class="bi bi-arrow-right"></i></div>
-            </div>
+        <div class="TabsForm Interface"> 
+            [@ Edit @] 
+            <nav class="TabBar controls"> 
+                <div class="tabBtn control" data-role="triger" data-action="tab.climb" >Requirements<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn control" data-role="triger" data-action="tab.climb" >Survey<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn control" data-role="triger" data-action="tab.climb" >Review<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn control" data-role="triger" data-action="tab.climb" >Work<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn control" data-role="triger" data-action="tab.climb" >Describe<i class="bi bi-arrow-right"></i></div>
+                <div class="tabBtn control" data-role="triger" data-action="tab.climb" >Adapt<i class="bi bi-arrow-right"></i></div>
+            </nav>
             <main>
-                <div class="tab active tab1">
+                <div class="tab active">
                     [@ Requirements @]
                 </div>
-                <div class="tab tab2">
+                <div class="tab">
                     <h3>🔍️ Survey</h3>
                     <h5>Interests</h5>
                     <div>
@@ -23,16 +25,16 @@
                     [@ Obstructions @]
                     </div>
                 </div>
-                <div class="tab tab3">
+                <div class="tab">
                     <h3 class="fs-4 fw-bold">Plan</h3> 
                     [@ Review @]
                 </div>
-                <div class="tab tab4">
+                <div class="tab">
                     <h3>🏗️ Work</h3>
                     <h5>Document Progress</h5> 
                     [@ Progress @] 
                 </div>
-                <div class="tab tab5">
+                <div class="tab">
                     <h3>📔 Describe</h3>
                     <h5>Interests</h5>
                     <div>

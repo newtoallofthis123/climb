@@ -6,13 +6,18 @@ require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 use Approach\Render\HTML;
 
 class UIInput extends HTML{
-    public function __construct(string $name, string $value, bool $readonly = false)
+    public function __construct(string $name, string $value = '', bool $readonly = false, string $placeholder = '')
     {
         $attributes = [
-            'name' => $name,
-            'value' => $value,];
+            'name' => $name];
         if ($readonly) {
             $attributes['readonly'] = true;
+        }
+
+        if($placeholder != '') {
+            $attributes['placeholder'] = $placeholder;
+        } else{
+            $attributes['value'] = $value;
         }
 
         parent::__construct(

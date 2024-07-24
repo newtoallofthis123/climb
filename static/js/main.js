@@ -126,6 +126,75 @@ let onReadyHandle = function (element, selector, markup) {
           .trigger('click');
       }
     });
+
+  // // --> Add your custom event handlers here
+  // $('.add').click(function (e) {
+  //   e.preventDefault();
+  //   console.log('add');
+  //   let parent = $(this).closest('.inputs');
+  //   let name = parent.attr('id');
+  //   let container = $('<div>', { class: 'input-container' });
+  //   let id = parent.find('input').last().attr('name');
+  //   if (!id) {
+  //     id = name + '0';
+  //   } else {
+  //     id = id.substring(id.length - 1);
+  //     id = parseInt(id) + 1;
+  //     id = name + id;
+  //   }
+  //   let input = $('<input>', { type: 'text', name: id });
+  //   let removeButton = $('<button>', { type: 'button', class: 'remove' });
+  //   removeButton.append($('<i>', { class: 'bi bi-x' }));
+
+  //   container.append(input, removeButton);
+  //   parent.append(container);
+  // });
+
+  // $('.remove').click(function (e) {
+  //   e.preventDefault();
+  //   console.log('remove');
+  //   // remove it's parent
+  //   $(this).closest('.input-container').remove();
+  // });
+
+  // $('.add_plan').click(function (e) {
+  //   e.preventDefault();
+  //   console.log('add');
+  //   let parent = $(this).closest('.plan_inputs');
+  //   let name = parent.attr('id');
+  //   let container = $('<div>', { class: 'input-container' });
+  //   let id = parent.find('input').last().attr('name');
+  //   if (!id) {
+  //     id = name + '0';
+  //   } else {
+  //     id = id.substring(id.length - 1);
+  //     id = parseInt(id) + 1;
+  //     id = name + id;
+  //   }
+  //   let input = $('<input>', { type: 'text', name: id + '-quantity' });
+  //   let otherInput = $('<input>', { type: 'text', name: id + '-units' });
+  //   let removeButton = $('<button>', {
+  //     type: 'button',
+  //     class: 'remove_plan',
+  //   });
+
+  //   $('.remove_plan').click(function (e) {
+  //     e.preventDefault();
+  //     console.log('remove');
+  //     // remove it's parent
+  //     $(this).parent().remove();
+  //   });
+  //   removeButton.append($('<i>', { class: 'bi bi-x' }));
+  //   container.append(input, otherInput, removeButton);
+  //   parent.append(container);
+  // });
+
+  // $('.TabBar div').click(function () {
+  //   var tabId = $(this).attr('tab-activate');
+  //   $('main > div').removeClass('active');
+  //   $('main > div.tab' + tabId).addClass('active');
+  //   // animateCSS('.' + tabId, 'fadeIn');
+  // });
   // --> End DOM Ready stuff
 };
 

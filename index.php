@@ -79,6 +79,15 @@ $head[] = new HTML(tag: 'link', attributes: [
 
 $head[] = $pageTitle;
 
+$head[] = new HTML(tag: 'link', attributes: [
+    'href' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+    'rel' => 'stylesheet',
+], selfContained: true);
+$head[] = new HTML(tag: 'link', attributes: [
+    'href' => 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+    'rel' => 'stylesheet',
+], selfContained: true);
+
 // JQuery baby!!
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js',
@@ -93,24 +102,28 @@ $head[] = new HTML(tag: 'script', attributes: [
     'type' => 'text/javascript',
     'src' => '/static/js/approach/approach.utility.js',
 ]);
-$head[] = new HTML(tag: 'link', attributes: [
-    'href' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
-    'rel' => 'stylesheet',
-], selfContained: true);
-$head[] = new HTML(tag: 'link', attributes: [
-    'href' => 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
-    'rel' => 'stylesheet',
-], selfContained: true);
+
+
+$head[] = 
+$climb_plugin = new HTML(
+    tag: 'script', 
+    attributes: [
+        'type'=> 'module',
+        'src' => '/static/js/climbs/climb.js'
+    ]
+);
+$climb_plugin->before = PHP_EOL;
+$climbJS = <<<JS
+    import {ClimbsJS} from "/static/js/climbs/climb.js";
+    addScopeJS(['Climbs', 'active'], {});
+    Climbs.active = new ClimbsJS({});
+JS;
+
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/main.js',
 ]);
-$head[] = new HTML(tag: 'script', attributes: ['src' => '/static/js/climbs/climb.js']);
-$climbJS = <<<JS
-import {ClimbsJS} from "/static/js/climbs/climb.js";
 
-addScopeJS(['Climbs', 'main'], {});
-Climbs.main = new ClimbsJS({});
-JS;
+
 $head[] = new HTML(tag: 'script', attributes: ['type' => 'module'], content: $climbJS);
 
 $body = new HTML(tag: 'body', classes: ['Interface']);
@@ -139,8 +152,8 @@ $body->content = <<<HTML
                             id="newButton"
                             data-api="/server.php"
                             data-api-method="POST"
-                            data-intent='{ "REFRESH": { "Climb" : "New" } }'
-                            data-context='{ "_response_target": "#content > div", "parent_id": "", "repo": "$repo", "owner": "$owner" }'
+                            data-intent='{ "REFRESH": { "Climb" : "Copy" } }'
+                            data-context='{ "_response_target": "#content > div", "climb_id": "34", "parent_id": "", "repo": "$repo", "owner": "$owner" }'
                         >
                             New
                         </button>

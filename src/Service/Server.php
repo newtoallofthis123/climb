@@ -72,14 +72,14 @@ class Server extends Service
         foreach ($action['Plan'] as $key => $value) {
             if (str_ends_with($key, 'quantity')) {
                 $curr[] = $value;
-            } elseif (str_ends_with($key, 'units')){
+            } elseif (str_ends_with($key, 'units')) {
                 $curr[] = $value;
             }
-            if($i == 0){
+            if ($i == 0) {
                 $plans[] = $curr;
                 $curr = [];
                 $i = 1;
-            } else{
+            } else {
                 $i--;
             }
         }
@@ -414,9 +414,9 @@ class Server extends Service
         //     imprint: 'View.xml',
         //     imprint_dir: $fileDir,
         // );
-        //
+        
         // $success = $imp->Prepare();
-        //
+        
         // $imp->Mint('IssueView');
 
         $requirements = new HTML(tag: 'div', classes: ['New']);
@@ -438,8 +438,8 @@ class Server extends Service
         );
 
         $somePlans = [];
-        foreach($jsonFile['Plan'] as $amount) {
-            foreach($amount as $plan) {
+        foreach ($jsonFile['Plan'] as $amount) {
+            foreach ($amount as $plan) {
                 $somePlans[] = implode(' ', $plan);
             }
         }
@@ -594,7 +594,7 @@ class Server extends Service
 
         $obstaclesForm = new HTML(tag: 'div');
 
-        foreach ($details['Survey']['obstructionsobstructions'] as $key => $obstruction) {
+        foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
             $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
@@ -602,7 +602,7 @@ class Server extends Service
 
         $reviewForm = new HTML(tag: 'div');
         foreach ($details['Plan'] as $key => $amount) {
-            foreach($amount as $quantity){
+            foreach ($amount as $quantity) {
                 $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
                 $inputGroup[] = new UIInput('review' . $key ?? '' . '-quantity', $quantity[0] ?? '');
                 $inputGroup[] = new UIInput('review' . $key ?? '' . '-unit', $quantity[1] ?? '');
@@ -654,6 +654,106 @@ class Server extends Service
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
+        ];
+    }
+
+    public static function Copy(mixed $context): array
+    {
+        $climbId = $context['climb_id'];
+        $owner = $context['owner'];
+        $repo = $context['repo'];
+        $labels = ['climb-payload'];
+
+        $fetcher = new Github(
+            $owner,
+            $repo,
+            $labels
+        );
+        $results = $fetcher->dispatch()[0];
+        $issue = self::getIssue($results, $climbId);
+        $details = json_decode($issue['details'], true);
+        $details['Climb']['parent_id'] = $context['parent_id'];
+        $details['Climb']['climb_id'] = $context['climb_id'];
+
+        $requirementsForm = new HTML(tag: 'div');
+
+        foreach ($details['Climb']['requirements'] as $key => $requirement) {
+            $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('requirements' . $key, placeholder: $requirement);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $surveyForm = new HTML(tag: 'div');
+
+        foreach ($details['Survey']['interests'] as $key => $interest) {
+            $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);            
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $obstaclesForm = new HTML(tag: 'div');
+
+        foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
+            $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction); 
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $reviewForm = new HTML(tag: 'div');
+        foreach ($details['Plan'] as $key => $amount) {
+            foreach ($amount as $quantity) {
+                $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+                $inputGroup[] = new UIInput('review' . $key ?? '' . '-quantity', placeholder: $quantity[0] ?? '');
+                $inputGroup[] = new UIInput('review' . $key ?? '' . '-unit', $quantity[1] ?? '');
+                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
+            }
+        }
+
+        $interestsDForm = new HTML(tag: 'div');
+        foreach ($details['Describe']['d_interests'] as $key => $interest) {
+            $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('interestsd' . $key, placeholder: $interest);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $hazardsForm = new HTML(tag: 'div');
+        foreach ($details['Describe']['hazards'] as $key => $hazard) {
+            $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            $inputGroup[] = new UIInput('hazards' . $key, placeholder: $hazard);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $update = new HTML(tag: 'div', classes: ['controls']);
+        $update[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-sucess'],
+            api: '/server.php',
+            role: 'autoform',
+            method: 'POST',
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            content: 'Save'
+        );
+
+        $tokens = [
+            'Title' => new UIInput('title', $details['Climb']['title']),
+            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
+            'Requirements' => $requirementsForm,
+            'Survey' => $surveyForm,
+            'Obstacles' => $obstaclesForm,
+            'Plan' => $reviewForm,
+            'Progress' => new HTML(tag: 'textarea', content: '', attributes: ['name' => 'document_progress']),
+            'InterestsD' => $interestsDForm,
+            'Hazards' => $hazardsForm,
+            'Adapt' => 'TODO',
+            'Update' => $update,
+        ];
+
+        $tabsForm = new Issueform(tokens: $tokens);
+        
+
+        return [
+            'REFRESH' => [$context['_response_target'] => '<div>' . $tabsForm . '</div>'],
         ];
     }
 
@@ -847,6 +947,9 @@ class Server extends Service
         };
         self::$registrar['Climb']['New'] = static function ($context) {
             return self::New($context);
+        };
+        self::$registrar['Climb']['Copy'] = static function ($context) {
+            return self::Copy($context);
         };
         self::$registrar['Climb']['Close'] = static function ($context) {
             return self::Close($context);

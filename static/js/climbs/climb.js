@@ -1,22 +1,15 @@
 addScopeJS(['Climbs', 'main'], {});
+addScopeJS(['Climbs', 'active'], {});
 
 Climbs.main = function (config = {}) {
   let $elf = this;
 
   $elf.config = {
+    what: '.ClimbUi',
     tabs: {
-      selector: '.TabBar div',
-    },
-    add: {
-      selector: '.add',
-      remove: '.remove',
-    },
-    plan: {
-      selector: '.add_plan',
-      remove: '.remove_plan',
-    },
-    test: {
-      selector: '#hello',
+      container: '.TabBar',
+      selector: '.tabBtn',
+      class: 'tabBtn',
     },
   };
   overwriteDefaults(config, $elf.config);
@@ -27,23 +20,42 @@ Climbs.main = function (config = {}) {
    * @return {void}
    */
   $elf.init = function () {
-    $(`${$elf.config.tabs.selector}`).on('click', dispatch.tabChange);
-    $($elf.config.add.selector).on('click', dispatch.add);
-    $($elf.config.add.remove).on('click', dispatch.remove);
-    $($elf.config.plan.remove).on('click', dispatch.remove);
-    $($elf.config.plan.selector).on('click', dispatch.add_plan);
-    $($elf.config.test.selector).on('click', dispatch.test);
+    $($elf.config.what).on('add.climb', dispatch.add);
+    $($elf.config.what).on('remove.climb', dispatch.remove);
+    $($elf.config.what).on('add-plan.climb', dispatch.add_plan);
+    $($elf.config.what).on('tab.climb', dispatch.tab.change);
   };
 
   let dispatch = {
-    test: function () {
-      console.log('Hello World');
-    },
-    tabChange: function () {
-      console.log('Hello World');
-      var tabId = $(this).attr('tab-activate');
-      $('main > div').removeClass('active');
-      $('main > div.tab' + tabId).addClass('active');
+    tab: {
+      change: function (e) {
+        // Grab current plugin instance container
+        let current = $(e.target).closest($elf.config.what);
+        let new_tab = null;
+        let new_tab_btn = null;
+        let all_tabs = current
+          .find($elf.config.tabs.container + ' > main')
+          .children();
+
+        current
+          .find($elf.config.tabs.container + ' > ' + tabs.selector)
+          .removeClass('active');
+
+        //is e.target already .tabBtn ?
+        //okay makes sense
+        if ($(e.target).hasClass($elf.config.tabs.selector)) {
+          new_tab_btn = $(e.target);
+        } else {
+          new_tab_btn = $(e.target).closest($elf.config.tabs.selector);
+        }
+
+        let tab_index = new_tab_btn.index();
+
+        // Set current .TabForm > main"s nth child to active after removing it from others
+        new_tab = all_tabs.eq(tab_index);
+        all_tabs.removeClass('active');
+        new_tab.addClass('active');
+      },
     },
     add: function (e) {
       e.preventDefault();
@@ -69,11 +81,12 @@ Climbs.main = function (config = {}) {
     remove: function (e) {
       e.preventDefault();
       console.log('remove');
-      // remove it's parent
+      // remove it"s parent
       $(this).closest('.input-container').remove();
     },
     add_plan: function (e) {
-      e.preventDefault();
+      e.preventDefault(); // wont be needed with intent action delegation (interface does this for u)
+      // fair // i guess it is still needed until we do the debug step...maybe
       console.log('add');
       let parent = $(this).closest('.plan_inputs');
       let name = parent.attr('id');

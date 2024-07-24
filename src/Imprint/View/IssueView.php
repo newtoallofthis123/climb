@@ -33,24 +33,24 @@ use \Approach\Render;
 	$Node_0[] = $HTML_0 = new Render\HTML( tag : 'div', classes: $HTML_0__classes, attributes: $HTML_0__attributes, content: $HTML_0__content );
 		// Instantiating HTML_1__classes for upcoming classes assignment
 			$HTML_1__classes = new Render\Node( );
-				$HTML_1__classes[] = $Attribute_2 = new Render\Attribute( name : 'class', content : 'TabBar' );
+				$HTML_1__classes[] = $Attribute_2 = new Render\Attribute( name : 'class', content : 'TabBar controls' );
 
 
 		// Instantiating HTML_1__attributes for upcoming attributes assignment
 			$HTML_1__attributes = new Render\Attribute( );
-				$HTML_1__attributes[] = $Attribute_2 = new Render\Attribute( name : 'class', content : 'TabBar' );
+				$HTML_1__attributes[] = $Attribute_2 = new Render\Attribute( name : 'class', content : 'TabBar controls' );
 
 
-		$HTML_0[] = $HTML_1 = new Render\HTML( tag : 'div', classes: $HTML_1__classes, attributes: $HTML_1__attributes );
+		$HTML_0[] = $HTML_1 = new Render\HTML( tag : 'nav', classes: $HTML_1__classes, attributes: $HTML_1__attributes );
 			// Instantiating HTML_2__classes for upcoming classes assignment
 				$HTML_2__classes = new Render\Node( );
-					$HTML_2__classes[] = $Attribute_4 = new Render\Attribute( name : 'class', content : 'tabBtn' );
+					$HTML_2__classes[] = $Attribute_4 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
 
 
 			// Instantiating HTML_2__attributes for upcoming attributes assignment
 				$HTML_2__attributes = new Render\Attribute( );
-					$HTML_2__attributes[] = $Attribute_4 = new Render\Attribute( name : 'class', content : 'tabBtn' );
-					$HTML_2__attributes[] = $Attribute_6 = new Render\Attribute( name : 'tab-activate', content : '1' );
+					$HTML_2__attributes[] = $Attribute_4 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
+					$HTML_2__attributes[] = $Attribute_6 = new Render\Attribute( name : 'data-action', content : 'tab.climb' );
 
 
 			$HTML_1[] = $HTML_2 = new Render\HTML( tag : 'div', classes: $HTML_2__classes, attributes: $HTML_2__attributes, content : 'Requirements' );
@@ -68,13 +68,13 @@ use \Approach\Render;
 
 			// Instantiating HTML_4__classes for upcoming classes assignment
 				$HTML_4__classes = new Render\Node( );
-					$HTML_4__classes[] = $Attribute_9 = new Render\Attribute( name : 'class', content : 'tabBtn' );
+					$HTML_4__classes[] = $Attribute_9 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
 
 
 			// Instantiating HTML_4__attributes for upcoming attributes assignment
 				$HTML_4__attributes = new Render\Attribute( );
-					$HTML_4__attributes[] = $Attribute_9 = new Render\Attribute( name : 'class', content : 'tabBtn' );
-					$HTML_4__attributes[] = $Attribute_11 = new Render\Attribute( name : 'tab-activate', content : '2' );
+					$HTML_4__attributes[] = $Attribute_9 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
+					$HTML_4__attributes[] = $Attribute_11 = new Render\Attribute( name : 'data-action', content : 'tab.climb' );
 
 
 			$HTML_1[] = $HTML_4 = new Render\HTML( tag : 'div', classes: $HTML_4__classes, attributes: $HTML_4__attributes, content : 'Survey' );
@@ -92,13 +92,13 @@ use \Approach\Render;
 
 			// Instantiating HTML_6__classes for upcoming classes assignment
 				$HTML_6__classes = new Render\Node( );
-					$HTML_6__classes[] = $Attribute_14 = new Render\Attribute( name : 'class', content : 'tabBtn' );
+					$HTML_6__classes[] = $Attribute_14 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
 
 
 			// Instantiating HTML_6__attributes for upcoming attributes assignment
 				$HTML_6__attributes = new Render\Attribute( );
-					$HTML_6__attributes[] = $Attribute_14 = new Render\Attribute( name : 'class', content : 'tabBtn' );
-					$HTML_6__attributes[] = $Attribute_16 = new Render\Attribute( name : 'tab-activate', content : '3' );
+					$HTML_6__attributes[] = $Attribute_14 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
+					$HTML_6__attributes[] = $Attribute_16 = new Render\Attribute( name : 'data-action', content : 'tab.climb' );
 
 
 			$HTML_1[] = $HTML_6 = new Render\HTML( tag : 'div', classes: $HTML_6__classes, attributes: $HTML_6__attributes, content : 'Review' );
@@ -116,13 +116,13 @@ use \Approach\Render;
 
 			// Instantiating HTML_8__classes for upcoming classes assignment
 				$HTML_8__classes = new Render\Node( );
-					$HTML_8__classes[] = $Attribute_19 = new Render\Attribute( name : 'class', content : 'tabBtn' );
+					$HTML_8__classes[] = $Attribute_19 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
 
 
 			// Instantiating HTML_8__attributes for upcoming attributes assignment
 				$HTML_8__attributes = new Render\Attribute( );
-					$HTML_8__attributes[] = $Attribute_19 = new Render\Attribute( name : 'class', content : 'tabBtn' );
-					$HTML_8__attributes[] = $Attribute_21 = new Render\Attribute( name : 'tab-activate', content : '4' );
+					$HTML_8__attributes[] = $Attribute_19 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
+					$HTML_8__attributes[] = $Attribute_21 = new Render\Attribute( name : 'data-action', content : 'tab.climb' );
 
 
 			$HTML_1[] = $HTML_8 = new Render\HTML( tag : 'div', classes: $HTML_8__classes, attributes: $HTML_8__attributes, content : 'Work' );
@@ -140,13 +140,13 @@ use \Approach\Render;
 
 			// Instantiating HTML_10__classes for upcoming classes assignment
 				$HTML_10__classes = new Render\Node( );
-					$HTML_10__classes[] = $Attribute_24 = new Render\Attribute( name : 'class', content : 'tabBtn' );
+					$HTML_10__classes[] = $Attribute_24 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
 
 
 			// Instantiating HTML_10__attributes for upcoming attributes assignment
 				$HTML_10__attributes = new Render\Attribute( );
-					$HTML_10__attributes[] = $Attribute_24 = new Render\Attribute( name : 'class', content : 'tabBtn' );
-					$HTML_10__attributes[] = $Attribute_26 = new Render\Attribute( name : 'tab-activate', content : '5' );
+					$HTML_10__attributes[] = $Attribute_24 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
+					$HTML_10__attributes[] = $Attribute_26 = new Render\Attribute( name : 'data-action', content : 'tab.climb' );
 
 
 			$HTML_1[] = $HTML_10 = new Render\HTML( tag : 'div', classes: $HTML_10__classes, attributes: $HTML_10__attributes, content : 'Describe' );
@@ -164,13 +164,13 @@ use \Approach\Render;
 
 			// Instantiating HTML_12__classes for upcoming classes assignment
 				$HTML_12__classes = new Render\Node( );
-					$HTML_12__classes[] = $Attribute_29 = new Render\Attribute( name : 'class', content : 'tabBtn' );
+					$HTML_12__classes[] = $Attribute_29 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
 
 
 			// Instantiating HTML_12__attributes for upcoming attributes assignment
 				$HTML_12__attributes = new Render\Attribute( );
-					$HTML_12__attributes[] = $Attribute_29 = new Render\Attribute( name : 'class', content : 'tabBtn' );
-					$HTML_12__attributes[] = $Attribute_31 = new Render\Attribute( name : 'tab-activate', content : '6' );
+					$HTML_12__attributes[] = $Attribute_29 = new Render\Attribute( name : 'class', content : 'tabBtn control' );
+					$HTML_12__attributes[] = $Attribute_31 = new Render\Attribute( name : 'data-action', content : 'tab.climb' );
 
 
 			$HTML_1[] = $HTML_12 = new Render\HTML( tag : 'div', classes: $HTML_12__classes, attributes: $HTML_12__attributes, content : 'Adapt' );
@@ -196,12 +196,12 @@ use \Approach\Render;
 		$HTML_0[] = $HTML_14 = new Render\HTML( tag : 'main', classes: $HTML_14__classes, attributes: $HTML_14__attributes );
 			// Instantiating HTML_15__classes for upcoming classes assignment
 				$HTML_15__classes = new Render\Node( );
-					$HTML_15__classes[] = $Attribute_35 = new Render\Attribute( name : 'class', content : 'tab active tab1' );
+					$HTML_15__classes[] = $Attribute_35 = new Render\Attribute( name : 'class', content : 'tab active' );
 
 
 			// Instantiating HTML_15__attributes for upcoming attributes assignment
 				$HTML_15__attributes = new Render\Attribute( );
-					$HTML_15__attributes[] = $Attribute_35 = new Render\Attribute( name : 'class', content : 'tab active tab1' );
+					$HTML_15__attributes[] = $Attribute_35 = new Render\Attribute( name : 'class', content : 'tab active' );
 
 
 			// Instantiating HTML_15__content for upcoming content assignment
@@ -210,12 +210,12 @@ use \Approach\Render;
 			$HTML_14[] = $HTML_15 = new Render\HTML( tag : 'div', classes: $HTML_15__classes, attributes: $HTML_15__attributes, content: $HTML_15__content );
 			// Instantiating HTML_16__classes for upcoming classes assignment
 				$HTML_16__classes = new Render\Node( );
-					$HTML_16__classes[] = $Attribute_37 = new Render\Attribute( name : 'class', content : 'tab tab2' );
+					$HTML_16__classes[] = $Attribute_37 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_16__attributes for upcoming attributes assignment
 				$HTML_16__attributes = new Render\Attribute( );
-					$HTML_16__attributes[] = $Attribute_37 = new Render\Attribute( name : 'class', content : 'tab tab2' );
+					$HTML_16__attributes[] = $Attribute_37 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			$HTML_14[] = $HTML_16 = new Render\HTML( tag : 'div', classes: $HTML_16__classes, attributes: $HTML_16__attributes );
@@ -263,12 +263,12 @@ use \Approach\Render;
 
 			// Instantiating HTML_22__classes for upcoming classes assignment
 				$HTML_22__classes = new Render\Node( );
-					$HTML_22__classes[] = $Attribute_44 = new Render\Attribute( name : 'class', content : 'tab tab3' );
+					$HTML_22__classes[] = $Attribute_44 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_22__attributes for upcoming attributes assignment
 				$HTML_22__attributes = new Render\Attribute( );
-					$HTML_22__attributes[] = $Attribute_44 = new Render\Attribute( name : 'class', content : 'tab tab3' );
+					$HTML_22__attributes[] = $Attribute_44 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_22__content for upcoming content assignment
@@ -289,12 +289,12 @@ use \Approach\Render;
 
 			// Instantiating HTML_24__classes for upcoming classes assignment
 				$HTML_24__classes = new Render\Node( );
-					$HTML_24__classes[] = $Attribute_48 = new Render\Attribute( name : 'class', content : 'tab tab4' );
+					$HTML_24__classes[] = $Attribute_48 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_24__attributes for upcoming attributes assignment
 				$HTML_24__attributes = new Render\Attribute( );
-					$HTML_24__attributes[] = $Attribute_48 = new Render\Attribute( name : 'class', content : 'tab tab4' );
+					$HTML_24__attributes[] = $Attribute_48 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_24__content for upcoming content assignment
@@ -318,12 +318,12 @@ use \Approach\Render;
 
 			// Instantiating HTML_27__classes for upcoming classes assignment
 				$HTML_27__classes = new Render\Node( );
-					$HTML_27__classes[] = $Attribute_52 = new Render\Attribute( name : 'class', content : 'tab tab5' );
+					$HTML_27__classes[] = $Attribute_52 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_27__attributes for upcoming attributes assignment
 				$HTML_27__attributes = new Render\Attribute( );
-					$HTML_27__attributes[] = $Attribute_52 = new Render\Attribute( name : 'class', content : 'tab tab5' );
+					$HTML_27__attributes[] = $Attribute_52 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			$HTML_14[] = $HTML_27 = new Render\HTML( tag : 'div', classes: $HTML_27__classes, attributes: $HTML_27__attributes );
