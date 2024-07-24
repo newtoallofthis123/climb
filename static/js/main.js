@@ -64,7 +64,7 @@ let onReadyHandle = function (element, selector, markup) {
     .click(function () {
       $('ul.Toolbar > li').removeClass('active');
       $(this).parent().addClass('active');
-      animateCSS('.active > ul', 'lightSpeedInRight');
+      // animateCSS('.active > ul', 'lightSpeedInRight');
     });
 
   $(element)
@@ -77,7 +77,7 @@ let onReadyHandle = function (element, selector, markup) {
         $('ul.Toolbar li').removeClass('selected');
         $(this).parents('li').addClass('selected');
 
-        animateCSS('.active > ul', 'lightSpeedInRight');
+        // animateCSS('.active > ul', 'lightSpeedInRight');
 
         var selectedEle = '';
         $(this)
@@ -193,7 +193,7 @@ let onReadyHandle = function (element, selector, markup) {
     var tabId = $(this).attr('tab-activate');
     $('main > div').removeClass('active');
     $('main > div.tab' + tabId).addClass('active');
-    animateCSS('.' + tabId, 'fadeIn');
+    // animateCSS('.' + tabId, 'fadeIn');
   });
   // --> End DOM Ready stuff
 };

@@ -104,7 +104,7 @@ $body = new HTML(tag: 'body', classes: ['Interface']);
 $body->content = <<<HTML
     <div class="Stage">
         <div id="main" class="Screen">
-            <div class="Oyster InterfaceContent controls animate__animated animate__fadeIn">
+            <div class="Oyster InterfaceContent controls">
                 <section class="header controls">
                     <button class="backBtn">
                         <div>
@@ -112,7 +112,7 @@ $body->content = <<<HTML
                         </div>
                     </button>
                     <button
-                        class="controls btn btn-warning current-state ms-2 animate__animated animate__slideInDown"
+                        class="controls btn btn-warning current-state ms-2"
                         id="menuButton"
                     >
                         <span id="menuButtonText"><span></span></span>
@@ -121,7 +121,7 @@ $body->content = <<<HTML
                     <ul class="breadcrumbs" style="display: none"></ul>
                     <span id="newButton">
                          <button
-                            class="control btn btn-primary current-state ms-2 animate__animated animate__slideInDown"
+                            class="control btn btn-primary current-state ms-2"
                             id="newButton"
                             data-api="/server.php"
                             data-api-method="POST"

@@ -358,7 +358,7 @@ class Server extends Service
         $btn = new Intent(
             tag: 'button',
             id: 'newButton',
-            classes: ['control', ' btn', ' btn-primary', ' current-state', ' animate__animated', ' animate__slideInDown'],
+            classes: ['control', ' btn', ' btn-primary', ' current-state'],
             content: 'New',
             context: ['_response_target' => '#content> div', 'parent_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
             intent: ['REFRESH' => ['Climb' => 'New']],
@@ -432,7 +432,7 @@ class Server extends Service
             api: '/server.php',
             method: 'POST',
             intent: ['REFRESH' => ['Climb' => 'Edit']],
-            classes: ['control', ' btn', ' btn-primary', ' animate__animated', ' animate__slideInDown'],
+            classes: ['control', ' btn', ' btn-primary'],
             content: 'Edit',
             context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']]
         );
