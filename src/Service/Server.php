@@ -437,12 +437,19 @@ class Server extends Service
             context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']]
         );
 
+        $somePlans = [];
+        foreach($jsonFile['Plan'] as $amount) {
+            foreach($amount as $plan) {
+                $somePlans[] = implode(' ', $plan);
+            }
+        }
+
         $tokens = [
             'Edit' => $edit,
             'Requirements' => $requirements,
             'Interests' => new UIList($jsonFile['Survey']['interests']),
             'Obstructions' => new UIList($jsonFile['Survey']['obstructions']),
-            'Review' => new UIList($jsonFile['Review'] ?? ['Review']),
+            'Review' => new UIList($somePlans),
             'Progress' => $jsonFile['Work']['document_progress'],
             'InterestsD' => new UIList($jsonFile['Describe']['d_interests']),
             'Hazards' => new UIList($jsonFile['Describe']['hazards']),
@@ -556,7 +563,7 @@ class Server extends Service
         );
 
         // $success = $imp->Prepare();
-
+        //
         // $imp->Mint('Issueform');
 
         if ($result == null) {
@@ -596,11 +603,12 @@ class Server extends Service
         $reviewForm = new HTML(tag: 'div');
         foreach ($details['Plan'] as $key => $amount) {
             foreach($amount as $quantity){
-            $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity[0]);
-            $inputGroup[] = new UIInput('review' . $key . '-unit', $quantity[1]);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
-        }}
+                $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+                $inputGroup[] = new UIInput('review' . $key ?? '' . '-quantity', $quantity[0] ?? '');
+                $inputGroup[] = new UIInput('review' . $key ?? '' . '-unit', $quantity[1] ?? '');
+                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
+            }
+        }
 
         $interestsDForm = new HTML(tag: 'div');
         foreach ($details['Describe']['d_interests'] as $key => $interest) {

@@ -8,6 +8,8 @@ namespace ClimbUI;
 
 use Approach\Render\HTML;
 
+use function PHPSTORM_META\type;
+
 // disable errors
 error_reporting(0);
 
@@ -87,6 +89,10 @@ $head[] = new HTML(tag: 'script', attributes: [
     'type' => 'text/javascript',
     'src' => '/static/js/approach/approach.interface.js',
 ]);
+$head[] = new HTML(tag: 'script', attributes: [
+    'type' => 'text/javascript',
+    'src' => '/static/js/approach/approach.utility.js',
+]);
 $head[] = new HTML(tag: 'link', attributes: [
     'href' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
     'rel' => 'stylesheet',
@@ -98,13 +104,21 @@ $head[] = new HTML(tag: 'link', attributes: [
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/main.js',
 ]);
+$head[] = new HTML(tag: 'script', attributes: ['src' => '/static/js/climbs/climb.js']);
+$climbJS = <<<JS
+import {ClimbsJS} from "/static/js/climbs/climb.js";
+
+addScopeJS(['Climbs', 'main'], {});
+Climbs.main = new ClimbsJS({});
+JS;
+$head[] = new HTML(tag: 'script', attributes: ['type' => 'module'], content: $climbJS);
 
 $body = new HTML(tag: 'body', classes: ['Interface']);
 
 $body->content = <<<HTML
     <div class="Stage">
         <div id="main" class="Screen">
-            <div class="Oyster InterfaceContent controls">
+            <div class="Oyster Interface InterfaceContent controls">
                 <section class="header controls">
                     <button class="backBtn">
                         <div>
@@ -153,6 +167,9 @@ $body->content = <<<HTML
             </div>
             <div class="Viewport">
                 <div id="content">
+                    <button id="hello">
+                        Hello!
+                    </button>
                     <div></div>
                 </div>
                 <div id="result"></div>
