@@ -137,7 +137,7 @@ let onReadyHandle = function (element, selector, markup) {
     .each(function(){
       Climb.active.push(
         new ClimbJS({
-          what: $(this),
+          what: '.TabForm',
           tabs: {
             container: '.TabBar',
             selector: '.tabBtn',

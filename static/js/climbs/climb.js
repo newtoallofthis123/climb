@@ -25,8 +25,11 @@ Climb.main = function (config = {}) {
     $($elf.config.what).on('add.climb', dispatch.add);
     $($elf.config.what).on('remove.climb', dispatch.remove);
     $($elf.config.what).on('add-plan.climb', dispatch.add_plan);
-    $($elf.config.what)
-      .find($elf.config.tab.container)
+
+    console.log( 'Climb Tab Found',
+      $($elf.config.what + " " +$elf.config.tab.container + " "+ $elf.config.selector)
+    );
+    $($elf.config.what + " " +$elf.config.tab.container + " "+ $elf.config.selector)
       .on('tab.climb', dispatch.tab.change);
   };
 
