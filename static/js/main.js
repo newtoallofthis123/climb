@@ -1,3 +1,7 @@
+import { ClimbJS } from './climbs/climb.js';
+
+addScopeJS(["Climb","active",{}]);
+
 // The main entry point for the application
 // Any and all javascript functions should be defined in the onReadyHandle function
 // Approach is mapped to this wrapper function to allow for the same benefits as document ready
@@ -125,6 +129,22 @@ let onReadyHandle = function (element, selector, markup) {
           .children('.visual')
           .trigger('click');
       }
+    });
+
+
+  $(element)
+    .find('.TabForm')
+    .each(function(){
+      Climb.active.push(
+        new ClimbJS({
+          what: $(this),
+          tabs: {
+            container: '.TabBar',
+            selector: '.tabBtn',
+            class: 'tabBtn',
+          },
+        })
+      );
     });
 
   // // --> Add your custom event handlers here

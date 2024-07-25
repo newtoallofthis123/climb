@@ -17,14 +17,12 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\path;
 use Approach\Scope;
-use ClimbUI\Imprint\Form\Issueform;
+use ClimbUI\Imprint\Climb\Editor;
+use ClimbUI\Imprint\Climb\Viewer;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
-use ClimbUI\Imprint\View\IssueView;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\Intent;
-use ClimbUI\Render\TabsForm;
-use ClimbUI\Render\TabsInfo;
 use ClimbUI\Render\UIInput;
 use ClimbUI\Render\UIList;
 use ClimbUI\Service\Issue;
@@ -337,7 +335,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $form = new Issueform(tokens: $tokens);
+        $form = new Editor(tokens: $tokens);
 
         return [
             'REFRESH' => [
@@ -411,13 +409,13 @@ class Server extends Service
         $fileDir = str_replace('/../', '', $fileDir);
 
         // $imp = new Imprint(
-        //     imprint: 'View.xml',
+        //     imprint: 'Climb.xml',
         //     imprint_dir: $fileDir,
         // );
         
         // $success = $imp->Prepare();
         
-        // $imp->Mint('IssueView');
+        // $imp->Mint('Viewer');
 
         $requirements = new HTML(tag: 'div', classes: ['New']);
         $requirements[] = new HTML(tag: 'h4', content: '🎯 Goal: ' . $jsonFile['Climb']['title']);
@@ -455,7 +453,7 @@ class Server extends Service
             'Hazards' => new UIList($jsonFile['Describe']['hazards']),
         ];
 
-        $tabsInfo = new IssueView($tokens);
+        $tabsInfo = new Viewer($tokens);
 
         $pearls = [];
         $hierarchy = self::getHierarchy($results, $climbId);
@@ -557,14 +555,14 @@ class Server extends Service
         $fileDir = $scope->GetPath(path::pattern);
         $fileDir = str_replace('/../', '', $fileDir);
 
-        $imp = new Imprint(
-            imprint: 'Form.xml',
-            imprint_dir: $fileDir,
-        );
+        // $imp = new Imprint(
+        //     imprint: 'Climb.xml',
+        //     imprint_dir: $fileDir,
+        // );
 
         // $success = $imp->Prepare();
-        //
-        // $imp->Mint('Issueform');
+        
+        // $imp->Mint('Editor');
 
         if ($result == null) {
             return [
@@ -650,7 +648,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $tabsForm = new Issueform(tokens: $tokens);
+        $tabsForm = new Editor(tokens: $tokens);
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
@@ -749,7 +747,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $tabsForm = new Issueform(tokens: $tokens);
+        $tabsForm = new Editor(tokens: $tokens);
         
 
         return [

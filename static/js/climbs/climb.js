@@ -1,7 +1,7 @@
-addScopeJS(['Climbs', 'main'], {});
-addScopeJS(['Climbs', 'active'], {});
+addScopeJS(['Climb', 'main'], {});
+addScopeJS(['Climb', 'active'], {});
 
-Climbs.main = function (config = {}) {
+Climb.main = function (config = {}) {
   let $elf = this;
 
   $elf.config = {
@@ -20,15 +20,20 @@ Climbs.main = function (config = {}) {
    * @return {void}
    */
   $elf.init = function () {
+    console.group('Climb Editor');
+    console.log('Initializing...');
     $($elf.config.what).on('add.climb', dispatch.add);
     $($elf.config.what).on('remove.climb', dispatch.remove);
     $($elf.config.what).on('add-plan.climb', dispatch.add_plan);
-    $($elf.config.what).on('tab.climb', dispatch.tab.change);
+    $($elf.config.what)
+      .find($elf.config.tab.container)
+      .on('tab.climb', dispatch.tab.change);
   };
 
   let dispatch = {
     tab: {
       change: function (e) {
+        console.log('tab change');
         // Grab current plugin instance container
         let current = $(e.target).closest($elf.config.what);
         let new_tab = null;
@@ -112,7 +117,9 @@ Climbs.main = function (config = {}) {
   };
 
   $elf.init();
+  console.log('Finished.');
+  console.groupEnd('Climb Editor');
   return $elf;
 };
 
-export let ClimbsJS = Climbs.main;
+export let ClimbJS = Climb.main;

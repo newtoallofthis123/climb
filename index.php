@@ -105,6 +105,7 @@ $head[] = new HTML(tag: 'script', attributes: [
 
 
 $head[] = 
+/*
 $climb_plugin = new HTML(
     tag: 'script', 
     attributes: [
@@ -118,9 +119,10 @@ $climbJS = <<<JS
     addScopeJS(['Climbs', 'active'], {});
     Climbs.active = new ClimbsJS({});
 JS;
-
+*/
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/main.js',
+    'type' => 'module',
 ]);
 
 
@@ -180,9 +182,6 @@ $body->content = <<<HTML
             </div>
             <div class="Viewport">
                 <div id="content">
-                    <button id="hello">
-                        Hello!
-                    </button>
                     <div></div>
                 </div>
                 <div id="result"></div>
