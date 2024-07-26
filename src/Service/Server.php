@@ -408,15 +408,6 @@ class Server extends Service
         $fileDir = $scope->GetPath(path::pattern);
         $fileDir = str_replace('/../', '', $fileDir);
 
-        // $imp = new Imprint(
-        //     imprint: 'Climb.xml',
-        //     imprint_dir: $fileDir,
-        // );
-        
-        // $success = $imp->Prepare();
-        
-        // $imp->Mint('Viewer');
-
         $requirements = new HTML(tag: 'div', classes: ['New']);
         $requirements[] = new HTML(tag: 'h4', content: '🎯 Goal: ' . $jsonFile['Climb']['title']);
         $requirements[] = new HTML(tag: 'p', content: 'Tracked with Issue ID: ' . $jsonFile['Climb']['climb_id']);
@@ -486,15 +477,17 @@ class Server extends Service
             intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
             api: '/server.php',
             method: 'POST',
+            content: '<i class="bi bi-chevron-left"></i>'
         );
 
         $breadRender = new Intent(
             tag: 'div',
-            classes: ['control'],
-            context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
-            intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
+            classes: ['control', ' visual'],
+            context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
+            intent: ['REFRESH' => ['Climb' => 'View']],
             api: '/server.php',
             method: 'POST',
+            content: '<i class="bi bi-chevron-right"></i>' . $hierarchy['parent']['title']
         );
 
         // Check it the parent has no children
@@ -502,9 +495,12 @@ class Server extends Service
             return [
                 'REFRESH' => [
                     '#content > div' => $tabsInfo->render(),
-                    '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+                    // '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
                     '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
                 ],
+                'APPEND' => [
+                    '.breadcrumbs' => '<li>' . $breadRender . '</li>',
+                ]
             ];
         }
 
@@ -512,8 +508,8 @@ class Server extends Service
             'REFRESH' => [
                 '#content > div' => $tabsInfo->render(),
                 '.Toolbar > .active > ul' => $oyster->render(),
-                '.backBtn > div' => $back,
-                '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
+                '.backBtn > div' => $back->render(),
+                // '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
                 '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
             ],
             'APPEND' => [

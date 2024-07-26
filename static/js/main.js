@@ -1,6 +1,6 @@
 import { ClimbJS } from './climbs/climb.js';
 
-addScopeJS(["Climb","active",{}]);
+addScopeJS(['Climb', 'active', {}]);
 
 // The main entry point for the application
 // Any and all javascript functions should be defined in the onReadyHandle function
@@ -68,7 +68,6 @@ let onReadyHandle = function (element, selector, markup) {
     .click(function () {
       $('ul.Toolbar > li').removeClass('active');
       $(this).parent().addClass('active');
-      // animateCSS('.active > ul', 'lightSpeedInRight');
     });
 
   $(element)
@@ -80,8 +79,6 @@ let onReadyHandle = function (element, selector, markup) {
         $(this).parent().addClass('active');
         $('ul.Toolbar li').removeClass('selected');
         $(this).parents('li').addClass('selected');
-
-        // animateCSS('.active > ul', 'lightSpeedInRight');
 
         var selectedEle = '';
         $(this)
@@ -96,9 +93,8 @@ let onReadyHandle = function (element, selector, markup) {
         selectedEle += "<li><div class='visual'>";
         selectedEle += $(this).html();
         selectedEle += '</div></li>';
-        $('.breadcrumbs').append(selectedEle);
+        // $('.breadcrumbs').append(selectedEle);
         var selectedOption = $(this).children('label').text();
-        animateCSS('.breadcrumbs', 'fadeIn');
         $('#menuButtonText').text(selectedOption);
       }
     });
@@ -106,12 +102,12 @@ let onReadyHandle = function (element, selector, markup) {
   //animateCSS('.Oyster', 'fadeIn');
 
   // $(element)
-  //     .find('.Oyster .breadcrumbs')
-  //     .on('click', 'li', function(e) {
-  //         $('.Oyster .breadcrumbs li').removeClass('active');
-  //         e.stopPropagation();
-  //         $(this).addClass('active');
-  //     });
+  //   .find('.Oyster .breadcrumbs')
+  //   .on('click', 'li', function (e) {
+  //     $('.Oyster .breadcrumbs li').removeClass('active');
+  //     e.stopPropagation();
+  //     $(this).addClass('active');
+  //   });
   $(element)
     .find('#menuButton')
     .click(function (e) {
@@ -131,10 +127,9 @@ let onReadyHandle = function (element, selector, markup) {
       }
     });
 
-
   $(element)
     .find('.TabForm')
-    .each(function(){
+    .each(function () {
       Climb.active.push(
         new ClimbJS({
           what: '.TabForm',

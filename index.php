@@ -8,8 +8,6 @@ namespace ClimbUI;
 
 use Approach\Render\HTML;
 
-use function PHPSTORM_META\type;
-
 // disable errors
 error_reporting(0);
 
@@ -155,7 +153,7 @@ $body->content = <<<HTML
                             data-api="/server.php"
                             data-api-method="POST"
                             data-intent='{ "REFRESH": { "Climb" : "Copy" } }'
-                            data-context='{ "_response_target": "#content > div", "climb_id": "34", "parent_id": "", "repo": "$repo", "owner": "$owner" }'
+                            data-context='{ "_response_target": "#content > div", "parent_id": "", "repo": "$repo", "owner": "$owner" }'
                         >
                             New
                         </button>
@@ -173,8 +171,6 @@ $body->content = <<<HTML
                             >
                                 View
                             </button>
-                            <label>Root</label>
-                            <i class="expand fa fa-angle-right"> </i>
                         </div>
                         <ul></ul>
                     </li>
