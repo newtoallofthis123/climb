@@ -39,22 +39,22 @@
   padding: 20px;
 }
 
-.Oyster .Toolbar > li > .visual {
+.Oyster .Toolbar>li>.visual {
   border-radius: 10px;
   background-color: #ffffff;
   margin-bottom: 1rem !important;
   width: 60px;
 }
 
-.Oyster .Toolbar > li.active > .visual > button {
+.Oyster .Toolbar>li.active>.visual>button {
   background-color: #2ebbf5 !important;
 }
 
-.Oyster .Toolbar > li.active > .visual > .icon {
+.Oyster .Toolbar>li.active>.visual>.icon {
   color: #f2f2fe;
 }
 
-.Oyster .Toolbar > li > .visual > .icon {
+.Oyster .Toolbar>li>.visual>.icon {
   color: #000000;
   text-align: center;
   padding: 20px;
@@ -62,9 +62,9 @@
   display: block;
 }
 
-.Oyster .Toolbar > li > .visual > label,
-.Oyster .Toolbar > li > .visual > i,
-.Oyster .Toolbar > li > ul,
+.Oyster .Toolbar>li>.visual>label,
+.Oyster .Toolbar>li>.visual>i,
+.Oyster .Toolbar>li>ul,
 .Oyster .breadcrumbs {
   display: none;
 }
@@ -81,7 +81,7 @@
   z-index: 1;
 }
 
-.Oyster .breadcrumbs > li ul {
+.Oyster .breadcrumbs>li ul {
   margin: 10px;
   padding: 0;
   border-radius: 10px;
@@ -89,7 +89,7 @@
   border: 1px solid #eeeeee;
 }
 
-.Oyster .breadcrumbs > li .visual {
+.Oyster .breadcrumbs>li .visual {
   color: #343451;
   padding: 12px;
 }
@@ -98,7 +98,7 @@
   position: absolute;
   left: 8%;
   height: 100%;
-  width: 300px;
+  width: 350px;
   padding: 20px;
 }
 
@@ -129,8 +129,8 @@ li:not(:has(ul)) i.expand {
 }
 
 .Oyster .breadcrumbs li .visual:hover,
-.Oyster .breadcrumbs li:hover > label,
-.Oyster .breadcrumbs li:hover > i {
+.Oyster .breadcrumbs li:hover>label,
+.Oyster .breadcrumbs li:hover>i {
   background-color: #343451 !important;
   color: #f2f2fe;
   border-radius: 12px;
@@ -184,16 +184,16 @@ ul.Toolbar li ul li {
   display: none;
 }
 
-ul.Toolbar li.active > ul > li {
+ul.Toolbar li.active>ul>li {
   display: block;
 }
 
-ul.Toolbar ul li.active > ul > li {
+ul.Toolbar ul li.active>ul>li {
   width: 200px;
 }
 
-ul.Toolbar ul li.active > .visual,
-ul.Toolbar ul li.selected > .visual {
+ul.Toolbar ul li.active>.visual,
+ul.Toolbar ul li.selected>.visual {
   display: none;
 }
 

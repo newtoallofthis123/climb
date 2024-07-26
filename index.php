@@ -149,14 +149,15 @@ $body->content = <<<HTML
                     <span id="newButton">
                          <button
                             class="control btn btn-primary current-state ms-2"
-                            id="newButton"
                             data-api="/server.php"
                             data-api-method="POST"
-                            data-intent='{ "REFRESH": { "Climb" : "Copy" } }'
+                            data-intent='{ "REFRESH": { "Climb" : "New" } }'
                             data-context='{ "_response_target": "#content > div", "parent_id": "", "repo": "$repo", "owner": "$owner" }'
                         >
                             New
                         </button>
+                    </span>
+                    <span id="newTemplate">
                     </span>
                 </section>
                 <ul class="Toolbar controls">

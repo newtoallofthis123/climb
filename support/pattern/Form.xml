@@ -1,7 +1,7 @@
 <Imprint xmlns:Imprint="Render://approach.local">
     <Imprint:Pattern name="Editor" type="HTML">
         <div class="TabsForm Interface">
-            <nav class="TabBar controls"> 
+            <nav class="TabBar InterfaceContent controls"> 
                 <div class="tabBtn control" data-role="trigger"  data-action="tab.climb" >Requirements<i class="bi bi-arrow-right"></i></div>
                 <div class="tabBtn control" data-role="trigger"  data-action="tab.climb" >Survey<i class="bi bi-arrow-right"></i></div>
                 <div class="tabBtn control" data-role="trigger"  data-action="tab.climb" >Review<i class="bi bi-arrow-right"></i></div>
@@ -9,7 +9,7 @@
                 <div class="tabBtn control" data-role="trigger"  data-action="tab.climb" >Describe<i class="bi bi-arrow-right"></i></div>
                 <div class="tabBtn control" data-role="trigger"  data-action="tab.climb" >Adapt<i class="bi bi-arrow-right"></i></div>
             </nav>
-            <main class="Interface InterfaceContent">
+            <main class="InterfaceContent">
                 <div class="tab tab1 active">
                     <h4>1. Decide a Goal </h4>
                     <p>

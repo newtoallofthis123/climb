@@ -19,6 +19,7 @@ use Approach\path;
 use Approach\Scope;
 use ClimbUI\Imprint\Climb\Editor;
 use ClimbUI\Imprint\Climb\Viewer;
+use ClimbUI\Imprint\Form\Editor as FormEditor;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
@@ -324,7 +325,7 @@ class Server extends Service
         $tokens = [
             'Title' => new UIInput('title', $details['Climb']['title'] ?? ''),
             'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
-            'Requirements' => $requirementsForm,
+            'Requirements' => $requirementsForm ?? '',
             'Survey' => '',
             'Obstacles' => '',
             'Plan' => '',
@@ -335,7 +336,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $form = new Editor(tokens: $tokens);
+        $form = new FormEditor(tokens: $tokens);
 
         return [
             'REFRESH' => [
@@ -490,6 +491,17 @@ class Server extends Service
             content: '<i class="bi bi-chevron-right"></i>' . $hierarchy['parent']['title']
         );
 
+        $copyRender = new Intent(
+            tag: 'button',
+            id: 'newTemplate',
+            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
+            intent: ['REFRESH' => ['Climb' => 'Copy']],
+            api: '/server.php',
+            method: 'POST',
+            content: 'Copy'
+        );
+
         // Check it the parent has no children
         if (count($hierarchy['children']) == 0) {
             return [
@@ -497,6 +509,7 @@ class Server extends Service
                     '#content > div' => $tabsInfo->render(),
                     // '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
                     '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
+                    '#newTemplate' => $copyRender->render(),
                 ],
                 'APPEND' => [
                     '.breadcrumbs' => '<li>' . $breadRender . '</li>',
@@ -511,6 +524,7 @@ class Server extends Service
                 '.backBtn > div' => $back->render(),
                 // '#menuButtonText > span' => '<span>' . $hierarchy['parent']['title'] . '</span>',
                 '#newButton' => self::getBtn($climbId, $owner, $repo, $labels),
+                '#newTemplate' => $copyRender->render(),
             ],
             'APPEND' => [
                 '.breadcrumbs' => '<li>' . $breadRender . '</li>',
@@ -730,7 +744,7 @@ class Server extends Service
         );
 
         $tokens = [
-            'Title' => new UIInput('title', $details['Climb']['title']),
+            'Title' => new UIInput('title', $details['Climb']['title'] ?? ''),
             'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
             'Requirements' => $requirementsForm,
             'Survey' => $surveyForm,
@@ -743,7 +757,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $tabsForm = new Editor(tokens: $tokens);
+        $tabsForm = new FormEditor(tokens: $tokens);
         
 
         return [
