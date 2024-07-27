@@ -16,8 +16,8 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\path;
 use Approach\Scope;
+use ClimbUI\Imprint\Climb\Editor;
 use ClimbUI\Imprint\Climb\Viewer;
-use ClimbUI\Imprint\Form\Editor as FormEditor;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
@@ -175,20 +175,6 @@ class Server extends Service
             ],
         );
 
-        // NOTE: Activate only to mint new imprint
-        //
-        // $fileDir = $scope->getPath(path::pattern);
-        // $fileDir = str_replace('/../', '', $fileDir);
-        //
-        // $imp = new Imprint(
-        //     imprint: 'GitHub.xml',
-        //     imprint_dir: $fileDir,
-        // );
-
-        // $success = $imp->Prepare();
-
-        // $imp->Mint('Issue');
-
         $body = new GitHubIssue(tokens: [
             'Requirements' => $sep[0],
             'Survey' => $sep[1],
@@ -210,7 +196,7 @@ class Server extends Service
                 title: $title,
             );
 
-            $service->dispatch();
+            // $service->dispatch();
         } else {
             $service = new UpdateIssue(
                 $config['owner'],
@@ -219,11 +205,11 @@ class Server extends Service
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            $service->dispatch();
+            // $service->dispatch();
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($res) . '</div>'],
+            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($action) . '</div>'],
         ];
     }
 
@@ -334,7 +320,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $form = new FormEditor(tokens: $tokens);
+        $form = new Editor(tokens: $tokens);
 
         return [
             'REFRESH' => [
@@ -587,7 +573,7 @@ class Server extends Service
         foreach ($details['Climb']['requirements'] as $key => $requirement) {
             $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('requirements' . $key, $requirement);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $surveyForm = new HTML(tag: 'div');
@@ -595,7 +581,7 @@ class Server extends Service
         foreach ($details['Survey']['interests'] as $key => $interest) {
             $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('interests' . $key, $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $obstaclesForm = new HTML(tag: 'div');
@@ -603,7 +589,7 @@ class Server extends Service
         foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
             $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $reviewForm = new HTML(tag: 'div');
@@ -612,7 +598,7 @@ class Server extends Service
                 $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
                 $inputGroup[] = new UIInput('review' . $key ?? '' . '-quantity', $quantity[0] ?? '');
                 $inputGroup[] = new UIInput('review' . $key ?? '' . '-unit', $quantity[1] ?? '');
-                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
+                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
             }
         }
 
@@ -620,14 +606,14 @@ class Server extends Service
         foreach ($details['Describe']['d_interests'] as $key => $interest) {
             $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('interestsd' . $key, $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $hazardsForm = new HTML(tag: 'div');
         foreach ($details['Describe']['hazards'] as $key => $hazard) {
             $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('hazards' . $key, $hazard);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $update = new HTML(tag: 'div', classes: ['controls']);
@@ -656,7 +642,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $tabsForm = new FormEditor(tokens: $tokens);
+        $tabsForm = new Editor(tokens: $tokens);
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
@@ -755,7 +741,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $tabsForm = new FormEditor(tokens: $tokens);
+        $tabsForm = new Editor(tokens: $tokens);
         
 
         return [

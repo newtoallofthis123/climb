@@ -32,13 +32,15 @@ $imp = new Imprint(
     imprint_dir: __DIR__.'/support/pattern/',
 );
 
-$otherImp = new Imprint(
-    imprint: 'Form.xml',
-    imprint_dir: __DIR__.'/support/pattern/',
+$success = $imp->Prepare();
+
+
+$imp2 = new Imprint(
+    imprint: 'Climb.xml',
+    imprint_dir: __DIR__ . '/support/pattern/',
 );
 
-$success = $imp->Prepare();
-$otherSuccess = $otherImp->Prepare();
+$success2 = $imp2->Prepare();
 
 echo '<!DOCTYPE html>' . PHP_EOL.'<html>'.PHP_EOL. '<head><title>Quick Mint</title>' . PHP_EOL.'<body><pre>';
 
@@ -46,6 +48,6 @@ echo 'Minting Viewer..'.PHP_EOL;
 $imp->Mint('Viewer');
 
 echo 'Minting Editor..'.PHP_EOL;
-$otherImp->Mint('Editor');
+$imp2->Mint('Editor');
 
 echo 'Done'.PHP_EOL. '</pre></body>' . PHP_EOL.'</html>';
