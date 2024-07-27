@@ -47,7 +47,7 @@ class Server extends Service
 
         $requirements = [];
         foreach ($climbForm as $key => $value) {
-            if (str_starts_with($key, 'requirement')) {
+            if (str_contains($key, 'requirement')) {
                 $requirements[] = $value;
             }
         }
@@ -55,10 +55,11 @@ class Server extends Service
         $interests = [];
         $obstructions = [];
         foreach ($surveyForm as $key => $value) {
-            if (str_starts_with($key, 'interest')) {
+            if (str_contains($key, 'survey')) {
                 $interests[] = $value;
-            }
-            if (str_starts_with($key, 'obstruction')) {
+            } else if (str_contains($key, 'obstruction')) {
+                $obstructions[] = $value;
+            } else{
                 $obstructions[] = $value;
             }
         }
@@ -187,29 +188,36 @@ class Server extends Service
 
         $config = self::getConfig();
 
+        $labels = ['climb-payload'];
+        // check if a parent_id is set
+        if (!isset($action['Climb']['parent_id'])) {
+            $labels[] = 'root';
+        }
+
         if ($toSave) {
             $service = new Issue(
                 $config['owner'],
                 $config['repo'],
-                labels: ['climb-payload'],
+                labels: $labels,
                 body: $body->render(),
                 title: $title,
             );
 
-            // $service->dispatch();
+            $service->dispatch();
         } else {
             $service = new UpdateIssue(
                 $config['owner'],
                 $config['repo'],
+                labels: $labels,
                 body: $body->render(),
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            // $service->dispatch();
+            $service->dispatch();
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($action) . '</div>'],
+            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($res) . '</div>'],
         ];
     }
 
@@ -549,15 +557,6 @@ class Server extends Service
         $fileDir = $scope->GetPath(path::pattern);
         $fileDir = str_replace('/../', '', $fileDir);
 
-        // $imp = new Imprint(
-        //     imprint: 'Climb.xml',
-        //     imprint_dir: $fileDir,
-        // );
-
-        // $success = $imp->Prepare();
-        
-        // $imp->Mint('Editor');
-
         if ($result == null) {
             return [
                 'REFRESH' => [$context['_response_target'] => '<p>' . json_encode($result) . '</p>'],
@@ -593,11 +592,11 @@ class Server extends Service
         }
 
         $reviewForm = new HTML(tag: 'div');
-        foreach ($details['Plan'] as $key => $amount) {
-            foreach ($amount as $quantity) {
+        foreach ($details['Plan'] as $amount) {
+            foreach ($amount as $key => $quantity) {
                 $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-                $inputGroup[] = new UIInput('review' . $key ?? '' . '-quantity', $quantity[0] ?? '');
-                $inputGroup[] = new UIInput('review' . $key ?? '' . '-unit', $quantity[1] ?? '');
+                $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity[0] ?? '');
+                $inputGroup[] = new UIInput('review' . $key . '-units', $quantity[1] ?? '');
                 $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
             }
         }

@@ -82,11 +82,12 @@ Climb.main = function (config = {}) {
       console.log('cool_add');
       let parent = $(e.target).closest('.plan_inputs');
       let name = parent.attr('id');
-      let container = $('<div>', { class: 'input-container' });
+      let input_container = $('<div>', { class: 'input-container' });
       let id = parent.find('input').last().attr('name');
       if (!id) {
         id = name + '0';
       } else {
+        id = id.split('-')[0];
         id = id.substring(id.length - 1);
         id = parseInt(id) + 1;
         id = name + id;
@@ -95,14 +96,14 @@ Climb.main = function (config = {}) {
       let otherInput = $('<input>', { type: 'text', name: id + '-units' });
       let removeButton = $('<button>', {
         type: 'button',
-        class: 'remove_plan',
+        class: 'remove_plan control',
       });
       removeButton.attr('data-role', 'trigger');
       removeButton.attr('data-action', 'remove.climb');
 
       removeButton.append($('<i>', { class: 'bi bi-x' }));
-      container.append(input, otherInput, removeButton);
-      parent.append(container);
+      input_container.append(input, otherInput, removeButton);
+      parent.append(input_container);
     },
   };
 

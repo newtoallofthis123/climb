@@ -425,7 +425,7 @@ use \Approach\Render;
 						// Instantiating HTML_35__content for upcoming content assignment
 							$HTML_35__content = $this->token_nodes['Obstacles'] = new Render\Token( name : 'Obstacles' );
 
-						$HTML_33[] = $HTML_35 = new Render\HTML( tag : 'div', id : 'obstacles', classes: $HTML_35__classes, attributes: $HTML_35__attributes, content: $HTML_35__content );
+						$HTML_33[] = $HTML_35 = new Render\HTML( tag : 'div', id : 'obstruction', classes: $HTML_35__classes, attributes: $HTML_35__attributes, content: $HTML_35__content );
 							// Instantiating HTML_36__classes for upcoming classes assignment
 								$HTML_36__classes = new Render\Node( );
 									$HTML_36__classes[] = $Attribute_84 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
@@ -471,12 +471,12 @@ use \Approach\Render;
 				$HTML_37[] = $HTML_39 = new Render\HTML( tag : 'p', classes: $HTML_39__classes, attributes: $HTML_39__attributes, content : 'Describe the environment.' );
 				// Instantiating HTML_40__classes for upcoming classes assignment
 					$HTML_40__classes = new Render\Node( );
-						$HTML_40__classes[] = $Attribute_93 = new Render\Attribute( name : 'class', content : 'Autoform' );
+						$HTML_40__classes[] = $Attribute_93 = new Render\Attribute( name : 'class', content : 'Autoform controls' );
 
 
 				// Instantiating HTML_40__attributes for upcoming attributes assignment
 					$HTML_40__attributes = new Render\Attribute( );
-						$HTML_40__attributes[] = $Attribute_93 = new Render\Attribute( name : 'class', content : 'Autoform' );
+						$HTML_40__attributes[] = $Attribute_93 = new Render\Attribute( name : 'class', content : 'Autoform controls' );
 						$HTML_40__attributes[] = $Attribute_95 = new Render\Attribute( name : 'data-action', content : 'Plan' );
 
 
@@ -501,7 +501,7 @@ use \Approach\Render;
 					// Instantiating HTML_42__content for upcoming content assignment
 						$HTML_42__content = $this->token_nodes['Plan'] = new Render\Token( name : 'Plan' );
 
-					$HTML_40[] = $HTML_42 = new Render\HTML( tag : 'div', id : 'plan', classes: $HTML_42__classes, attributes: $HTML_42__attributes, content: $HTML_42__content );
+					$HTML_40[] = $HTML_42 = new Render\HTML( tag : 'div', id : 'review', classes: $HTML_42__classes, attributes: $HTML_42__attributes, content: $HTML_42__content );
 						// Instantiating HTML_43__classes for upcoming classes assignment
 							$HTML_43__classes = new Render\Node( );
 								$HTML_43__classes[] = $Attribute_99 = new Render\Attribute( name : 'class', content : 'add_plan control btn btn-primary' );
@@ -752,7 +752,7 @@ use \Approach\Render;
 
 
 		foreach($tokens as $key => $value){
-			$this->token_nodes[$key]->content = $tokens[$key];
+			$this->token_nodes[$key]->content = $tokens[$key] ?? '';
 		}
 		$this->nodes[] = $Node_0;
 	}

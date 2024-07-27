@@ -113,7 +113,7 @@
                         </div>
                         <div>
                             <p> Obstacles </p>
-                            <div class="inputs input-container controls" id="obstacles">
+                            <div class="inputs input-container controls" id="obstruction">
                                 [@ Obstacles @]
                                 <button type="button" data-role="trigger" data-action="add.climb" class="add control btn btn-primary">
                                     Add
@@ -127,9 +127,9 @@
                     <p>
                         Describe the environment.
                     </p>
-                    <form class="Autoform" data-action="Plan">
+                    <form class="Autoform controls" data-action="Plan">
                         <p> Plan </p>
-                        <div class="plan_inputs input-container controls" id="plan">
+                        <div class="plan_inputs input-container controls" id="review">
                             [@ Plan @]
                             <button type="button" data-role="trigger" data-action="add-plan.climb" class="add_plan control btn btn-primary">
                                 Add

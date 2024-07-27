@@ -488,7 +488,7 @@ use \Approach\Render;
 
 
 		foreach($tokens as $key => $value){
-			$this->token_nodes[$key]->content = $tokens[$key];
+			$this->token_nodes[$key]->content = $tokens[$key] ?? '';
 		}
 		$this->nodes[] = $Node_0;
 	}
