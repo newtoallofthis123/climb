@@ -49,7 +49,6 @@ Climb.main = function (config = {}) {
       },
     },
     add: function (e) {
-      e.preventDefault();
       console.log('add');
       let parent = $(e.target).closest('.inputs');
       let name = parent.attr('id');
@@ -75,16 +74,13 @@ Climb.main = function (config = {}) {
       parent.append(input_container);
     },
     remove: function (e) {
-      e.preventDefault();
       console.log('remove');
       // remove it"s parent
       $(e.target).closest('.input-container').remove();
     },
     add_plan: function (e) {
-      e.preventDefault(); // wont be needed with intent action delegation (interface does this for u)
-      // fair // i guess it is still needed until we do the debug step...maybe
       console.log('cool_add');
-      let parent = $(this).closest('.plan_inputs');
+      let parent = $(e.target).closest('.plan_inputs');
       let name = parent.attr('id');
       let container = $('<div>', { class: 'input-container' });
       let id = parent.find('input').last().attr('name');
@@ -101,6 +97,9 @@ Climb.main = function (config = {}) {
         type: 'button',
         class: 'remove_plan',
       });
+      removeButton.attr('data-role', 'trigger');
+      removeButton.attr('data-action', 'remove.climb');
+
       removeButton.append($('<i>', { class: 'bi bi-x' }));
       container.append(input, otherInput, removeButton);
       parent.append(container);

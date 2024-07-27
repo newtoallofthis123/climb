@@ -169,12 +169,16 @@ var Interface = function ({Markup = {}, api = "//service.example.com/MyService",
 			}
 			else $elf.Controls = $(Markup).find(".controls"); // Markup.querySelector(".controls") for vanilla
 
+
+			$elf.Controls.off( event_triggers );
 			$elf.Controls.on(event_triggers, function (event) {	// each for vanilla
 				$elf.call.events(event);
 			});
 
 			$elf.Controls.find(".control[data-trigger]").each(function (i, el2) {
 				data_trigger = $(el2).data("trigger");
+				
+				$elf.Controls.off(data_trigger);
 				$(el2).on(data_trigger, function (event) {
 					$elf.call.events(event);
 				});

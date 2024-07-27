@@ -107,7 +107,7 @@ $head[] = new HTML(tag: 'script', attributes: [
     'type' => 'module',
 ]);
 
-$body = new HTML(tag: 'body', classes: ['Interface']);
+$body = new HTML(tag: 'body');
 
 $body->content = <<<HTML
     <div class="Stage">
