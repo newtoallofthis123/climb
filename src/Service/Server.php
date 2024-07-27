@@ -310,7 +310,7 @@ class Server extends Service
             role: 'autoform',
             method: 'POST',
             intent: ['REFRESH' => ['Climb' => 'Update']],
-            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            context: ['_response_target' => '#result', 'climb_id' => '', 'save' => 'true', 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
             content: 'Save'
         );
 
@@ -671,32 +671,32 @@ class Server extends Service
         foreach ($details['Climb']['requirements'] as $key => $requirement) {
             $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('requirements' . $key, placeholder: $requirement);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $surveyForm = new HTML(tag: 'div');
 
         foreach ($details['Survey']['interests'] as $key => $interest) {
             $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);            
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $obstaclesForm = new HTML(tag: 'div');
 
         foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
             $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction); 
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $reviewForm = new HTML(tag: 'div');
-        foreach ($details['Plan'] as $key => $amount) {
-            foreach ($amount as $quantity) {
+        foreach ($details['Plan'] as $amount) {
+            foreach ($amount as $key => $quantity) {
                 $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-                $inputGroup[] = new UIInput('review' . $key ?? '' . '-quantity', placeholder: $quantity[0] ?? '');
-                $inputGroup[] = new UIInput('review' . $key ?? '' . '-unit', $quantity[1] ?? '');
-                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review'], content: '<i class="bi bi-x"></i>');
+                $inputGroup[] = new UIInput('review' . $key . '-quantity', placeholder: $quantity[0] ?? '');
+                $inputGroup[] = new UIInput('review' . $key . '-units', placeholder: $quantity[1] ?? '');
+                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
             }
         }
 
@@ -704,14 +704,14 @@ class Server extends Service
         foreach ($details['Describe']['d_interests'] as $key => $interest) {
             $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('interestsd' . $key, placeholder: $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $hazardsForm = new HTML(tag: 'div');
         foreach ($details['Describe']['hazards'] as $key => $hazard) {
             $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
             $inputGroup[] = new UIInput('hazards' . $key, placeholder: $hazard);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove'], content: '<i class="bi bi-x"></i>');
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $update = new HTML(tag: 'div', classes: ['controls']);
@@ -722,12 +722,12 @@ class Server extends Service
             role: 'autoform',
             method: 'POST',
             intent: ['REFRESH' => ['Climb' => 'Update']],
-            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            context: ['_response_target' => '#result', 'save' => 'true', 'climb_id' => '', 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
             content: 'Save'
         );
 
         $tokens = [
-            'Title' => new UIInput('title', $details['Climb']['title'] ?? ''),
+            'Title' => new UIInput('title', placeholder: $details['Climb']['title'] ?? ''),
             'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
             'Requirements' => $requirementsForm,
             'Survey' => $surveyForm,
@@ -744,7 +744,7 @@ class Server extends Service
         
 
         return [
-            'REFRESH' => [$context['_response_target'] => '<div>' . $tabsForm . '</div>'],
+            'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
         ];
     }
 
