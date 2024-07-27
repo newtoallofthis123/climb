@@ -272,6 +272,8 @@ class Server extends Service
         $owner = $context['owner'];
         $labels = ['climb-payload'];
 
+        $config = self::getConfig();
+
         if ($context['parent_id'] != '') {
             $fetcher = new Github(
                 $owner,
@@ -310,7 +312,7 @@ class Server extends Service
             role: 'autoform',
             method: 'POST',
             intent: ['REFRESH' => ['Climb' => 'Update']],
-            context: ['_response_target' => '#result', 'climb_id' => '', 'save' => 'true', 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            context: ['_response_target' => '#result', 'climb_id' => '', 'save' => 'true', 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo']],
             content: 'Save'
         );
 
@@ -544,6 +546,8 @@ class Server extends Service
             }
         }
 
+        $config = self::getConfig();
+
         $path_to_project = __DIR__ . '/';
         $path_to_approach = __DIR__ . '/support/lib/approach/';
         $path_to_support = __DIR__ . '//support//';
@@ -623,7 +627,7 @@ class Server extends Service
             role: 'autoform',
             method: 'POST',
             intent: ['REFRESH' => ['Climb' => 'Update']],
-            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo']],
             content: 'Save'
         );
 
@@ -654,6 +658,8 @@ class Server extends Service
         $owner = $context['owner'];
         $repo = $context['repo'];
         $labels = ['climb-payload'];
+
+        $config = self::getConfig();
 
         $fetcher = new Github(
             $owner,
@@ -722,7 +728,7 @@ class Server extends Service
             role: 'autoform',
             method: 'POST',
             intent: ['REFRESH' => ['Climb' => 'Update']],
-            context: ['_response_target' => '#result', 'save' => 'true', 'climb_id' => '', 'parent_id' => $details['Climb']['parent_id'], 'owner' => 'newtoallofthis123', 'repo' => 'test_for_issues'],
+            context: ['_response_target' => '#result', 'save' => 'true', 'climb_id' => '', 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo'] ],
             content: 'Save'
         );
 
