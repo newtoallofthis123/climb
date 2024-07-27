@@ -19,12 +19,12 @@ use \Approach\Render;
 		$Node_0 = new Render\Node( );
 	// Instantiating HTML_0__classes for upcoming classes assignment
 		$HTML_0__classes = new Render\Node( );
-			$HTML_0__classes[] = $Attribute_0 = new Render\Attribute( name : 'class', content : 'TabsForm Interface' );
+			$HTML_0__classes[] = $Attribute_0 = new Render\Attribute( name : 'class', content : 'ClimbUI TabsForm Interface' );
 
 
 	// Instantiating HTML_0__attributes for upcoming attributes assignment
 		$HTML_0__attributes = new Render\Attribute( );
-			$HTML_0__attributes[] = $Attribute_0 = new Render\Attribute( name : 'class', content : 'TabsForm Interface' );
+			$HTML_0__attributes[] = $Attribute_0 = new Render\Attribute( name : 'class', content : 'ClimbUI TabsForm Interface' );
 
 
 	// Instantiating HTML_0__content for upcoming content assignment
@@ -195,12 +195,12 @@ use \Approach\Render;
 
 		// Instantiating HTML_14__classes for upcoming classes assignment
 			$HTML_14__classes = new Render\Node( );
-				$HTML_14__classes[] = $Attribute_40 = new Render\Attribute( name : 'class', content : 'InterfaceContent' );
+				$HTML_14__classes[] = $Attribute_40 = new Render\Attribute( name : 'class', content : 'Tabs InterfaceContent' );
 
 
 		// Instantiating HTML_14__attributes for upcoming attributes assignment
 			$HTML_14__attributes = new Render\Attribute( );
-				$HTML_14__attributes[] = $Attribute_40 = new Render\Attribute( name : 'class', content : 'InterfaceContent' );
+				$HTML_14__attributes[] = $Attribute_40 = new Render\Attribute( name : 'class', content : 'Tabs InterfaceContent' );
 
 
 		$HTML_0[] = $HTML_14 = new Render\HTML( tag : 'main', classes: $HTML_14__classes, attributes: $HTML_14__attributes );

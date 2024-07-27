@@ -102,29 +102,10 @@ $head[] = new HTML(tag: 'script', attributes: [
 ]);
 
 
-$head[] = 
-/*
-$climb_plugin = new HTML(
-    tag: 'script', 
-    attributes: [
-        'type'=> 'module',
-        'src' => '/static/js/climbs/climb.js'
-    ]
-);
-$climb_plugin->before = PHP_EOL;
-$climbJS = <<<JS
-    import {ClimbsJS} from "/static/js/climbs/climb.js";
-    addScopeJS(['Climbs', 'active'], {});
-    Climbs.active = new ClimbsJS({});
-JS;
-*/
 $head[] = new HTML(tag: 'script', attributes: [
     'src' => '/static/js/main.js',
     'type' => 'module',
 ]);
-
-
-$head[] = new HTML(tag: 'script', attributes: ['type' => 'module'], content: $climbJS);
 
 $body = new HTML(tag: 'body', classes: ['Interface']);
 
@@ -179,7 +160,7 @@ $body->content = <<<HTML
             </div>
             <div class="Viewport">
                 <div id="content">
-                    <div></div>
+                    <div class="ClimbsUI"></div>
                 </div>
                 <div id="result"></div>
             </div>

@@ -40,25 +40,6 @@ let onReadyHandle = function (element, selector, markup) {
     element.Interface = new Interface({ Markup: element, api: api });
   }
 
-  // A utility function to animate elements
-  const animateCSS = (element, animation, prefix = 'animate__') =>
-    // We create a Promise and return it
-    new Promise((resolve, _) => {
-      const animationName = `${prefix}${animation}`;
-      const node = document.querySelector(element);
-
-      node.classList.add(`${prefix}animated`, animationName);
-
-      // When the animation ends, we clean the classes and resolve the Promise
-      function handleAnimationEnd(event) {
-        event.stopPropagation();
-        node.classList.remove(`${prefix}animated`, animationName);
-        resolve('Animation ended');
-      }
-
-      node.addEventListener('animationend', handleAnimationEnd, { once: true });
-    });
-
   // Normal document ready stuff, but relative to el
   // el.find(...).myPlugin(..)
   // ...
@@ -99,8 +80,6 @@ let onReadyHandle = function (element, selector, markup) {
       }
     });
 
-  //animateCSS('.Oyster', 'fadeIn');
-
   // $(element)
   //   .find('.Oyster .breadcrumbs')
   //   .on('click', 'li', function (e) {
@@ -127,20 +106,11 @@ let onReadyHandle = function (element, selector, markup) {
       }
     });
 
-  $(element)
-    .find('.TabForm')
-    .each(function () {
-      Climb.active.push(
-        new ClimbJS({
-          what: '.TabForm',
-          tabs: {
-            container: '.TabBar',
-            selector: '.tabBtn',
-            class: 'tabBtn',
-          },
-        })
-      );
-    });
+  let x = {};
+  console.log($(element));
+  if ($(element).hasClass('ClimbUI')) {
+    x = ClimbJS({ what: $(element) });
+  }
 
   // // --> Add your custom event handlers here
   // $('.add').click(function (e) {

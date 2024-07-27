@@ -1,6 +1,6 @@
 <Imprint xmlns:Imprint="Render://approach.local">
     <Imprint:Pattern name="Viewer" type="HTML">
-        <div class="TabsForm Interface"> 
+        <div class="ClimbUI TabsForm Interface"> 
             [@ Edit @] 
             <nav class="TabBar InterfaceContent controls"> 
                 <div class="tabBtn control" data-role="trigger" data-action="tab.climb" >Requirements<i class="bi bi-arrow-right"></i></div>
@@ -10,7 +10,7 @@
                 <div class="tabBtn control" data-role="trigger" data-action="tab.climb" >Describe<i class="bi bi-arrow-right"></i></div>
                 <div class="tabBtn control" data-role="trigger" data-action="tab.climb" >Adapt<i class="bi bi-arrow-right"></i></div>
             </nav>
-            <main class="InterfaceContent">
+            <main class="Tabs InterfaceContent">
                 <div class="tab active">
                     [@ Requirements @]
                 </div>

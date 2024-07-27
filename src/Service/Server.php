@@ -9,7 +9,6 @@ namespace ClimbUI\Service;
 
 require_once __DIR__ . '/../../support/lib/vendor/autoload.php';
 
-use Approach\Imprint\Imprint;
 use Approach\Render\HTML;
 use Approach\Service\flow;
 use Approach\Service\format;
@@ -17,7 +16,6 @@ use Approach\Service\Service;
 use Approach\Service\target;
 use Approach\path;
 use Approach\Scope;
-use ClimbUI\Imprint\Climb\Editor;
 use ClimbUI\Imprint\Climb\Viewer;
 use ClimbUI\Imprint\Form\Editor as FormEditor;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
@@ -658,7 +656,7 @@ class Server extends Service
             'Update' => $update,
         ];
 
-        $tabsForm = new Editor(tokens: $tokens);
+        $tabsForm = new FormEditor(tokens: $tokens);
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
