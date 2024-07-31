@@ -19,6 +19,7 @@ use Approach\Scope;
 use ClimbUI\Imprint\Climb\Editor;
 use ClimbUI\Imprint\Climb\Viewer;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
+use ClimbUI\Imprint\Settings\Settings;
 use ClimbUI\Render\OysterMenu\Oyster;
 use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\Intent;
@@ -548,19 +549,6 @@ class Server extends Service
 
         $config = self::getConfig();
 
-        $path_to_project = __DIR__ . '/';
-        $path_to_approach = __DIR__ . '/support/lib/approach/';
-        $path_to_support = __DIR__ . '//support//';
-        $scope = new Scope(
-            path: [
-                path::project->value => $path_to_project,
-                path::installed->value => $path_to_approach,
-                path::support->value => $path_to_support,
-            ],
-        );
-        $fileDir = $scope->GetPath(path::pattern);
-        $fileDir = str_replace('/../', '', $fileDir);
-
         if ($result == null) {
             return [
                 'REFRESH' => [$context['_response_target'] => '<p>' . json_encode($result) . '</p>'],
@@ -916,6 +904,63 @@ class Server extends Service
         ];
     }
 
+    public static function DisplayConfig(mixed $context){
+        $filename = __DIR__ . '/../../config.json';
+        $content = file_get_contents($filename);
+        $config = json_decode($content, true);
+
+        $settings = new Settings(tokens: [
+            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY']),
+            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER']),
+            'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO']),
+            'Save' => new Intent(tag: 'button',
+                classes: ['control', ' btn', ' btn-sucess'],
+                api: '/server.php',
+                attributes: ['type' => 'reset'],
+                role: 'autoform',
+                method: 'POST',
+                intent: ['REFRESH' => ['Climb' => 'UpdateSettings']],
+                context: ['_response_target' => '#result'],
+                content: 'Save'
+            )
+        ]);
+
+        return [
+            'REFRESH' => [
+                $context['_response_target'] => $settings->render(),
+            ],
+        ];
+    }
+
+    public static function UpdateSettings(mixed $context){
+        $filename = __DIR__ . '/../../config.json';
+        $content = file_get_contents($filename);
+        $config = json_decode($content, true);
+
+        $toSave = [];
+        $action = $context['Settings'];
+        if($action['GITHUB_API_KEY'] != '')
+        $toSave['GITHUB_API_KEY'] = $action['GITHUB_API_KEY'];
+        else
+        $toSave['GITHUB_API_KEY'] = $config['GITHUB_API_KEY'];
+        if($action['CLIMBSUI_OWNER'] != '')
+        $toSave['CLIMBSUI_OWNER'] = $action['CLIMBSUI_OWNER'];
+        else
+        $toSave['CLIMBSUI_OWNER'] = $config['CLIMBSUI_OWNER'];
+        if($action['CLIMBSUI_REPO'] != '')
+        $toSave['CLIMBSUI_REPO'] = $action['CLIMBSUI_REPO'];
+        else
+        $toSave['CLIMBSUI_REPO'] = $config['CLIMBSUI_REPO'];
+
+        file_put_contents($filename, json_encode($toSave));
+
+        return [
+            'REFRESH' => [
+                $context['_response_target'] => '<div>' . 'Saved!' . '</div>',
+            ],
+        ];
+    }
+
     public function __construct(
         flow $flow = flow::in,
         bool $auto_dispatch = false,
@@ -950,6 +995,12 @@ class Server extends Service
         };
         self::$registrar['Climb']['Close'] = static function ($context) {
             return self::Close($context);
+        };
+        self::$registrar['Climb']['Settings'] = static function ($context){
+          return self::DisplayConfig($context);  
+        };
+        self::$registrar['Climb']['UpdateSettings'] = static function ($context){
+          return self::UpdateSettings($context);  
         };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }

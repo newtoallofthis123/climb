@@ -31,9 +31,13 @@ $imp = new Imprint(
     imprint: 'Climb.xml',
     imprint_dir: __DIR__.'/support/pattern/',
 );
+$settings = new Imprint(
+    imprint: 'Settings.xml',
+    imprint_dir: __DIR__.'/support/pattern/',
+);
 
 $success = $imp->Prepare();
-
+$settingsSuccess = $settings->Prepare();
 
 $imp2 = new Imprint(
     imprint: 'Climb.xml',
@@ -49,5 +53,8 @@ $imp->Mint('Viewer');
 
 echo 'Minting Editor..'.PHP_EOL;
 $imp2->Mint('Editor');
+
+echo 'Minting Settings..'.PHP_EOL;
+$settings->Mint('Settings');
 
 echo 'Done'.PHP_EOL. '</pre></body>' . PHP_EOL.'</html>';

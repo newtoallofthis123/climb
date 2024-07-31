@@ -156,7 +156,17 @@ $body->content = <<<HTML
                         </div>
                         <ul></ul>
                     </li>
+                     <button
+                        class="control btn btn-primary current-state ms-2"
+                        data-api="/server.php"
+                        data-api-method="POST"
+                        data-intent='{ "REFRESH": { "Climb" : "Settings" } }'
+                        data-context='{ "_response_target": "#content > div"}'
+                    >
+                        <i class="bi bi-gear"></i>
+                    </button>
                 </ul>
+
             </div>
             <div class="Viewport">
                 <div id="content">

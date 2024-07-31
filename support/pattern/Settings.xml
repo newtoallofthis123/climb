@@ -1,0 +1,26 @@
+<Imprint xmlns:Imprint="Render://approach.local">
+    <Imprint:Pattern name="Settings" type="HTML">
+        <div class="ClimbUI Interface InterfaceContent">
+            <h1>
+                Settings
+            </h1>
+            <form class="Autoform" data-action="Settings">
+                <div class="setting">
+                    <label for="GITHUB_API_KEY">Github API Key</label>
+                    [@ GITHUB_API_KEY @]
+                </div>
+                <div class="setting">
+                    <label for="CLIMBSUI_OWNER">Owner</label>
+                    [@ CLIMBSUI_OWNER @]
+                </div>
+                <div class="setting">
+                    <label for="CLIMBSUI_REPO">Repo</label>
+                    [@ CLIMBSUI_REPO @]
+                </div>
+                <div class="controls">
+                    [@ Save @]
+                </div>
+            </form>
+        </div>
+    </Imprint:Pattern>
+</Imprint>
