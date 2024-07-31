@@ -955,15 +955,15 @@ class Server extends Service
         if($action['GITHUB_API_KEY'] != '')
         $toSave['GITHUB_API_KEY'] = $action['GITHUB_API_KEY'];
         else
-        $toSave['GITHUB_API_KEY'] = $config['GITHUB_API_KEY'];
+        $toSave['GITHUB_API_KEY'] = $config['GITHUB_API_KEY'] ?? getenv('GITHUB_API_KEY') ;
         if($action['CLIMBSUI_OWNER'] != '')
         $toSave['CLIMBSUI_OWNER'] = $action['CLIMBSUI_OWNER'];
         else
-        $toSave['CLIMBSUI_OWNER'] = $config['CLIMBSUI_OWNER'];
+        $toSave['CLIMBSUI_OWNER'] = $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER');
         if($action['CLIMBSUI_REPO'] != '')
         $toSave['CLIMBSUI_REPO'] = $action['CLIMBSUI_REPO'];
         else
-        $toSave['CLIMBSUI_REPO'] = $config['CLIMBSUI_REPO'];
+        $toSave['CLIMBSUI_REPO'] = $config['CLIMBSUI_REPO'] ?? getenv('CLIMBSUI_REPO');
 
         file_put_contents($filename, json_encode($toSave));
 
