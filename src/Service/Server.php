@@ -906,13 +906,19 @@ class Server extends Service
 
     public static function DisplayConfig(mixed $context){
         $filename = __DIR__ . '/../../config.json';
+        if (!file_exists($filename)) {
+            $file = fopen($filename, "w");
+            if ($file) 
+                fclose($file);
+        }
+
         $content = file_get_contents($filename);
         $config = json_decode($content, true);
 
         $settings = new Settings(tokens: [
-            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY']),
-            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER']),
-            'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO']),
+            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY'] ?? ''),
+            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER'] ?? ''),
+            'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO'] ?? ''),
             'Save' => new Intent(tag: 'button',
                 classes: ['control', ' btn', ' btn-sucess'],
                 api: '/server.php',
@@ -934,6 +940,13 @@ class Server extends Service
 
     public static function UpdateSettings(mixed $context){
         $filename = __DIR__ . '/../../config.json';
+
+        if (!file_exists($filename)) {
+            $file = fopen($filename, "w");
+            if ($file) 
+                fclose($file);
+        }
+
         $content = file_get_contents($filename);
         $config = json_decode($content, true);
 
