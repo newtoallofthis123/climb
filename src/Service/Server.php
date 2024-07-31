@@ -916,9 +916,9 @@ class Server extends Service
         $config = json_decode($content, true);
 
         $settings = new Settings(tokens: [
-            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY'] ?? ''),
-            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER'] ?? ''),
-            'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO'] ?? ''),
+            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY'] ?? getenv('GITHUB_API_KEY') ),
+            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER')  ),
+            'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO'] ?? getenv('CLIMBSUI_REPO')),
             'Save' => new Intent(tag: 'button',
                 classes: ['control', ' btn', ' btn-sucess'],
                 api: '/server.php',
