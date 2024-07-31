@@ -1,0 +1,14 @@
+services:
+  apache2:
+    image: php:apache
+    ports:
+      - 8080:80
+    environment:
+      - APACHE_RUN_USER=1000
+      - APACHE_RUN_GROUP=1000
+      - VIRTUAL_HOST=project.my.local
+      - VIRTUAL_PORT=80
+    volumes:
+      - ./:/srv:uid=${APACHE_RUN_USER},gid=${APACHE_RUN_GROUP}
+      - ./support/apache.conf:/etc/apache2/sites-enabled/000-default.conf
+    command: ["-D", "FOREGROUND"]

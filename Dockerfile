@@ -5,12 +5,15 @@ RUN apt-get update && apt-get install -y \
   unzip \
   git \
   libzip-dev\
+  nginx \
   && docker-php-ext-install dom mysqli simplexml zip \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
+
+COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

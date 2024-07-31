@@ -7,7 +7,6 @@
 /.idea
 
 /support/lib
-/run.sh
 
 /.env
 /config.json
