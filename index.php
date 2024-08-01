@@ -138,28 +138,29 @@ $body->content = <<<HTML
                 </section>
                 <ul class="Toolbar controls">
                     <li>
-                        <div class="visual" style="padding: 5px 12px">
-                            <button
-                            class="control btn"
-                            data-api="/server.php"
-                            data-api-method="POST"
-                            data-intent='{ "REFRESH": { "Climb" : "Menu" } }'
-                            data-context='{ "_response_target": ".Toolbar > .active > ul", "owner": "$owner", "repo": "$repo"}'
-                            >
-                                View
-                            </button>
+                        <div    class="visual" 
+                                class="control "
+                                data-api="/server.php"
+                                data-api-method="POST"
+                                data-intent='{ "REFRESH": { "Climb" : "Menu" } }'
+                                data-context='{ "_response_target": ".Toolbar > .active > ul", "owner": "$owner", "repo": "$repo"}'
+                        >
+                            <img src="/static/img/climb.svg" />
+                            <label>Climb</label>
                         </div>
                         <ul></ul>
                     </li>
-                     <button
-                        class="control btn current-state ms-2"
-                        data-api="/server.php"
-                        data-api-method="POST"
-                        data-intent='{ "REFRESH": { "Climb" : "Settings" } }'
-                        data-context='{ "_response_target": "#content > div"}'
-                    >
-                        <i class="bi bi-gear"></i>
-                    </button>
+                    <li>
+                        <button
+                            class="control btn current-state ms-2"
+                            data-api="/server.php"
+                            data-api-method="POST"
+                            data-intent='{ "REFRESH": { "Climb" : "Settings" } }'
+                            data-context='{ "_response_target": "#content > div"}'
+                        >
+                            <i class="bi bi-gear"></i>
+                        </button>
+                    </li>
                 </ul>
 
             </div>

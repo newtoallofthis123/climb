@@ -196,13 +196,13 @@ class Server extends Service
 
         $labels = [];
         $labels[] = $action['Climb']['labels'];
-        $labels = array_merge($labels, explode($action['Climb']['other_labels'], ','));
+        $labels = array_merge($labels, explode(',' ,$action['Climb']['other_labels']));
         // check if a parent_id is set
         if (!isset($action['Climb']['parent_id'])) {
             $labels[] = 'root';
         }
         if (!array_key_exists('climb-payload', $labels)) {
-            $labels[] = 'climbs-payload';
+            $labels[] = 'climb-payload';
         }
 
         if ($toSave) {
@@ -557,6 +557,11 @@ class Server extends Service
             }
         }
 
+        $isRoot = 'false';
+        if(in_array('root', $result['labels'])){
+            $isRoot = 'true';
+        }
+
         $config = self::getConfig();
 
         if ($result == null) {
@@ -642,6 +647,7 @@ class Server extends Service
             'Adapt' => 'TODO',
             'Update' => $update,
             'OtherLabels' => new UIInput('other_labels', implode(',',$result['labels'])),
+            'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot])
         ];
 
         $tabsForm = new Editor(tokens: $tokens);
@@ -846,11 +852,12 @@ class Server extends Service
                 api: '/server.php',
                 method: 'POST',
                 intent: ['REFRESH' => ['Climb' => 'View']],
-                attributes: ['data-labels' => explode($issue['issues'], ',')],
+                attributes: ['data-labels' => implode(',', $issue['labels'])],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
             );
+            $visual->content .= '<i class="bi bi-magic"></i>';
+            $visual->content .= '<label>' . self::getIssue($results, $issue['number'])['title'] . '</label>';
             $visual->content .= '<i class="bi bi-chevron-right"></i>';
-            $visual->content .= self::getIssue($results, $issue['number'])['title'];
 
             $pearl = new Pearl($visual);
             $pearls[] = $pearl;
@@ -898,13 +905,31 @@ class Server extends Service
                 api: '/server.php',
                 method: 'POST',
                 intent: ['REFRESH' => ['Climb' => 'View']],
-                attributes: ['data-labels' => explode($issue['issues'], ',')],
+                attributes: ['data-labels' => implode(',', $issue['labels'])],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
             );
+
+            // I wonder if this can be based on color ?
+            $icon ='';
+            if ( in_array('RED',    $issue['labels']) )  $icon = 'bi-exclamation-circle-fill red';
+            if ( in_array('ORANGE', $issue['labels']) )  $icon = 'bi-exclamation-triangle-fill orange';
+            if ( in_array('YELLOW', $issue['labels']) )  $icon = 'bi-sun-fill yellow';
+            if ( in_array('GREEN',  $issue['labels']) )  $icon = 'bi-bar-chart-steps green';
+            if ( in_array('BLUE',   $issue['labels']) )  $icon = 'bi-cup-hot-fill blue';
+            if ( in_array('VIOLET', $issue['labels']) )  $icon = 'bi-arrow-through-heart-fill violet';
+            
+            // or we can have like .yellow, .red, .green ec?
+
+            $visual->content .= '<i class="bi '.$icon.'"></i>';
+            $visual->content .= '<label>' . self::getIssue($results, $issue['number'])['title'] . '</label>';
             $visual->content .= '<i class="bi bi-chevron-right"></i>';
-            $visual->content .= self::getIssue($results, $issue['number'])['title'];
 
             $pearl = new Pearl($visual);
+
+            // is there any way to know the full parent path ??
+            // $pearl->attributes['data-pearl'] = root_id.'/'.grandparent_id.'/'.parent_id.'/'.climb_id;
+
+            $pearl->attributes['data-pearl'] = $climbId;
             $pearls[] = $pearl;
         }
         $oyster = new Oyster(pearls: $pearls);

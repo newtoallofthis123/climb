@@ -103,6 +103,12 @@
                             <label for="other_labels">Other Labels</label>
                             [@ OtherLabels @]
                         </div>
+                        <div>
+                            <label for="isRoot" class="toggle">
+                                Is Parent: 
+                                [@ IsRoot @]
+                            </label>
+                        </div>
                         <div class="inputs input-container controls" id="requirements">
                             [@ Requirements @]
                             <button type="button" data-role="trigger" data-action="add.climb" class="add btn btn-primary control">

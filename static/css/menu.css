@@ -209,6 +209,21 @@ ul.Toolbar ul {
   top: 15%;
 }
 
+/* root visuals */
+ul.Toolbar > li > .visual > i:first-child,
+ul.Toolbar > li > .visual > img:first-child{
+  width: 48px;
+  stroke: white;
+}
+
+li[data-pearl] > .visual > i.bi:first-child::before{
+  background-color: black;
+  margin-right: 0.5em;
+  padding: 2mm;
+  border-radius: 2em;
+}
+
+
 ul.Toolbar ul .visual {
   padding: 15px 10px;
   font-size: 16px;

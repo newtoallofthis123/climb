@@ -9,7 +9,9 @@ class UIInput extends HTML{
     public function __construct(string $name, string $value = '', bool $readonly = false, string $placeholder = '')
     {
         $attributes = [
-            'name' => $name];
+            'name' => $name,
+            'type' => 'text'
+        ];
         if ($readonly) {
             $attributes['readonly'] = true;
         }

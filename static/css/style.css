@@ -2,6 +2,11 @@
  * Random CSS
  * */
 
+:root {
+  font-size: 12pt;
+}
+
+
 .menu button {
   background-color: rgb(239, 238, 238);
   color: rgb(3, 3, 3);
@@ -198,4 +203,68 @@ ul {
   border: 1px solid #c1c1c1;
   border-radius: 5px 0 0 5px;
   padding: 5px;
+}
+
+.toggle {
+  /* default styles for the toggle */
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.toggle:has(input:checked) {
+  /* styles for the toggle when the checkbox is checked */
+  background-color: #333;
+  color: #fff;
+}
+
+.toggle:has(input:checked) {
+  /* styles for the toggle when the checkbox is checked */
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ClimbUI select,
+.ClimbUI input[type="text"] {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 4px;
+  border-radius: 3px;
+  border: 1px solid #7790CA;
+  outline: #4C50AF solid 1px;
+  border: 1rem;
+}
+
+/* add stuff here lol */
+
+.red::before,
+.red {
+  color: red;
+}
+
+.orange::before,
+.orange {
+  color: orange;
+}
+
+.yellow::before,
+.yellow {
+  color: yellow;
+}
+
+.green::before,
+.green {
+  color: green;
+}
+
+.blue::before,
+.blue {
+  color: blue;
+}
+
+.violet::before,
+.violet {
+  color: violet;
 }
