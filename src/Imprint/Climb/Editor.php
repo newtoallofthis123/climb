@@ -10,7 +10,7 @@ use \Approach\Render;
 	class Editor extends Render\Node
 	{
 	public static array $tokens = [
-		'Title','Parent','Requirements','Survey','Obstacles','Plan','Progress','InterestsD','Hazards','Adapt','Update'
+		'Title','Parent','OtherLabels','Requirements','Survey','Obstacles','Plan','Progress','InterestsD','Hazards','Adapt','Update'
 	];
 	public array $token_nodes = [];
 	
@@ -288,286 +288,272 @@ use \Approach\Render;
 
 					// Instantiating HTML_23__classes for upcoming classes assignment
 						$HTML_23__classes = new Render\Node( );
-							$HTML_23__classes[] = $Attribute_57 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
-
 
 					// Instantiating HTML_23__attributes for upcoming attributes assignment
 						$HTML_23__attributes = new Render\Attribute( );
-							$HTML_23__attributes[] = $Attribute_57 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
 
-
-					// Instantiating HTML_23__content for upcoming content assignment
-						$HTML_23__content = $this->token_nodes['Requirements'] = new Render\Token( name : 'Requirements' );
-
-					$HTML_18[] = $HTML_23 = new Render\HTML( tag : 'div', id : 'requirements', classes: $HTML_23__classes, attributes: $HTML_23__attributes, content: $HTML_23__content );
+					$HTML_18[] = $HTML_23 = new Render\HTML( tag : 'div', classes: $HTML_23__classes, attributes: $HTML_23__attributes );
 						// Instantiating HTML_24__classes for upcoming classes assignment
 							$HTML_24__classes = new Render\Node( );
-								$HTML_24__classes[] = $Attribute_59 = new Render\Attribute( name : 'class', content : 'add btn btn-primary control' );
-
 
 						// Instantiating HTML_24__attributes for upcoming attributes assignment
 							$HTML_24__attributes = new Render\Attribute( );
-								$HTML_24__attributes[] = $Attribute_61 = new Render\Attribute( name : 'type', content : 'button' );
-								$HTML_24__attributes[] = $Attribute_62 = new Render\Attribute( name : 'data-role', content : 'trigger' );
-								$HTML_24__attributes[] = $Attribute_63 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
-								$HTML_24__attributes[] = $Attribute_59 = new Render\Attribute( name : 'class', content : 'add btn btn-primary control' );
+								$HTML_24__attributes[] = $Attribute_59 = new Render\Attribute( name : 'for', content : 'labels' );
 
 
-						$HTML_23[] = $HTML_24 = new Render\HTML( tag : 'button', classes: $HTML_24__classes, attributes: $HTML_24__attributes, content : 'Add' );
+						$HTML_23[] = $HTML_24 = new Render\HTML( tag : 'label', classes: $HTML_24__classes, attributes: $HTML_24__attributes, content : 'Choose Label' );
+						// Instantiating HTML_25__classes for upcoming classes assignment
+							$HTML_25__classes = new Render\Node( );
+
+						// Instantiating HTML_25__attributes for upcoming attributes assignment
+							$HTML_25__attributes = new Render\Attribute( );
+								$HTML_25__attributes[] = $Attribute_61 = new Render\Attribute( name : 'name', content : 'labels' );
 
 
+						$HTML_23[] = $HTML_25 = new Render\HTML( tag : 'select', id : 'labels', classes: $HTML_25__classes, attributes: $HTML_25__attributes );
+							// Instantiating HTML_26__classes for upcoming classes assignment
+								$HTML_26__classes = new Render\Node( );
 
-			// Instantiating HTML_25__classes for upcoming classes assignment
-				$HTML_25__classes = new Render\Node( );
-					$HTML_25__classes[] = $Attribute_64 = new Render\Attribute( name : 'class', content : 'tab' );
-
-
-			// Instantiating HTML_25__attributes for upcoming attributes assignment
-				$HTML_25__attributes = new Render\Attribute( );
-					$HTML_25__attributes[] = $Attribute_64 = new Render\Attribute( name : 'class', content : 'tab' );
-
-
-			$HTML_14[] = $HTML_25 = new Render\HTML( tag : 'div', classes: $HTML_25__classes, attributes: $HTML_25__attributes );
-				// Instantiating HTML_26__classes for upcoming classes assignment
-					$HTML_26__classes = new Render\Node( );
-
-				// Instantiating HTML_26__attributes for upcoming attributes assignment
-					$HTML_26__attributes = new Render\Attribute( );
-
-				$HTML_25[] = $HTML_26 = new Render\HTML( tag : 'h4', classes: $HTML_26__classes, attributes: $HTML_26__attributes, content : '2. Survey the Environment' );
-				// Instantiating HTML_27__classes for upcoming classes assignment
-					$HTML_27__classes = new Render\Node( );
-
-				// Instantiating HTML_27__attributes for upcoming attributes assignment
-					$HTML_27__attributes = new Render\Attribute( );
-
-				$HTML_25[] = $HTML_27 = new Render\HTML( tag : 'p', classes: $HTML_27__classes, attributes: $HTML_27__attributes, content : 'Describe the environment.' );
-				// Instantiating HTML_28__classes for upcoming classes assignment
-					$HTML_28__classes = new Render\Node( );
-						$HTML_28__classes[] = $Attribute_68 = new Render\Attribute( name : 'class', content : 'Autoform' );
+							// Instantiating HTML_26__attributes for upcoming attributes assignment
+								$HTML_26__attributes = new Render\Attribute( );
+									$HTML_26__attributes[] = $Attribute_63 = new Render\Attribute( name : 'value', content : 'YELLOW' );
+									$HTML_26__attributes[] = $Attribute_64 = new Render\Attribute( name : 'default', content : 'true' );
 
 
-				// Instantiating HTML_28__attributes for upcoming attributes assignment
-					$HTML_28__attributes = new Render\Attribute( );
-						$HTML_28__attributes[] = $Attribute_68 = new Render\Attribute( name : 'class', content : 'Autoform' );
-						$HTML_28__attributes[] = $Attribute_70 = new Render\Attribute( name : 'data-action', content : 'Survey' );
+							$HTML_25[] = $HTML_26 = new Render\HTML( tag : 'option', classes: $HTML_26__classes, attributes: $HTML_26__attributes, content : 'Yellow: Dailies' );
+							// Instantiating HTML_27__classes for upcoming classes assignment
+								$HTML_27__classes = new Render\Node( );
+
+							// Instantiating HTML_27__attributes for upcoming attributes assignment
+								$HTML_27__attributes = new Render\Attribute( );
+									$HTML_27__attributes[] = $Attribute_66 = new Render\Attribute( name : 'value', content : 'RED' );
 
 
-				$HTML_25[] = $HTML_28 = new Render\HTML( tag : 'form', classes: $HTML_28__classes, attributes: $HTML_28__attributes );
-					// Instantiating HTML_29__classes for upcoming classes assignment
-						$HTML_29__classes = new Render\Node( );
+							$HTML_25[] = $HTML_27 = new Render\HTML( tag : 'option', classes: $HTML_27__classes, attributes: $HTML_27__attributes, content : 'Red: Emergency' );
+							// Instantiating HTML_28__classes for upcoming classes assignment
+								$HTML_28__classes = new Render\Node( );
 
-					// Instantiating HTML_29__attributes for upcoming attributes assignment
-						$HTML_29__attributes = new Render\Attribute( );
-
-					$HTML_28[] = $HTML_29 = new Render\HTML( tag : 'div', classes: $HTML_29__classes, attributes: $HTML_29__attributes );
-						// Instantiating HTML_30__classes for upcoming classes assignment
-							$HTML_30__classes = new Render\Node( );
-
-						// Instantiating HTML_30__attributes for upcoming attributes assignment
-							$HTML_30__attributes = new Render\Attribute( );
-
-						$HTML_29[] = $HTML_30 = new Render\HTML( tag : 'p', classes: $HTML_30__classes, attributes: $HTML_30__attributes, content : 'Interests' );
-						// Instantiating HTML_31__classes for upcoming classes assignment
-							$HTML_31__classes = new Render\Node( );
-								$HTML_31__classes[] = $Attribute_73 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+							// Instantiating HTML_28__attributes for upcoming attributes assignment
+								$HTML_28__attributes = new Render\Attribute( );
+									$HTML_28__attributes[] = $Attribute_68 = new Render\Attribute( name : 'value', content : 'PURPLE' );
 
 
-						// Instantiating HTML_31__attributes for upcoming attributes assignment
-							$HTML_31__attributes = new Render\Attribute( );
-								$HTML_31__attributes[] = $Attribute_73 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+							$HTML_25[] = $HTML_28 = new Render\HTML( tag : 'option', classes: $HTML_28__classes, attributes: $HTML_28__attributes, content : 'Purple: Incubate' );
+							// Instantiating HTML_29__classes for upcoming classes assignment
+								$HTML_29__classes = new Render\Node( );
+
+							// Instantiating HTML_29__attributes for upcoming attributes assignment
+								$HTML_29__attributes = new Render\Attribute( );
+									$HTML_29__attributes[] = $Attribute_70 = new Render\Attribute( name : 'value', content : 'ORANGE' );
 
 
-						// Instantiating HTML_31__content for upcoming content assignment
-							$HTML_31__content = $this->token_nodes['Survey'] = new Render\Token( name : 'Survey' );
+							$HTML_25[] = $HTML_29 = new Render\HTML( tag : 'option', classes: $HTML_29__classes, attributes: $HTML_29__attributes, content : 'Orange: Urgent' );
+							// Instantiating HTML_30__classes for upcoming classes assignment
+								$HTML_30__classes = new Render\Node( );
 
-						$HTML_29[] = $HTML_31 = new Render\HTML( tag : 'div', id : 'survey', classes: $HTML_31__classes, attributes: $HTML_31__attributes, content: $HTML_31__content );
-							// Instantiating HTML_32__classes for upcoming classes assignment
-								$HTML_32__classes = new Render\Node( );
-									$HTML_32__classes[] = $Attribute_75 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-							// Instantiating HTML_32__attributes for upcoming attributes assignment
-								$HTML_32__attributes = new Render\Attribute( );
-									$HTML_32__attributes[] = $Attribute_77 = new Render\Attribute( name : 'type', content : 'button' );
-									$HTML_32__attributes[] = $Attribute_78 = new Render\Attribute( name : 'data-role', content : 'trigger' );
-									$HTML_32__attributes[] = $Attribute_79 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
-									$HTML_32__attributes[] = $Attribute_75 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+							// Instantiating HTML_30__attributes for upcoming attributes assignment
+								$HTML_30__attributes = new Render\Attribute( );
+									$HTML_30__attributes[] = $Attribute_72 = new Render\Attribute( name : 'value', content : 'GREEN' );
 
 
-							$HTML_31[] = $HTML_32 = new Render\HTML( tag : 'button', classes: $HTML_32__classes, attributes: $HTML_32__attributes, content : 'Add' );
+							$HTML_25[] = $HTML_30 = new Render\HTML( tag : 'option', classes: $HTML_30__classes, attributes: $HTML_30__attributes, content : 'Green: Bounties' );
+							// Instantiating HTML_31__classes for upcoming classes assignment
+								$HTML_31__classes = new Render\Node( );
+
+							// Instantiating HTML_31__attributes for upcoming attributes assignment
+								$HTML_31__attributes = new Render\Attribute( );
+									$HTML_31__attributes[] = $Attribute_74 = new Render\Attribute( name : 'value', content : 'BLUE' );
 
 
-					// Instantiating HTML_33__classes for upcoming classes assignment
-						$HTML_33__classes = new Render\Node( );
+							$HTML_25[] = $HTML_31 = new Render\HTML( tag : 'option', classes: $HTML_31__classes, attributes: $HTML_31__attributes, content : 'Blue: Big Brain' );
 
-					// Instantiating HTML_33__attributes for upcoming attributes assignment
-						$HTML_33__attributes = new Render\Attribute( );
 
-					$HTML_28[] = $HTML_33 = new Render\HTML( tag : 'div', classes: $HTML_33__classes, attributes: $HTML_33__attributes );
-						// Instantiating HTML_34__classes for upcoming classes assignment
-							$HTML_34__classes = new Render\Node( );
+					// Instantiating HTML_32__classes for upcoming classes assignment
+						$HTML_32__classes = new Render\Node( );
 
-						// Instantiating HTML_34__attributes for upcoming attributes assignment
-							$HTML_34__attributes = new Render\Attribute( );
+					// Instantiating HTML_32__attributes for upcoming attributes assignment
+						$HTML_32__attributes = new Render\Attribute( );
 
-						$HTML_33[] = $HTML_34 = new Render\HTML( tag : 'p', classes: $HTML_34__classes, attributes: $HTML_34__attributes, content : 'Obstacles' );
+					// Instantiating HTML_32__content for upcoming content assignment
+						$HTML_32__content = $this->token_nodes['OtherLabels'] = new Render\Token( name : 'OtherLabels' );
+
+					$HTML_18[] = $HTML_32 = new Render\HTML( tag : 'div', classes: $HTML_32__classes, attributes: $HTML_32__attributes, content: $HTML_32__content );
+						// Instantiating HTML_33__classes for upcoming classes assignment
+							$HTML_33__classes = new Render\Node( );
+
+						// Instantiating HTML_33__attributes for upcoming attributes assignment
+							$HTML_33__attributes = new Render\Attribute( );
+								$HTML_33__attributes[] = $Attribute_77 = new Render\Attribute( name : 'for', content : 'other_labels' );
+
+
+						$HTML_32[] = $HTML_33 = new Render\HTML( tag : 'label', classes: $HTML_33__classes, attributes: $HTML_33__attributes, content : 'Other Labels' );
+
+					// Instantiating HTML_34__classes for upcoming classes assignment
+						$HTML_34__classes = new Render\Node( );
+							$HTML_34__classes[] = $Attribute_78 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+					// Instantiating HTML_34__attributes for upcoming attributes assignment
+						$HTML_34__attributes = new Render\Attribute( );
+							$HTML_34__attributes[] = $Attribute_78 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+					// Instantiating HTML_34__content for upcoming content assignment
+						$HTML_34__content = $this->token_nodes['Requirements'] = new Render\Token( name : 'Requirements' );
+
+					$HTML_18[] = $HTML_34 = new Render\HTML( tag : 'div', id : 'requirements', classes: $HTML_34__classes, attributes: $HTML_34__attributes, content: $HTML_34__content );
 						// Instantiating HTML_35__classes for upcoming classes assignment
 							$HTML_35__classes = new Render\Node( );
-								$HTML_35__classes[] = $Attribute_82 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+								$HTML_35__classes[] = $Attribute_80 = new Render\Attribute( name : 'class', content : 'add btn btn-primary control' );
 
 
 						// Instantiating HTML_35__attributes for upcoming attributes assignment
 							$HTML_35__attributes = new Render\Attribute( );
-								$HTML_35__attributes[] = $Attribute_82 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+								$HTML_35__attributes[] = $Attribute_82 = new Render\Attribute( name : 'type', content : 'button' );
+								$HTML_35__attributes[] = $Attribute_83 = new Render\Attribute( name : 'data-role', content : 'trigger' );
+								$HTML_35__attributes[] = $Attribute_84 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
+								$HTML_35__attributes[] = $Attribute_80 = new Render\Attribute( name : 'class', content : 'add btn btn-primary control' );
 
 
-						// Instantiating HTML_35__content for upcoming content assignment
-							$HTML_35__content = $this->token_nodes['Obstacles'] = new Render\Token( name : 'Obstacles' );
-
-						$HTML_33[] = $HTML_35 = new Render\HTML( tag : 'div', id : 'obstruction', classes: $HTML_35__classes, attributes: $HTML_35__attributes, content: $HTML_35__content );
-							// Instantiating HTML_36__classes for upcoming classes assignment
-								$HTML_36__classes = new Render\Node( );
-									$HTML_36__classes[] = $Attribute_84 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-							// Instantiating HTML_36__attributes for upcoming attributes assignment
-								$HTML_36__attributes = new Render\Attribute( );
-									$HTML_36__attributes[] = $Attribute_86 = new Render\Attribute( name : 'type', content : 'button' );
-									$HTML_36__attributes[] = $Attribute_87 = new Render\Attribute( name : 'data-role', content : 'trigger' );
-									$HTML_36__attributes[] = $Attribute_88 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
-									$HTML_36__attributes[] = $Attribute_84 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-							$HTML_35[] = $HTML_36 = new Render\HTML( tag : 'button', classes: $HTML_36__classes, attributes: $HTML_36__attributes, content : 'Add' );
+						$HTML_34[] = $HTML_35 = new Render\HTML( tag : 'button', classes: $HTML_35__classes, attributes: $HTML_35__attributes, content : 'Add' );
 
 
 
-
-			// Instantiating HTML_37__classes for upcoming classes assignment
-				$HTML_37__classes = new Render\Node( );
-					$HTML_37__classes[] = $Attribute_89 = new Render\Attribute( name : 'class', content : 'tab' );
-
-
-			// Instantiating HTML_37__attributes for upcoming attributes assignment
-				$HTML_37__attributes = new Render\Attribute( );
-					$HTML_37__attributes[] = $Attribute_89 = new Render\Attribute( name : 'class', content : 'tab' );
+			// Instantiating HTML_36__classes for upcoming classes assignment
+				$HTML_36__classes = new Render\Node( );
+					$HTML_36__classes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
-			$HTML_14[] = $HTML_37 = new Render\HTML( tag : 'div', classes: $HTML_37__classes, attributes: $HTML_37__attributes );
+			// Instantiating HTML_36__attributes for upcoming attributes assignment
+				$HTML_36__attributes = new Render\Attribute( );
+					$HTML_36__attributes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'tab' );
+
+
+			$HTML_14[] = $HTML_36 = new Render\HTML( tag : 'div', classes: $HTML_36__classes, attributes: $HTML_36__attributes );
+				// Instantiating HTML_37__classes for upcoming classes assignment
+					$HTML_37__classes = new Render\Node( );
+
+				// Instantiating HTML_37__attributes for upcoming attributes assignment
+					$HTML_37__attributes = new Render\Attribute( );
+
+				$HTML_36[] = $HTML_37 = new Render\HTML( tag : 'h4', classes: $HTML_37__classes, attributes: $HTML_37__attributes, content : '2. Survey the Environment' );
 				// Instantiating HTML_38__classes for upcoming classes assignment
 					$HTML_38__classes = new Render\Node( );
 
 				// Instantiating HTML_38__attributes for upcoming attributes assignment
 					$HTML_38__attributes = new Render\Attribute( );
 
-				$HTML_37[] = $HTML_38 = new Render\HTML( tag : 'h4', classes: $HTML_38__classes, attributes: $HTML_38__attributes, content : '3. Plan' );
+				$HTML_36[] = $HTML_38 = new Render\HTML( tag : 'p', classes: $HTML_38__classes, attributes: $HTML_38__attributes, content : 'Describe the environment.' );
 				// Instantiating HTML_39__classes for upcoming classes assignment
 					$HTML_39__classes = new Render\Node( );
+						$HTML_39__classes[] = $Attribute_89 = new Render\Attribute( name : 'class', content : 'Autoform' );
+
 
 				// Instantiating HTML_39__attributes for upcoming attributes assignment
 					$HTML_39__attributes = new Render\Attribute( );
-
-				$HTML_37[] = $HTML_39 = new Render\HTML( tag : 'p', classes: $HTML_39__classes, attributes: $HTML_39__attributes, content : 'Describe the environment.' );
-				// Instantiating HTML_40__classes for upcoming classes assignment
-					$HTML_40__classes = new Render\Node( );
-						$HTML_40__classes[] = $Attribute_93 = new Render\Attribute( name : 'class', content : 'Autoform controls' );
+						$HTML_39__attributes[] = $Attribute_89 = new Render\Attribute( name : 'class', content : 'Autoform' );
+						$HTML_39__attributes[] = $Attribute_91 = new Render\Attribute( name : 'data-action', content : 'Survey' );
 
 
-				// Instantiating HTML_40__attributes for upcoming attributes assignment
-					$HTML_40__attributes = new Render\Attribute( );
-						$HTML_40__attributes[] = $Attribute_93 = new Render\Attribute( name : 'class', content : 'Autoform controls' );
-						$HTML_40__attributes[] = $Attribute_95 = new Render\Attribute( name : 'data-action', content : 'Plan' );
+				$HTML_36[] = $HTML_39 = new Render\HTML( tag : 'form', classes: $HTML_39__classes, attributes: $HTML_39__attributes );
+					// Instantiating HTML_40__classes for upcoming classes assignment
+						$HTML_40__classes = new Render\Node( );
+
+					// Instantiating HTML_40__attributes for upcoming attributes assignment
+						$HTML_40__attributes = new Render\Attribute( );
+
+					$HTML_39[] = $HTML_40 = new Render\HTML( tag : 'div', classes: $HTML_40__classes, attributes: $HTML_40__attributes );
+						// Instantiating HTML_41__classes for upcoming classes assignment
+							$HTML_41__classes = new Render\Node( );
+
+						// Instantiating HTML_41__attributes for upcoming attributes assignment
+							$HTML_41__attributes = new Render\Attribute( );
+
+						$HTML_40[] = $HTML_41 = new Render\HTML( tag : 'p', classes: $HTML_41__classes, attributes: $HTML_41__attributes, content : 'Interests' );
+						// Instantiating HTML_42__classes for upcoming classes assignment
+							$HTML_42__classes = new Render\Node( );
+								$HTML_42__classes[] = $Attribute_94 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
 
 
-				$HTML_37[] = $HTML_40 = new Render\HTML( tag : 'form', classes: $HTML_40__classes, attributes: $HTML_40__attributes );
-					// Instantiating HTML_41__classes for upcoming classes assignment
-						$HTML_41__classes = new Render\Node( );
-
-					// Instantiating HTML_41__attributes for upcoming attributes assignment
-						$HTML_41__attributes = new Render\Attribute( );
-
-					$HTML_40[] = $HTML_41 = new Render\HTML( tag : 'p', classes: $HTML_41__classes, attributes: $HTML_41__attributes, content : 'Plan' );
-					// Instantiating HTML_42__classes for upcoming classes assignment
-						$HTML_42__classes = new Render\Node( );
-							$HTML_42__classes[] = $Attribute_97 = new Render\Attribute( name : 'class', content : 'plan_inputs input-container controls' );
+						// Instantiating HTML_42__attributes for upcoming attributes assignment
+							$HTML_42__attributes = new Render\Attribute( );
+								$HTML_42__attributes[] = $Attribute_94 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
 
 
-					// Instantiating HTML_42__attributes for upcoming attributes assignment
-						$HTML_42__attributes = new Render\Attribute( );
-							$HTML_42__attributes[] = $Attribute_97 = new Render\Attribute( name : 'class', content : 'plan_inputs input-container controls' );
+						// Instantiating HTML_42__content for upcoming content assignment
+							$HTML_42__content = $this->token_nodes['Survey'] = new Render\Token( name : 'Survey' );
+
+						$HTML_40[] = $HTML_42 = new Render\HTML( tag : 'div', id : 'survey', classes: $HTML_42__classes, attributes: $HTML_42__attributes, content: $HTML_42__content );
+							// Instantiating HTML_43__classes for upcoming classes assignment
+								$HTML_43__classes = new Render\Node( );
+									$HTML_43__classes[] = $Attribute_96 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
 
 
-					// Instantiating HTML_42__content for upcoming content assignment
-						$HTML_42__content = $this->token_nodes['Plan'] = new Render\Token( name : 'Plan' );
-
-					$HTML_40[] = $HTML_42 = new Render\HTML( tag : 'div', id : 'review', classes: $HTML_42__classes, attributes: $HTML_42__attributes, content: $HTML_42__content );
-						// Instantiating HTML_43__classes for upcoming classes assignment
-							$HTML_43__classes = new Render\Node( );
-								$HTML_43__classes[] = $Attribute_99 = new Render\Attribute( name : 'class', content : 'add_plan control btn btn-primary' );
-
-
-						// Instantiating HTML_43__attributes for upcoming attributes assignment
-							$HTML_43__attributes = new Render\Attribute( );
-								$HTML_43__attributes[] = $Attribute_101 = new Render\Attribute( name : 'type', content : 'button' );
-								$HTML_43__attributes[] = $Attribute_102 = new Render\Attribute( name : 'data-role', content : 'trigger' );
-								$HTML_43__attributes[] = $Attribute_103 = new Render\Attribute( name : 'data-action', content : 'add-plan.climb' );
-								$HTML_43__attributes[] = $Attribute_99 = new Render\Attribute( name : 'class', content : 'add_plan control btn btn-primary' );
+							// Instantiating HTML_43__attributes for upcoming attributes assignment
+								$HTML_43__attributes = new Render\Attribute( );
+									$HTML_43__attributes[] = $Attribute_98 = new Render\Attribute( name : 'type', content : 'button' );
+									$HTML_43__attributes[] = $Attribute_99 = new Render\Attribute( name : 'data-role', content : 'trigger' );
+									$HTML_43__attributes[] = $Attribute_100 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
+									$HTML_43__attributes[] = $Attribute_96 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
 
 
-						$HTML_42[] = $HTML_43 = new Render\HTML( tag : 'button', classes: $HTML_43__classes, attributes: $HTML_43__attributes, content : 'Add' );
+							$HTML_42[] = $HTML_43 = new Render\HTML( tag : 'button', classes: $HTML_43__classes, attributes: $HTML_43__attributes, content : 'Add' );
+
+
+					// Instantiating HTML_44__classes for upcoming classes assignment
+						$HTML_44__classes = new Render\Node( );
+
+					// Instantiating HTML_44__attributes for upcoming attributes assignment
+						$HTML_44__attributes = new Render\Attribute( );
+
+					$HTML_39[] = $HTML_44 = new Render\HTML( tag : 'div', classes: $HTML_44__classes, attributes: $HTML_44__attributes );
+						// Instantiating HTML_45__classes for upcoming classes assignment
+							$HTML_45__classes = new Render\Node( );
+
+						// Instantiating HTML_45__attributes for upcoming attributes assignment
+							$HTML_45__attributes = new Render\Attribute( );
+
+						$HTML_44[] = $HTML_45 = new Render\HTML( tag : 'p', classes: $HTML_45__classes, attributes: $HTML_45__attributes, content : 'Obstacles' );
+						// Instantiating HTML_46__classes for upcoming classes assignment
+							$HTML_46__classes = new Render\Node( );
+								$HTML_46__classes[] = $Attribute_103 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+						// Instantiating HTML_46__attributes for upcoming attributes assignment
+							$HTML_46__attributes = new Render\Attribute( );
+								$HTML_46__attributes[] = $Attribute_103 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+						// Instantiating HTML_46__content for upcoming content assignment
+							$HTML_46__content = $this->token_nodes['Obstacles'] = new Render\Token( name : 'Obstacles' );
+
+						$HTML_44[] = $HTML_46 = new Render\HTML( tag : 'div', id : 'obstruction', classes: $HTML_46__classes, attributes: $HTML_46__attributes, content: $HTML_46__content );
+							// Instantiating HTML_47__classes for upcoming classes assignment
+								$HTML_47__classes = new Render\Node( );
+									$HTML_47__classes[] = $Attribute_105 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+
+
+							// Instantiating HTML_47__attributes for upcoming attributes assignment
+								$HTML_47__attributes = new Render\Attribute( );
+									$HTML_47__attributes[] = $Attribute_107 = new Render\Attribute( name : 'type', content : 'button' );
+									$HTML_47__attributes[] = $Attribute_108 = new Render\Attribute( name : 'data-role', content : 'trigger' );
+									$HTML_47__attributes[] = $Attribute_109 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
+									$HTML_47__attributes[] = $Attribute_105 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+
+
+							$HTML_46[] = $HTML_47 = new Render\HTML( tag : 'button', classes: $HTML_47__classes, attributes: $HTML_47__attributes, content : 'Add' );
 
 
 
-			// Instantiating HTML_44__classes for upcoming classes assignment
-				$HTML_44__classes = new Render\Node( );
-					$HTML_44__classes[] = $Attribute_104 = new Render\Attribute( name : 'class', content : 'tab' );
-
-
-			// Instantiating HTML_44__attributes for upcoming attributes assignment
-				$HTML_44__attributes = new Render\Attribute( );
-					$HTML_44__attributes[] = $Attribute_104 = new Render\Attribute( name : 'class', content : 'tab' );
-
-
-			$HTML_14[] = $HTML_44 = new Render\HTML( tag : 'div', classes: $HTML_44__classes, attributes: $HTML_44__attributes );
-				// Instantiating HTML_45__classes for upcoming classes assignment
-					$HTML_45__classes = new Render\Node( );
-
-				// Instantiating HTML_45__attributes for upcoming attributes assignment
-					$HTML_45__attributes = new Render\Attribute( );
-
-				$HTML_44[] = $HTML_45 = new Render\HTML( tag : 'h4', classes: $HTML_45__classes, attributes: $HTML_45__attributes, content : '4. Work on the Goal' );
-				// Instantiating HTML_46__classes for upcoming classes assignment
-					$HTML_46__classes = new Render\Node( );
-
-				// Instantiating HTML_46__attributes for upcoming attributes assignment
-					$HTML_46__attributes = new Render\Attribute( );
-
-				$HTML_44[] = $HTML_46 = new Render\HTML( tag : 'p', classes: $HTML_46__classes, attributes: $HTML_46__attributes, content : 'Start work and document' );
-				// Instantiating HTML_47__classes for upcoming classes assignment
-					$HTML_47__classes = new Render\Node( );
-						$HTML_47__classes[] = $Attribute_108 = new Render\Attribute( name : 'class', content : 'Autoform' );
-
-
-				// Instantiating HTML_47__attributes for upcoming attributes assignment
-					$HTML_47__attributes = new Render\Attribute( );
-						$HTML_47__attributes[] = $Attribute_108 = new Render\Attribute( name : 'class', content : 'Autoform' );
-						$HTML_47__attributes[] = $Attribute_110 = new Render\Attribute( name : 'data-action', content : 'Work' );
-
-
-				// Instantiating HTML_47__content for upcoming content assignment
-					$HTML_47__content = $this->token_nodes['Progress'] = new Render\Token( name : 'Progress' );
-
-				$HTML_44[] = $HTML_47 = new Render\HTML( tag : 'form', classes: $HTML_47__classes, attributes: $HTML_47__attributes, content: $HTML_47__content );
 
 			// Instantiating HTML_48__classes for upcoming classes assignment
 				$HTML_48__classes = new Render\Node( );
-					$HTML_48__classes[] = $Attribute_111 = new Render\Attribute( name : 'class', content : 'tab' );
+					$HTML_48__classes[] = $Attribute_110 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			// Instantiating HTML_48__attributes for upcoming attributes assignment
 				$HTML_48__attributes = new Render\Attribute( );
-					$HTML_48__attributes[] = $Attribute_111 = new Render\Attribute( name : 'class', content : 'tab' );
+					$HTML_48__attributes[] = $Attribute_110 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
 			$HTML_14[] = $HTML_48 = new Render\HTML( tag : 'div', classes: $HTML_48__classes, attributes: $HTML_48__attributes );
@@ -577,176 +563,292 @@ use \Approach\Render;
 				// Instantiating HTML_49__attributes for upcoming attributes assignment
 					$HTML_49__attributes = new Render\Attribute( );
 
-				$HTML_48[] = $HTML_49 = new Render\HTML( tag : 'h4', classes: $HTML_49__classes, attributes: $HTML_49__attributes, content : '5. Describe your work' );
+				$HTML_48[] = $HTML_49 = new Render\HTML( tag : 'h4', classes: $HTML_49__classes, attributes: $HTML_49__attributes, content : '3. Plan' );
 				// Instantiating HTML_50__classes for upcoming classes assignment
 					$HTML_50__classes = new Render\Node( );
-						$HTML_50__classes[] = $Attribute_114 = new Render\Attribute( name : 'class', content : 'Autoform' );
-
 
 				// Instantiating HTML_50__attributes for upcoming attributes assignment
 					$HTML_50__attributes = new Render\Attribute( );
-						$HTML_50__attributes[] = $Attribute_114 = new Render\Attribute( name : 'class', content : 'Autoform' );
-						$HTML_50__attributes[] = $Attribute_116 = new Render\Attribute( name : 'data-action', content : 'Describe' );
+
+				$HTML_48[] = $HTML_50 = new Render\HTML( tag : 'p', classes: $HTML_50__classes, attributes: $HTML_50__attributes, content : 'Describe the environment.' );
+				// Instantiating HTML_51__classes for upcoming classes assignment
+					$HTML_51__classes = new Render\Node( );
+						$HTML_51__classes[] = $Attribute_114 = new Render\Attribute( name : 'class', content : 'Autoform controls' );
 
 
-				$HTML_48[] = $HTML_50 = new Render\HTML( tag : 'form', classes: $HTML_50__classes, attributes: $HTML_50__attributes );
-					// Instantiating HTML_51__classes for upcoming classes assignment
-						$HTML_51__classes = new Render\Node( );
-							$HTML_51__classes[] = $Attribute_117 = new Render\Attribute( name : 'class', content : 'form-label' );
+				// Instantiating HTML_51__attributes for upcoming attributes assignment
+					$HTML_51__attributes = new Render\Attribute( );
+						$HTML_51__attributes[] = $Attribute_114 = new Render\Attribute( name : 'class', content : 'Autoform controls' );
+						$HTML_51__attributes[] = $Attribute_116 = new Render\Attribute( name : 'data-action', content : 'Plan' );
 
 
-					// Instantiating HTML_51__attributes for upcoming attributes assignment
-						$HTML_51__attributes = new Render\Attribute( );
-							$HTML_51__attributes[] = $Attribute_117 = new Render\Attribute( name : 'class', content : 'form-label' );
-
-
-					$HTML_50[] = $HTML_51 = new Render\HTML( tag : 'label', classes: $HTML_51__classes, attributes: $HTML_51__attributes, content : 'Budget: Expectations vs Reality' );
+				$HTML_48[] = $HTML_51 = new Render\HTML( tag : 'form', classes: $HTML_51__classes, attributes: $HTML_51__attributes );
 					// Instantiating HTML_52__classes for upcoming classes assignment
 						$HTML_52__classes = new Render\Node( );
-							$HTML_52__classes[] = $Attribute_119 = new Render\Attribute( name : 'class', content : 'form-select' );
-
 
 					// Instantiating HTML_52__attributes for upcoming attributes assignment
 						$HTML_52__attributes = new Render\Attribute( );
-							$HTML_52__attributes[] = $Attribute_119 = new Render\Attribute( name : 'class', content : 'form-select' );
-							$HTML_52__attributes[] = $Attribute_121 = new Render\Attribute( name : 'name', content : 'budget_res' );
+
+					$HTML_51[] = $HTML_52 = new Render\HTML( tag : 'p', classes: $HTML_52__classes, attributes: $HTML_52__attributes, content : 'Plan' );
+					// Instantiating HTML_53__classes for upcoming classes assignment
+						$HTML_53__classes = new Render\Node( );
+							$HTML_53__classes[] = $Attribute_118 = new Render\Attribute( name : 'class', content : 'plan_inputs input-container controls' );
 
 
-					$HTML_50[] = $HTML_52 = new Render\HTML( tag : 'select', classes: $HTML_52__classes, attributes: $HTML_52__attributes, content : 'Choose an option' );
-						// Instantiating HTML_53__classes for upcoming classes assignment
-							$HTML_53__classes = new Render\Node( );
-
-						// Instantiating HTML_53__attributes for upcoming attributes assignment
-							$HTML_53__attributes = new Render\Attribute( );
-								$HTML_53__attributes[] = $Attribute_123 = new Render\Attribute( name : 'value', content : '1' );
+					// Instantiating HTML_53__attributes for upcoming attributes assignment
+						$HTML_53__attributes = new Render\Attribute( );
+							$HTML_53__attributes[] = $Attribute_118 = new Render\Attribute( name : 'class', content : 'plan_inputs input-container controls' );
 
 
-						$HTML_52[] = $HTML_53 = new Render\HTML( tag : 'option', classes: $HTML_53__classes, attributes: $HTML_53__attributes, content : 'Budget Met Expectations' );
+					// Instantiating HTML_53__content for upcoming content assignment
+						$HTML_53__content = $this->token_nodes['Plan'] = new Render\Token( name : 'Plan' );
+
+					$HTML_51[] = $HTML_53 = new Render\HTML( tag : 'div', id : 'review', classes: $HTML_53__classes, attributes: $HTML_53__attributes, content: $HTML_53__content );
 						// Instantiating HTML_54__classes for upcoming classes assignment
 							$HTML_54__classes = new Render\Node( );
+								$HTML_54__classes[] = $Attribute_120 = new Render\Attribute( name : 'class', content : 'add_plan control btn btn-primary' );
+
 
 						// Instantiating HTML_54__attributes for upcoming attributes assignment
 							$HTML_54__attributes = new Render\Attribute( );
-								$HTML_54__attributes[] = $Attribute_125 = new Render\Attribute( name : 'value', content : '2' );
+								$HTML_54__attributes[] = $Attribute_122 = new Render\Attribute( name : 'type', content : 'button' );
+								$HTML_54__attributes[] = $Attribute_123 = new Render\Attribute( name : 'data-role', content : 'trigger' );
+								$HTML_54__attributes[] = $Attribute_124 = new Render\Attribute( name : 'data-action', content : 'add-plan.climb' );
+								$HTML_54__attributes[] = $Attribute_120 = new Render\Attribute( name : 'class', content : 'add_plan control btn btn-primary' );
 
 
-						$HTML_52[] = $HTML_54 = new Render\HTML( tag : 'option', classes: $HTML_54__classes, attributes: $HTML_54__attributes, content : 'Budget Exceeded Expectations' );
-						// Instantiating HTML_55__classes for upcoming classes assignment
-							$HTML_55__classes = new Render\Node( );
-
-						// Instantiating HTML_55__attributes for upcoming attributes assignment
-							$HTML_55__attributes = new Render\Attribute( );
-								$HTML_55__attributes[] = $Attribute_127 = new Render\Attribute( name : 'value', content : '3' );
-
-
-						$HTML_52[] = $HTML_55 = new Render\HTML( tag : 'option', classes: $HTML_55__classes, attributes: $HTML_55__attributes, content : 'Low Budget' );
-
-					// Instantiating HTML_56__classes for upcoming classes assignment
-						$HTML_56__classes = new Render\Node( );
-
-					// Instantiating HTML_56__attributes for upcoming attributes assignment
-						$HTML_56__attributes = new Render\Attribute( );
-
-					$HTML_50[] = $HTML_56 = new Render\HTML( tag : 'p', classes: $HTML_56__classes, attributes: $HTML_56__attributes, content : 'Points of Interest for new Destinations' );
-					// Instantiating HTML_57__classes for upcoming classes assignment
-						$HTML_57__classes = new Render\Node( );
-							$HTML_57__classes[] = $Attribute_129 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
-
-
-					// Instantiating HTML_57__attributes for upcoming attributes assignment
-						$HTML_57__attributes = new Render\Attribute( );
-							$HTML_57__attributes[] = $Attribute_129 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
-
-
-					// Instantiating HTML_57__content for upcoming content assignment
-						$HTML_57__content = $this->token_nodes['InterestsD'] = new Render\Token( name : 'InterestsD' );
-
-					$HTML_50[] = $HTML_57 = new Render\HTML( tag : 'div', id : 'interestsd', classes: $HTML_57__classes, attributes: $HTML_57__attributes, content: $HTML_57__content );
-						// Instantiating HTML_58__classes for upcoming classes assignment
-							$HTML_58__classes = new Render\Node( );
-								$HTML_58__classes[] = $Attribute_131 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-						// Instantiating HTML_58__attributes for upcoming attributes assignment
-							$HTML_58__attributes = new Render\Attribute( );
-								$HTML_58__attributes[] = $Attribute_133 = new Render\Attribute( name : 'type', content : 'button' );
-								$HTML_58__attributes[] = $Attribute_134 = new Render\Attribute( name : 'data-role', content : 'trigger' );
-								$HTML_58__attributes[] = $Attribute_135 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
-								$HTML_58__attributes[] = $Attribute_131 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-						$HTML_57[] = $HTML_58 = new Render\HTML( tag : 'button', classes: $HTML_58__classes, attributes: $HTML_58__attributes, content : 'Add' );
-
-					// Instantiating HTML_59__classes for upcoming classes assignment
-						$HTML_59__classes = new Render\Node( );
-
-					// Instantiating HTML_59__attributes for upcoming attributes assignment
-						$HTML_59__attributes = new Render\Attribute( );
-
-					$HTML_50[] = $HTML_59 = new Render\HTML( tag : 'p', classes: $HTML_59__classes, attributes: $HTML_59__attributes, content : 'Points of Concern and Hazards' );
-					// Instantiating HTML_60__classes for upcoming classes assignment
-						$HTML_60__classes = new Render\Node( );
-							$HTML_60__classes[] = $Attribute_137 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
-
-
-					// Instantiating HTML_60__attributes for upcoming attributes assignment
-						$HTML_60__attributes = new Render\Attribute( );
-							$HTML_60__attributes[] = $Attribute_137 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
-
-
-					// Instantiating HTML_60__content for upcoming content assignment
-						$HTML_60__content = $this->token_nodes['Hazards'] = new Render\Token( name : 'Hazards' );
-
-					$HTML_50[] = $HTML_60 = new Render\HTML( tag : 'div', id : 'hazards', classes: $HTML_60__classes, attributes: $HTML_60__attributes, content: $HTML_60__content );
-						// Instantiating HTML_61__classes for upcoming classes assignment
-							$HTML_61__classes = new Render\Node( );
-								$HTML_61__classes[] = $Attribute_139 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-						// Instantiating HTML_61__attributes for upcoming attributes assignment
-							$HTML_61__attributes = new Render\Attribute( );
-								$HTML_61__attributes[] = $Attribute_141 = new Render\Attribute( name : 'type', content : 'button' );
-								$HTML_61__attributes[] = $Attribute_142 = new Render\Attribute( name : 'data-role', content : 'trigger' );
-								$HTML_61__attributes[] = $Attribute_143 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
-								$HTML_61__attributes[] = $Attribute_139 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
-
-
-						$HTML_60[] = $HTML_61 = new Render\HTML( tag : 'button', classes: $HTML_61__classes, attributes: $HTML_61__attributes, content : 'Add' );
+						$HTML_53[] = $HTML_54 = new Render\HTML( tag : 'button', classes: $HTML_54__classes, attributes: $HTML_54__attributes, content : 'Add' );
 
 
 
-			// Instantiating HTML_62__classes for upcoming classes assignment
-				$HTML_62__classes = new Render\Node( );
-					$HTML_62__classes[] = $Attribute_144 = new Render\Attribute( name : 'class', content : 'tab' );
+			// Instantiating HTML_55__classes for upcoming classes assignment
+				$HTML_55__classes = new Render\Node( );
+					$HTML_55__classes[] = $Attribute_125 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
-			// Instantiating HTML_62__attributes for upcoming attributes assignment
-				$HTML_62__attributes = new Render\Attribute( );
-					$HTML_62__attributes[] = $Attribute_144 = new Render\Attribute( name : 'class', content : 'tab' );
+			// Instantiating HTML_55__attributes for upcoming attributes assignment
+				$HTML_55__attributes = new Render\Attribute( );
+					$HTML_55__attributes[] = $Attribute_125 = new Render\Attribute( name : 'class', content : 'tab' );
 
 
-			// Instantiating HTML_62__content for upcoming content assignment
-				$HTML_62__content = $this->token_nodes['Adapt'] = new Render\Token( name : 'Adapt' );
+			$HTML_14[] = $HTML_55 = new Render\HTML( tag : 'div', classes: $HTML_55__classes, attributes: $HTML_55__attributes );
+				// Instantiating HTML_56__classes for upcoming classes assignment
+					$HTML_56__classes = new Render\Node( );
 
-			$HTML_14[] = $HTML_62 = new Render\HTML( tag : 'div', classes: $HTML_62__classes, attributes: $HTML_62__attributes, content: $HTML_62__content );
-				// Instantiating HTML_63__classes for upcoming classes assignment
-					$HTML_63__classes = new Render\Node( );
+				// Instantiating HTML_56__attributes for upcoming attributes assignment
+					$HTML_56__attributes = new Render\Attribute( );
 
-				// Instantiating HTML_63__attributes for upcoming attributes assignment
-					$HTML_63__attributes = new Render\Attribute( );
+				$HTML_55[] = $HTML_56 = new Render\HTML( tag : 'h4', classes: $HTML_56__classes, attributes: $HTML_56__attributes, content : '4. Work on the Goal' );
+				// Instantiating HTML_57__classes for upcoming classes assignment
+					$HTML_57__classes = new Render\Node( );
 
-				$HTML_62[] = $HTML_63 = new Render\HTML( tag : 'h4', classes: $HTML_63__classes, attributes: $HTML_63__attributes, content : '6. Adapt from Finding' );
+				// Instantiating HTML_57__attributes for upcoming attributes assignment
+					$HTML_57__attributes = new Render\Attribute( );
 
-			// Instantiating HTML_64__classes for upcoming classes assignment
-				$HTML_64__classes = new Render\Node( );
+				$HTML_55[] = $HTML_57 = new Render\HTML( tag : 'p', classes: $HTML_57__classes, attributes: $HTML_57__attributes, content : 'Start work and document' );
+				// Instantiating HTML_58__classes for upcoming classes assignment
+					$HTML_58__classes = new Render\Node( );
+						$HTML_58__classes[] = $Attribute_129 = new Render\Attribute( name : 'class', content : 'Autoform' );
 
-			// Instantiating HTML_64__attributes for upcoming attributes assignment
-				$HTML_64__attributes = new Render\Attribute( );
 
-			// Instantiating HTML_64__content for upcoming content assignment
-				$HTML_64__content = $this->token_nodes['Update'] = new Render\Token( name : 'Update' );
+				// Instantiating HTML_58__attributes for upcoming attributes assignment
+					$HTML_58__attributes = new Render\Attribute( );
+						$HTML_58__attributes[] = $Attribute_129 = new Render\Attribute( name : 'class', content : 'Autoform' );
+						$HTML_58__attributes[] = $Attribute_131 = new Render\Attribute( name : 'data-action', content : 'Work' );
 
-			$HTML_14[] = $HTML_64 = new Render\HTML( tag : 'div', classes: $HTML_64__classes, attributes: $HTML_64__attributes, content: $HTML_64__content );
+
+				// Instantiating HTML_58__content for upcoming content assignment
+					$HTML_58__content = $this->token_nodes['Progress'] = new Render\Token( name : 'Progress' );
+
+				$HTML_55[] = $HTML_58 = new Render\HTML( tag : 'form', classes: $HTML_58__classes, attributes: $HTML_58__attributes, content: $HTML_58__content );
+
+			// Instantiating HTML_59__classes for upcoming classes assignment
+				$HTML_59__classes = new Render\Node( );
+					$HTML_59__classes[] = $Attribute_132 = new Render\Attribute( name : 'class', content : 'tab' );
+
+
+			// Instantiating HTML_59__attributes for upcoming attributes assignment
+				$HTML_59__attributes = new Render\Attribute( );
+					$HTML_59__attributes[] = $Attribute_132 = new Render\Attribute( name : 'class', content : 'tab' );
+
+
+			$HTML_14[] = $HTML_59 = new Render\HTML( tag : 'div', classes: $HTML_59__classes, attributes: $HTML_59__attributes );
+				// Instantiating HTML_60__classes for upcoming classes assignment
+					$HTML_60__classes = new Render\Node( );
+
+				// Instantiating HTML_60__attributes for upcoming attributes assignment
+					$HTML_60__attributes = new Render\Attribute( );
+
+				$HTML_59[] = $HTML_60 = new Render\HTML( tag : 'h4', classes: $HTML_60__classes, attributes: $HTML_60__attributes, content : '5. Describe your work' );
+				// Instantiating HTML_61__classes for upcoming classes assignment
+					$HTML_61__classes = new Render\Node( );
+						$HTML_61__classes[] = $Attribute_135 = new Render\Attribute( name : 'class', content : 'Autoform' );
+
+
+				// Instantiating HTML_61__attributes for upcoming attributes assignment
+					$HTML_61__attributes = new Render\Attribute( );
+						$HTML_61__attributes[] = $Attribute_135 = new Render\Attribute( name : 'class', content : 'Autoform' );
+						$HTML_61__attributes[] = $Attribute_137 = new Render\Attribute( name : 'data-action', content : 'Describe' );
+
+
+				$HTML_59[] = $HTML_61 = new Render\HTML( tag : 'form', classes: $HTML_61__classes, attributes: $HTML_61__attributes );
+					// Instantiating HTML_62__classes for upcoming classes assignment
+						$HTML_62__classes = new Render\Node( );
+							$HTML_62__classes[] = $Attribute_138 = new Render\Attribute( name : 'class', content : 'form-label' );
+
+
+					// Instantiating HTML_62__attributes for upcoming attributes assignment
+						$HTML_62__attributes = new Render\Attribute( );
+							$HTML_62__attributes[] = $Attribute_138 = new Render\Attribute( name : 'class', content : 'form-label' );
+
+
+					$HTML_61[] = $HTML_62 = new Render\HTML( tag : 'label', classes: $HTML_62__classes, attributes: $HTML_62__attributes, content : 'Budget: Expectations vs Reality' );
+					// Instantiating HTML_63__classes for upcoming classes assignment
+						$HTML_63__classes = new Render\Node( );
+							$HTML_63__classes[] = $Attribute_140 = new Render\Attribute( name : 'class', content : 'form-select' );
+
+
+					// Instantiating HTML_63__attributes for upcoming attributes assignment
+						$HTML_63__attributes = new Render\Attribute( );
+							$HTML_63__attributes[] = $Attribute_140 = new Render\Attribute( name : 'class', content : 'form-select' );
+							$HTML_63__attributes[] = $Attribute_142 = new Render\Attribute( name : 'name', content : 'budget_res' );
+
+
+					$HTML_61[] = $HTML_63 = new Render\HTML( tag : 'select', classes: $HTML_63__classes, attributes: $HTML_63__attributes, content : 'Choose an option' );
+						// Instantiating HTML_64__classes for upcoming classes assignment
+							$HTML_64__classes = new Render\Node( );
+
+						// Instantiating HTML_64__attributes for upcoming attributes assignment
+							$HTML_64__attributes = new Render\Attribute( );
+								$HTML_64__attributes[] = $Attribute_144 = new Render\Attribute( name : 'value', content : '1' );
+
+
+						$HTML_63[] = $HTML_64 = new Render\HTML( tag : 'option', classes: $HTML_64__classes, attributes: $HTML_64__attributes, content : 'Budget Met Expectations' );
+						// Instantiating HTML_65__classes for upcoming classes assignment
+							$HTML_65__classes = new Render\Node( );
+
+						// Instantiating HTML_65__attributes for upcoming attributes assignment
+							$HTML_65__attributes = new Render\Attribute( );
+								$HTML_65__attributes[] = $Attribute_146 = new Render\Attribute( name : 'value', content : '2' );
+
+
+						$HTML_63[] = $HTML_65 = new Render\HTML( tag : 'option', classes: $HTML_65__classes, attributes: $HTML_65__attributes, content : 'Budget Exceeded Expectations' );
+						// Instantiating HTML_66__classes for upcoming classes assignment
+							$HTML_66__classes = new Render\Node( );
+
+						// Instantiating HTML_66__attributes for upcoming attributes assignment
+							$HTML_66__attributes = new Render\Attribute( );
+								$HTML_66__attributes[] = $Attribute_148 = new Render\Attribute( name : 'value', content : '3' );
+
+
+						$HTML_63[] = $HTML_66 = new Render\HTML( tag : 'option', classes: $HTML_66__classes, attributes: $HTML_66__attributes, content : 'Low Budget' );
+
+					// Instantiating HTML_67__classes for upcoming classes assignment
+						$HTML_67__classes = new Render\Node( );
+
+					// Instantiating HTML_67__attributes for upcoming attributes assignment
+						$HTML_67__attributes = new Render\Attribute( );
+
+					$HTML_61[] = $HTML_67 = new Render\HTML( tag : 'p', classes: $HTML_67__classes, attributes: $HTML_67__attributes, content : 'Points of Interest for new Destinations' );
+					// Instantiating HTML_68__classes for upcoming classes assignment
+						$HTML_68__classes = new Render\Node( );
+							$HTML_68__classes[] = $Attribute_150 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+					// Instantiating HTML_68__attributes for upcoming attributes assignment
+						$HTML_68__attributes = new Render\Attribute( );
+							$HTML_68__attributes[] = $Attribute_150 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+					// Instantiating HTML_68__content for upcoming content assignment
+						$HTML_68__content = $this->token_nodes['InterestsD'] = new Render\Token( name : 'InterestsD' );
+
+					$HTML_61[] = $HTML_68 = new Render\HTML( tag : 'div', id : 'interestsd', classes: $HTML_68__classes, attributes: $HTML_68__attributes, content: $HTML_68__content );
+						// Instantiating HTML_69__classes for upcoming classes assignment
+							$HTML_69__classes = new Render\Node( );
+								$HTML_69__classes[] = $Attribute_152 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+
+
+						// Instantiating HTML_69__attributes for upcoming attributes assignment
+							$HTML_69__attributes = new Render\Attribute( );
+								$HTML_69__attributes[] = $Attribute_154 = new Render\Attribute( name : 'type', content : 'button' );
+								$HTML_69__attributes[] = $Attribute_155 = new Render\Attribute( name : 'data-role', content : 'trigger' );
+								$HTML_69__attributes[] = $Attribute_156 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
+								$HTML_69__attributes[] = $Attribute_152 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+
+
+						$HTML_68[] = $HTML_69 = new Render\HTML( tag : 'button', classes: $HTML_69__classes, attributes: $HTML_69__attributes, content : 'Add' );
+
+					// Instantiating HTML_70__classes for upcoming classes assignment
+						$HTML_70__classes = new Render\Node( );
+
+					// Instantiating HTML_70__attributes for upcoming attributes assignment
+						$HTML_70__attributes = new Render\Attribute( );
+
+					$HTML_61[] = $HTML_70 = new Render\HTML( tag : 'p', classes: $HTML_70__classes, attributes: $HTML_70__attributes, content : 'Points of Concern and Hazards' );
+					// Instantiating HTML_71__classes for upcoming classes assignment
+						$HTML_71__classes = new Render\Node( );
+							$HTML_71__classes[] = $Attribute_158 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+					// Instantiating HTML_71__attributes for upcoming attributes assignment
+						$HTML_71__attributes = new Render\Attribute( );
+							$HTML_71__attributes[] = $Attribute_158 = new Render\Attribute( name : 'class', content : 'inputs input-container controls' );
+
+
+					// Instantiating HTML_71__content for upcoming content assignment
+						$HTML_71__content = $this->token_nodes['Hazards'] = new Render\Token( name : 'Hazards' );
+
+					$HTML_61[] = $HTML_71 = new Render\HTML( tag : 'div', id : 'hazards', classes: $HTML_71__classes, attributes: $HTML_71__attributes, content: $HTML_71__content );
+						// Instantiating HTML_72__classes for upcoming classes assignment
+							$HTML_72__classes = new Render\Node( );
+								$HTML_72__classes[] = $Attribute_160 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+
+
+						// Instantiating HTML_72__attributes for upcoming attributes assignment
+							$HTML_72__attributes = new Render\Attribute( );
+								$HTML_72__attributes[] = $Attribute_162 = new Render\Attribute( name : 'type', content : 'button' );
+								$HTML_72__attributes[] = $Attribute_163 = new Render\Attribute( name : 'data-role', content : 'trigger' );
+								$HTML_72__attributes[] = $Attribute_164 = new Render\Attribute( name : 'data-action', content : 'add.climb' );
+								$HTML_72__attributes[] = $Attribute_160 = new Render\Attribute( name : 'class', content : 'add control btn btn-primary' );
+
+
+						$HTML_71[] = $HTML_72 = new Render\HTML( tag : 'button', classes: $HTML_72__classes, attributes: $HTML_72__attributes, content : 'Add' );
+
+
+
+			// Instantiating HTML_73__classes for upcoming classes assignment
+				$HTML_73__classes = new Render\Node( );
+					$HTML_73__classes[] = $Attribute_165 = new Render\Attribute( name : 'class', content : 'tab' );
+
+
+			// Instantiating HTML_73__attributes for upcoming attributes assignment
+				$HTML_73__attributes = new Render\Attribute( );
+					$HTML_73__attributes[] = $Attribute_165 = new Render\Attribute( name : 'class', content : 'tab' );
+
+
+			// Instantiating HTML_73__content for upcoming content assignment
+				$HTML_73__content = $this->token_nodes['Adapt'] = new Render\Token( name : 'Adapt' );
+
+			$HTML_14[] = $HTML_73 = new Render\HTML( tag : 'div', classes: $HTML_73__classes, attributes: $HTML_73__attributes, content: $HTML_73__content );
+				// Instantiating HTML_74__classes for upcoming classes assignment
+					$HTML_74__classes = new Render\Node( );
+
+				// Instantiating HTML_74__attributes for upcoming attributes assignment
+					$HTML_74__attributes = new Render\Attribute( );
+
+				$HTML_73[] = $HTML_74 = new Render\HTML( tag : 'h4', classes: $HTML_74__classes, attributes: $HTML_74__attributes, content : '6. Adapt from Finding' );
+
+			// Instantiating HTML_75__classes for upcoming classes assignment
+				$HTML_75__classes = new Render\Node( );
+
+			// Instantiating HTML_75__attributes for upcoming attributes assignment
+				$HTML_75__attributes = new Render\Attribute( );
+
+			// Instantiating HTML_75__content for upcoming content assignment
+				$HTML_75__content = $this->token_nodes['Update'] = new Render\Token( name : 'Update' );
+
+			$HTML_14[] = $HTML_75 = new Render\HTML( tag : 'div', classes: $HTML_75__classes, attributes: $HTML_75__attributes, content: $HTML_75__content );
 
 
 

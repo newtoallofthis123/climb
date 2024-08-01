@@ -88,6 +88,21 @@
                             <label for="parent_id">Parent ID</label>
                             [@ Parent @]
                         </div>
+                        <div>
+                            <label for="labels">Choose Label</label>
+                            <select name="labels" id="labels">
+                                <option value="YELLOW" default="true">Yellow: Dailies</option>
+                                <option value="RED">Red: Emergency</option>
+                                <option value="PURPLE">Purple: Incubate</option>
+                                <option value="ORANGE">Orange: Urgent</option>
+                                <option value="GREEN">Green: Bounties</option>
+                                <option value="BLUE">Blue: Big Brain</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="other_labels">Other Labels</label>
+                            [@ OtherLabels @]
+                        </div>
                         <div class="inputs input-container controls" id="requirements">
                             [@ Requirements @]
                             <button type="button" data-role="trigger" data-action="add.climb" class="add btn btn-primary control">

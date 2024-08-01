@@ -194,10 +194,15 @@ class Server extends Service
 
         $config = self::getConfig();
 
-        $labels = ['climb-payload'];
+        $labels = [];
+        $labels[] = $action['Climb']['labels'];
+        $labels = array_merge($labels, explode($action['Climb']['other_labels'], ','));
         // check if a parent_id is set
         if (!isset($action['Climb']['parent_id'])) {
             $labels[] = 'root';
+        }
+        if (!array_key_exists('climb-payload', $labels)) {
+            $labels[] = 'climbs-payload';
         }
 
         if ($toSave) {
@@ -223,7 +228,7 @@ class Server extends Service
         }
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($res) . '</div>'],
+            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($labels) . '</div>'],
         ];
     }
 
@@ -636,6 +641,7 @@ class Server extends Service
             'Hazards' => $hazardsForm,
             'Adapt' => 'TODO',
             'Update' => $update,
+            'OtherLabels' => new UIInput('other_labels', implode(',',$result['labels'])),
         ];
 
         $tabsForm = new Editor(tokens: $tokens);

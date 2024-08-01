@@ -152,7 +152,7 @@ $body->content = <<<HTML
                         <ul></ul>
                     </li>
                      <button
-                        class="control btn btn-primary current-state ms-2"
+                        class="control btn current-state ms-2"
                         data-api="/server.php"
                         data-api-method="POST"
                         data-intent='{ "REFRESH": { "Climb" : "Settings" } }'
