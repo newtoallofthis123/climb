@@ -15,6 +15,24 @@ use Approach\Service\target;
 class Github extends Service
 {
     /**
+     * @return array<string,null|string|array|bool>
+     */
+    public static function getApiKey()
+    {
+        $filename = __DIR__ . '/../../config.json';
+        if (!file_exists($filename)) {
+            $file = fopen($filename, "w");
+            if ($file) 
+                fclose($file);
+        }
+
+        $content = file_get_contents($filename);
+        $config = json_decode($content, true);
+        $key = $config['GITHUB_API_KEY'];
+        return $key;
+    }
+
+    /**
      * @var mixed|null
      */
     public string $url;
@@ -23,16 +41,15 @@ class Github extends Service
         $owner = null,
         $repo = null,
         $labels = null,
-        $url = null
+        $url = null,
     ) {
         $this->url = $url ?? 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues?labels=' . implode(',', $labels);
-        $apiKey = getenv('GITHUB_API_KEY');
         $context = [
             'http' => [
                 'method' => 'GET',
                 'header' => [
                     'User-Agent:curl/8.5.0',
-                    'Authorization: Bearer ' . $apiKey,
+                    'Authorization: Bearer ' . self::getApiKey(),
                     'X-GitHub-Api-Version: 2022-11-28',
                 ],
             ]

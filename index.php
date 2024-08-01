@@ -15,17 +15,6 @@ global $body, $webpage;
 
 require_once __DIR__ . '/support/lib/vendor/autoload.php';
 
-$owner = null;
-$repo = null;
-if(getenv('CLIMBSUI_OWNER') != "" && getenv('CLIMBSUI_REPO') != "") {
-    $owner = getenv('CLIMBSUI_OWNER');
-    $repo = getenv('CLIMBSUI_REPO');
-} else{
-    echo "Please set the CLIMBSUI_OWNER and CLIMBSUI_REPO environment variables";
-    echo $_ENV['CLIMBSUI_REPO'];
-    exit;
-}
-
 $webpage = new HTML(tag: 'html');
 $webpage->before = '<!DOCTYPE html>' . PHP_EOL;
 
@@ -108,6 +97,12 @@ $head[] = new HTML(tag: 'script', attributes: [
 ]);
 
 $body = new HTML(tag: 'body');
+
+$filename = __DIR__ . '/config.json';
+$content = file_get_contents($filename);
+$config = json_decode($content, true);
+$repo = $config['CLIMBSUI_REPO'];
+$owner = $config['CLIMBSUI_OWNER'];
 
 $body->content = <<<HTML
     <div class="Stage">

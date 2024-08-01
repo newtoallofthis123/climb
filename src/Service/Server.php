@@ -134,19 +134,24 @@ class Server extends Service
      */
     public static function getConfig(): array
     {
-        $owner = null;
-        $repo = null;
-
-        if (getenv('CLIMBSUI_OWNER') != '' && getenv('CLIMBSUI_REPO') != '') {
-            $owner = getenv('CLIMBSUI_OWNER');
-            $repo = getenv('CLIMBSUI_REPO');
-        } else {
-            echo 'Please set the CLIMBSUI_OWNER and CLIMBSUI_REPO environment variables';
-            echo $_ENV['CLIMBSUI_REPO'];
-            exit;
+        $filename = __DIR__ . '/../../config.json';
+        if (!file_exists($filename)) {
+            $file = fopen($filename, "w");
+            if ($file) 
+                fclose($file);
         }
 
-        return ['owner' => $owner, 'repo' => $repo];
+        $content = file_get_contents($filename);
+        $config = json_decode($content, true);
+        $owner = $config['CLIMBSUI_OWNER'];
+        $repo = $config['CLIMBSUI_REPO'];
+        $key = $config['GITHUB_API_KEY'];
+
+        if($owner == '' || $repo == '' || $key == ''){
+            // TODO: Add Redirect Logic
+        }
+
+        return ['owner' => $owner, 'repo' => $repo, 'key' => $key];
     }
 
     /**
