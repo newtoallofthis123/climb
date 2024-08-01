@@ -62,9 +62,9 @@
 }
 
 .TabBar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
   width: 100%;
 }
 
@@ -113,7 +113,7 @@
 
 .tab p,
 ul {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   line-height: 1.5;
 }
 
@@ -234,7 +234,11 @@ ul {
   border-radius: 3px;
   border: 1px solid #7790CA;
   outline: #4C50AF solid 1px;
-  border: 1rem;
+  margin-bottom: 1.2em;
+}
+
+.ClimbUI{
+  font-size: 15pt;
 }
 
 /* add stuff here lol */
@@ -267,4 +271,24 @@ ul {
 .violet::before,
 .violet {
   color: violet;
+}
+
+.tabBtn{
+  padding: 0.5em;
+  padding-right: 2em;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+  display: inline-block;
+  padding-left: 1.5em;
+}
+.tabBtn:hover{
+  background-color: black;
+  color: white;
+}
+.tabBtn .bi-arrow-right{
+  margin-right: 0.5em;
+}
+
+:root, html, body{
+  font-size: 14px;
 }

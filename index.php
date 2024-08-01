@@ -115,7 +115,7 @@ $body->content = <<<HTML
                         </div>
                     </button>
                     <button
-                        class="controls btn btn-warning current-state ms-2"
+                        class="controls btn breadcrumbDropper current-state ms-2"
                         id="menuButton"
                     >
                         <span id="menuButtonText"><span></span></span>
@@ -138,8 +138,7 @@ $body->content = <<<HTML
                 </section>
                 <ul class="Toolbar controls">
                     <li>
-                        <div    class="visual" 
-                                class="control "
+                        <div    class="visual control"
                                 data-api="/server.php"
                                 data-api-method="POST"
                                 data-intent='{ "REFRESH": { "Climb" : "Menu" } }'

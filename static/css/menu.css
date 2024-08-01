@@ -97,20 +97,23 @@
 .Oyster .header {
   position: absolute;
   left: 8%;
-  height: 100%;
   width: 350px;
   padding: 20px;
+}
+
+.Oyster .breadcrumbDropper {
+  border: 1px solid black;
+  border-radius: 4px;
 }
 
 .Oyster .header button {
   text-align: center;
   padding: 18px 18px;
   border-radius: 10px;
-  border: none;
 }
 
 #menuButton span {
-  font-size: 1rem;
+  /* font-size: 1rem; */
 }
 
 li:not(:has(ul)) i.expand {
@@ -138,7 +141,7 @@ li:not(:has(ul)) i.expand {
 
 .Oyster .breadcrumbs li .visual label,
 .Oyster .breadcrumbs li .visual i {
-  font-size: 1rem;
+  /* font-size: 1rem; */
 }
 
 .Oyster .breadcrumbs li .visual {
@@ -201,22 +204,23 @@ ul.Toolbar li.active,
 ul.Toolbar ul li.selected {
   display: block !important;
 }
-
+.Oyster > .Toolbar{
+  padding-top: 2.5em;
+}
 ul.Toolbar ul {
   position: absolute;
   left: 8%;
   padding-left: 20px;
-  top: 15%;
 }
 
 /* root visuals */
-ul.Toolbar > li > .visual > i:first-child,
-ul.Toolbar > li > .visual > img:first-child{
+ul.Toolbar>li>.visual>i:first-child,
+ul.Toolbar>li>.visual>img:first-child {
   width: 48px;
   stroke: white;
 }
 
-li[data-pearl] > .visual > i.bi:first-child::before{
+li[data-pearl]>.visual>i.bi:first-child::before {
   background-color: black;
   margin-right: 0.5em;
   padding: 2mm;
@@ -226,7 +230,7 @@ li[data-pearl] > .visual > i.bi:first-child::before{
 
 ul.Toolbar ul .visual {
   padding: 15px 10px;
-  font-size: 16px;
+  /* font-size: 16px; */
 }
 
 .helper img {
