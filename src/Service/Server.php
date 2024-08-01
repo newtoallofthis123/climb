@@ -846,6 +846,7 @@ class Server extends Service
                 api: '/server.php',
                 method: 'POST',
                 intent: ['REFRESH' => ['Climb' => 'View']],
+                attributes: ['data-labels' => explode($issue['issues'], ',')],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
             );
             $visual->content .= '<i class="bi bi-chevron-right"></i>';
@@ -897,6 +898,7 @@ class Server extends Service
                 api: '/server.php',
                 method: 'POST',
                 intent: ['REFRESH' => ['Climb' => 'View']],
+                attributes: ['data-labels' => explode($issue['issues'], ',')],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
             );
             $visual->content .= '<i class="bi bi-chevron-right"></i>';
