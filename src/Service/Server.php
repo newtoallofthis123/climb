@@ -439,6 +439,35 @@ class Server extends Service
             }
         }
 
+        $adapt = new HTML(tag: 'div', classes: ['controls']);
+        $adapt[] = new Intent(
+            tag: 'button', 
+            content: 'Adapt',
+            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
+            intent: ['REFRESH' => ['Climb' => 'Copy']],
+            api: '/server.php',
+            method: 'POST',
+        );
+        $adapt[] = new Intent(
+            tag: 'button', 
+            content: 'Branch',
+            classes: ['control', ' btn', ' btn-warning', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
+            intent: ['REFRESH' => ['Climb' => 'New']],
+            api: '/server.php',
+            method: 'POST',
+        );
+        $adapt[] = new Intent(
+            tag: 'button', 
+            content: 'Terminate',
+            classes: ['control', ' btn', ' btn-danger', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#result', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
+            intent: ['REFRESH' => ['Climb' => 'Close']],
+            api: '/server.php',
+            method: 'POST',
+        );
+
         $tokens = [
             'Edit' => $edit,
             'Requirements' => $requirements,
@@ -448,6 +477,7 @@ class Server extends Service
             'Progress' => $jsonFile['Work']['document_progress'],
             'InterestsD' => new UIList($jsonFile['Describe']['d_interests']),
             'Hazards' => new UIList($jsonFile['Describe']['hazards']),
+            'Adapt' => $adapt->render(),
         ];
 
         $tabsInfo = new Viewer($tokens);
@@ -622,6 +652,35 @@ class Server extends Service
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
+        $adapt = new HTML(tag: 'div', classes: ['controls']);
+        $adapt[] = new Intent(
+            tag: 'button', 
+            content: 'Adapt',
+            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
+            intent: ['REFRESH' => ['Climb' => 'Copy']],
+            api: '/server.php',
+            method: 'POST',
+        );
+        $adapt[] = new Intent(
+            tag: 'button', 
+            content: 'Branch',
+            classes: ['control', ' btn', ' btn-warning', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
+            intent: ['REFRESH' => ['Climb' => 'New']],
+            api: '/server.php',
+            method: 'POST',
+        );
+        $adapt[] = new Intent(
+            tag: 'button', 
+            content: 'Terminate',
+            classes: ['control', ' btn', ' btn-danger', ' current-state', ' ms-2'],
+            context: ['_response_target' => '#result', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
+            intent: ['REFRESH' => ['Climb' => 'Close']],
+            api: '/server.php',
+            method: 'POST',
+        );
+
         $update = new HTML(tag: 'div', classes: ['controls']);
         $update[] = new Intent(
             tag: 'button',
@@ -644,7 +703,7 @@ class Server extends Service
             'Progress' => new HTML(tag: 'textarea', content: $details['Work']['document_progress'], attributes: ['name' => 'document_progress']),
             'InterestsD' => $interestsDForm,
             'Hazards' => $hazardsForm,
-            'Adapt' => 'TODO',
+            'Adapt' => $adapt->render(),
             'Update' => $update,
             'OtherLabels' => new UIInput('other_labels', implode(',',$result['labels'])),
             'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot])

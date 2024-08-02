@@ -10,7 +10,7 @@ use \Approach\Render;
 	class Viewer extends Render\Node
 	{
 	public static array $tokens = [
-		'Edit','Requirements','Interests','Obstructions','Review','Progress','InterestsD','Hazards'
+		'Edit','Requirements','Interests','Obstructions','Review','Progress','InterestsD','Hazards','Adapt'
 	];
 	public array $token_nodes = [];
 	
@@ -422,66 +422,14 @@ use \Approach\Render;
 
 				// Instantiating HTML_37__classes for upcoming classes assignment
 					$HTML_37__classes = new Render\Node( );
-						$HTML_37__classes[] = $Attribute_73 = new Render\Attribute( name : 'class', content : 'btn-group btn-group-lg' );
-
 
 				// Instantiating HTML_37__attributes for upcoming attributes assignment
 					$HTML_37__attributes = new Render\Attribute( );
-						$HTML_37__attributes[] = $Attribute_73 = new Render\Attribute( name : 'class', content : 'btn-group btn-group-lg' );
-						$HTML_37__attributes[] = $Attribute_75 = new Render\Attribute( name : 'role', content : 'group' );
-						$HTML_37__attributes[] = $Attribute_76 = new Render\Attribute( name : 'aria-label', content : 'Basic mixed styles example' );
 
+				// Instantiating HTML_37__content for upcoming content assignment
+					$HTML_37__content = $this->token_nodes['Adapt'] = new Render\Token( name : 'Adapt' );
 
-				$HTML_33[] = $HTML_37 = new Render\HTML( tag : 'div', classes: $HTML_37__classes, attributes: $HTML_37__attributes );
-					// Instantiating HTML_38__classes for upcoming classes assignment
-						$HTML_38__classes = new Render\Node( );
-							$HTML_38__classes[] = $Attribute_77 = new Render\Attribute( name : 'class', content : 'btn btn-warning' );
-
-
-					// Instantiating HTML_38__attributes for upcoming attributes assignment
-						$HTML_38__attributes = new Render\Attribute( );
-							$HTML_38__attributes[] = $Attribute_79 = new Render\Attribute( name : 'type', content : 'button' );
-							$HTML_38__attributes[] = $Attribute_77 = new Render\Attribute( name : 'class', content : 'btn btn-warning' );
-
-
-					$HTML_37[] = $HTML_38 = new Render\HTML( tag : 'button', classes: $HTML_38__classes, attributes: $HTML_38__attributes, content : 'Iterate' );
-						// Instantiating HTML_39__classes for upcoming classes assignment
-							$HTML_39__classes = new Render\Node( );
-								$HTML_39__classes[] = $Attribute_80 = new Render\Attribute( name : 'class', content : 'bi bi-arrow-repeat' );
-
-
-						// Instantiating HTML_39__attributes for upcoming attributes assignment
-							$HTML_39__attributes = new Render\Attribute( );
-								$HTML_39__attributes[] = $Attribute_80 = new Render\Attribute( name : 'class', content : 'bi bi-arrow-repeat' );
-
-
-						$HTML_38[] = $HTML_39 = new Render\HTML( tag : 'i', classes: $HTML_39__classes, attributes: $HTML_39__attributes );
-
-					// Instantiating HTML_40__classes for upcoming classes assignment
-						$HTML_40__classes = new Render\Node( );
-							$HTML_40__classes[] = $Attribute_82 = new Render\Attribute( name : 'class', content : 'btn btn-success' );
-
-
-					// Instantiating HTML_40__attributes for upcoming attributes assignment
-						$HTML_40__attributes = new Render\Attribute( );
-							$HTML_40__attributes[] = $Attribute_84 = new Render\Attribute( name : 'type', content : 'button' );
-							$HTML_40__attributes[] = $Attribute_82 = new Render\Attribute( name : 'class', content : 'btn btn-success' );
-
-
-					$HTML_37[] = $HTML_40 = new Render\HTML( tag : 'button', classes: $HTML_40__classes, attributes: $HTML_40__attributes, content : 'Branch' );
-						// Instantiating HTML_41__classes for upcoming classes assignment
-							$HTML_41__classes = new Render\Node( );
-								$HTML_41__classes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'bi bi-signpost-split' );
-
-
-						// Instantiating HTML_41__attributes for upcoming attributes assignment
-							$HTML_41__attributes = new Render\Attribute( );
-								$HTML_41__attributes[] = $Attribute_85 = new Render\Attribute( name : 'class', content : 'bi bi-signpost-split' );
-
-
-						$HTML_40[] = $HTML_41 = new Render\HTML( tag : 'i', classes: $HTML_41__classes, attributes: $HTML_41__attributes );
-
-
+				$HTML_33[] = $HTML_37 = new Render\HTML( tag : 'div', classes: $HTML_37__classes, attributes: $HTML_37__attributes, content: $HTML_37__content );
 
 
 
