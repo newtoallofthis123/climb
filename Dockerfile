@@ -11,18 +11,16 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html
 
-COPY composer.json composer.lock ./
-
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY composer.json ./
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_ROOT_VERSION=1.0.0
 
-COPY .env .env
-
 RUN composer install --no-interaction --no-plugins --no-scripts
+
+RUN composer
 
 COPY . .
 

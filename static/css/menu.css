@@ -112,10 +112,6 @@
   border-radius: 10px;
 }
 
-#menuButton span {
-  /* font-size: 1rem; */
-}
-
 li:not(:has(ul)) i.expand {
   display: none !important;
 }
@@ -137,11 +133,6 @@ li:not(:has(ul)) i.expand {
   background-color: #343451 !important;
   color: #f2f2fe;
   border-radius: 12px;
-}
-
-.Oyster .breadcrumbs li .visual label,
-.Oyster .breadcrumbs li .visual i {
-  /* font-size: 1rem; */
 }
 
 .Oyster .breadcrumbs li .visual {
@@ -204,9 +195,11 @@ ul.Toolbar li.active,
 ul.Toolbar ul li.selected {
   display: block !important;
 }
-.Oyster > .Toolbar{
+
+.Oyster>.Toolbar {
   padding-top: 2.5em;
 }
+
 ul.Toolbar ul {
   position: absolute;
   left: 8%;
