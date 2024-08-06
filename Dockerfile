@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
   unzip \
   git \
   libzip-dev\
-  nginx \
   && docker-php-ext-install dom mysqli simplexml zip \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -20,7 +19,7 @@ ENV COMPOSER_ROOT_VERSION=1.0.0
 
 RUN composer install --no-interaction --no-plugins --no-scripts
 
-RUN composer
+RUN composer update
 
 COPY . .
 

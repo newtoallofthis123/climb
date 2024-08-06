@@ -213,7 +213,7 @@ class Server extends Service
         $service->dispatch();
 
         return [
-            'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($labels) . '</div>'],
+            'REFRESH' => [$action['_response_target'] => '<div id="result">Saved!</div>'],
         ];
     }
 
