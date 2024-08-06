@@ -25,7 +25,6 @@ use ClimbUI\Render\OysterMenu\Pearl;
 use ClimbUI\Render\Intent;
 use ClimbUI\Render\UIInput;
 use ClimbUI\Render\UIList;
-use ClimbUI\Service\Issue;
 use Exception;
 
 class Server extends Service
@@ -147,9 +146,7 @@ class Server extends Service
         $repo = $config['CLIMBSUI_REPO'];
         $key = $config['GITHUB_API_KEY'];
 
-        if($owner == '' || $repo == '' || $key == ''){
-            // TODO: Add Redirect Logic
-        }
+        // TODO: Add Redirect Logic
 
         return ['owner' => $owner, 'repo' => $repo, 'key' => $key];
     }
@@ -170,17 +167,6 @@ class Server extends Service
         if ($action['save'] == 'true') {
             $toSave = true;
         }
-
-        $path_to_project = __DIR__ . '/';
-        $path_to_approach = __DIR__ . '/support/lib/approach/';
-        $path_to_support = __DIR__ . '//support//';
-        $scope = new Scope(
-            path: [
-                path::project->value => $path_to_project,
-                path::installed->value => $path_to_approach,
-                path::support->value => $path_to_support,
-            ],
-        );
 
         $body = new GitHubIssue(tokens: [
             'Requirements' => $sep[0],
@@ -214,7 +200,6 @@ class Server extends Service
                 title: $title,
             );
 
-            $service->dispatch();
         } else {
             $service = new UpdateIssue(
                 $config['owner'],
@@ -224,8 +209,8 @@ class Server extends Service
                 title: $title,
                 climbId: $action['climb_id'],
             );
-            $service->dispatch();
         }
+        $service->dispatch();
 
         return [
             'REFRESH' => [$action['_response_target'] => '<div>' . json_encode($labels) . '</div>'],
@@ -234,6 +219,7 @@ class Server extends Service
 
     /**
      * @return array<string,array>
+     * @throws Exception
      */
     public static function Close(mixed $context): array
     {
@@ -318,13 +304,13 @@ class Server extends Service
         $update = new HTML(tag: 'div', classes: ['controls']);
         $update[] = new Intent(
             tag: 'button',
-            classes: ['control', ' btn', ' btn-sucess'],
-            api: '/server.php',
-            role: 'autoform',
-            method: 'POST',
-            intent: ['REFRESH' => ['Climb' => 'Update']],
+            classes: ['control', ' btn', ' btn-success'],
+            content: 'Save',
             context: ['_response_target' => '#result', 'climb_id' => '', 'save' => 'true', 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo']],
-            content: 'Save'
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            api: '/server.php',
+            method: 'POST',
+            role: 'autoform'
         );
 
         $tokens = [
@@ -334,7 +320,7 @@ class Server extends Service
             'Survey' => '',
             'Obstacles' => '',
             'Plan' => '',
-            'Progress' => new HTML(tag: 'textarea', content: $details['Work']['document_progress'], attributes: ['name' => 'document_progress']),
+            'Progress' => new HTML(tag: 'textarea', attributes: ['name' => 'document_progress'], content: $details['Work']['document_progress']),
             'InterestsD' => '',
             'Hazards' => '',
             'Adapt' => 'TODO',
@@ -357,7 +343,7 @@ class Server extends Service
      * @param mixed $labels
      * @return string
      */
-    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = [])
+    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = []): string
     {
         $btn = new Intent(
             tag: 'button',
@@ -374,7 +360,7 @@ class Server extends Service
     }
 
     /**
-     * Renders the view based on the provided context, including fetching data and generating necessary components.
+     * Renders the view based on the provided context, including fetching data and generating the necessary parts.
      *
      * @param mixed $context The context containing climb_id, parent_id, owner, and repo.
      * @return array The refreshed view content and additional components based on the context.
@@ -401,19 +387,6 @@ class Server extends Service
         $jsonFile['Climb']['url'] = $fetcher->url;
         $jsonFile['Climb']['parent_id'] = $parentId;
 
-        $path_to_project = __DIR__ . '/';
-        $path_to_approach = __DIR__ . '/support/lib/approach/';
-        $path_to_support = __DIR__ . '//support//';
-        $scope = new Scope(
-            path: [
-                path::project->value => $path_to_project,
-                path::installed->value => $path_to_approach,
-                path::support->value => $path_to_support,
-            ],
-        );
-        $fileDir = $scope->GetPath(path::pattern);
-        $fileDir = str_replace('/../', '', $fileDir);
-
         $requirements = new HTML(tag: 'div', classes: ['New']);
         $requirements[] = new HTML(tag: 'h4', content: '🎯 Goal: ' . $jsonFile['Climb']['title']);
         $requirements[] = new HTML(tag: 'p', content: 'Tracked with Issue ID: ' . $jsonFile['Climb']['climb_id']);
@@ -424,12 +397,12 @@ class Server extends Service
         $edit = new HTML(tag: 'div', classes: ['controls']);
         $edit[] = new Intent(
             tag: 'button',
-            api: '/server.php',
-            method: 'POST',
-            intent: ['REFRESH' => ['Climb' => 'Edit']],
             classes: ['control', ' btn', ' btn-primary'],
             content: 'Edit',
-            context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']]
+            context: ['_response_target' => '#content > div', 'parent_id' => $jsonFile['Climb']['parent_id'], 'climb_id' => $jsonFile['Climb']['climb_id'], 'url' => $jsonFile['Climb']['url']],
+            intent: ['REFRESH' => ['Climb' => 'Edit']],
+            api: '/server.php',
+            method: 'POST'
         );
 
         $somePlans = [];
@@ -442,26 +415,26 @@ class Server extends Service
         $adapt = new HTML(tag: 'div', classes: ['controls']);
         $adapt[] = new Intent(
             tag: 'button', 
+            tag: 'button',
             content: 'Adapt',
-            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
             context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
             intent: ['REFRESH' => ['Climb' => 'Copy']],
             api: '/server.php',
             method: 'POST',
         );
         $adapt[] = new Intent(
-            tag: 'button', 
-            content: 'Branch',
+            tag: 'button',
             classes: ['control', ' btn', ' btn-warning', ' current-state', ' ms-2'],
+            content: 'Branch',
             context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
             intent: ['REFRESH' => ['Climb' => 'New']],
             api: '/server.php',
             method: 'POST',
         );
         $adapt[] = new Intent(
-            tag: 'button', 
-            content: 'Terminate',
+            tag: 'button',
             classes: ['control', ' btn', ' btn-danger', ' current-state', ' ms-2'],
+            content: 'Terminate',
             context: ['_response_target' => '#result', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
             intent: ['REFRESH' => ['Climb' => 'Close']],
             api: '/server.php',
@@ -486,13 +459,13 @@ class Server extends Service
         $hierarchy = self::getHierarchy($results, $climbId);
         $base = $hierarchy['children'];
         foreach ($base as $issue) {
-            $curr_climbid = $issue['number'];
+            $currClimbId = $issue['number'];
             $target = $context['_response_target'];
 
             $visual = new Intent(
                 tag: 'div',
                 classes: ['control', ' visual'],
-                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $climbId],
+                context: ['_response_target' => $target, 'climb_id' => $currClimbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $climbId],
                 intent: ['REFRESH' => ['Climb' => 'View']],
                 api: '/server.php',
                 method: 'POST',
@@ -509,32 +482,32 @@ class Server extends Service
         $back = new Intent(
             tag: 'div',
             classes: ['control'],
+            content: '<i class="bi bi-chevron-left"></i>',
             context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo],
             intent: ['REFRESH' => ['Climb' => 'Hierarchy']],
             api: '/server.php',
-            method: 'POST',
-            content: '<i class="bi bi-chevron-left"></i>'
+            method: 'POST'
         );
 
         $breadRender = new Intent(
             tag: 'div',
             classes: ['control', ' visual'],
+            content: '<i class="bi bi-chevron-right"></i>' . $hierarchy['parent']['title'],
             context: ['_response_target' => $context['_response_target'], 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
             intent: ['REFRESH' => ['Climb' => 'View']],
             api: '/server.php',
-            method: 'POST',
-            content: '<i class="bi bi-chevron-right"></i>' . $hierarchy['parent']['title']
+            method: 'POST'
         );
 
         $copyRender = new Intent(
             tag: 'button',
             id: 'newTemplate',
             classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
+            content: 'Copy',
             context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
             intent: ['REFRESH' => ['Climb' => 'Copy']],
             api: '/server.php',
-            method: 'POST',
-            content: 'Copy'
+            method: 'POST'
         );
 
         // Check it the parent has no children
@@ -654,27 +627,27 @@ class Server extends Service
 
         $adapt = new HTML(tag: 'div', classes: ['controls']);
         $adapt[] = new Intent(
-            tag: 'button', 
-            content: 'Adapt',
+            tag: 'button',
             classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
+            content: 'Adapt',
             context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
             intent: ['REFRESH' => ['Climb' => 'Copy']],
             api: '/server.php',
             method: 'POST',
         );
         $adapt[] = new Intent(
-            tag: 'button', 
-            content: 'Branch',
+            tag: 'button',
             classes: ['control', ' btn', ' btn-warning', ' current-state', ' ms-2'],
+            content: 'Branch',
             context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
             intent: ['REFRESH' => ['Climb' => 'New']],
             api: '/server.php',
             method: 'POST',
         );
         $adapt[] = new Intent(
-            tag: 'button', 
-            content: 'Terminate',
+            tag: 'button',
             classes: ['control', ' btn', ' btn-danger', ' current-state', ' ms-2'],
+            content: 'Terminate',
             context: ['_response_target' => '#result', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
             intent: ['REFRESH' => ['Climb' => 'Close']],
             api: '/server.php',
@@ -684,13 +657,13 @@ class Server extends Service
         $update = new HTML(tag: 'div', classes: ['controls']);
         $update[] = new Intent(
             tag: 'button',
-            classes: ['control', ' btn', ' btn-sucess'],
-            api: '/server.php',
-            role: 'autoform',
-            method: 'POST',
-            intent: ['REFRESH' => ['Climb' => 'Update']],
+            classes: ['control', ' btn', ' btn-success'],
+            content: 'Save',
             context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo']],
-            content: 'Save'
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            api: '/server.php',
+            method: 'POST',
+            role: 'autoform'
         );
 
         $tokens = [
@@ -700,13 +673,13 @@ class Server extends Service
             'Survey' => $surveyForm,
             'Obstacles' => $obstaclesForm,
             'Plan' => $reviewForm,
-            'Progress' => new HTML(tag: 'textarea', content: $details['Work']['document_progress'], attributes: ['name' => 'document_progress']),
+            'Progress' => new HTML(tag: 'textarea', attributes: ['name' => 'document_progress'], content: $details['Work']['document_progress']),
             'InterestsD' => $interestsDForm,
             'Hazards' => $hazardsForm,
             'Adapt' => $adapt->render(),
             'Update' => $update,
             'OtherLabels' => new UIInput('other_labels', implode(',',$result['labels'])),
-            'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot])
+            'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot, 'name' => 'isRoot'])
         ];
 
         $tabsForm = new Editor(tokens: $tokens);
@@ -787,13 +760,13 @@ class Server extends Service
         $update = new HTML(tag: 'div', classes: ['controls']);
         $update[] = new Intent(
             tag: 'button',
-            classes: ['control', ' btn', ' btn-sucess'],
-            api: '/server.php',
-            role: 'autoform',
-            method: 'POST',
-            intent: ['REFRESH' => ['Climb' => 'Update']],
+            classes: ['control', ' btn', ' btn-success'],
+            content: 'Save',
             context: ['_response_target' => '#result', 'save' => 'true', 'climb_id' => '', 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo'] ],
-            content: 'Save'
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            api: '/server.php',
+            method: 'POST',
+            role: 'autoform'
         );
 
         $tokens = [
@@ -803,7 +776,7 @@ class Server extends Service
             'Survey' => $surveyForm,
             'Obstacles' => $obstaclesForm,
             'Plan' => $reviewForm,
-            'Progress' => new HTML(tag: 'textarea', content: '', attributes: ['name' => 'document_progress']),
+            'Progress' => new HTML(tag: 'textarea', attributes: ['name' => 'document_progress'], content: ''),
             'InterestsD' => $interestsDForm,
             'Hazards' => $hazardsForm,
             'Adapt' => 'TODO',
@@ -839,8 +812,11 @@ class Server extends Service
     }
 
     /**
-     * @return <missing>|null*/
-    public static function getIssue(mixed $results, mixed $id)
+     * @param mixed $results
+     * @param mixed $id
+     * @return array|null
+     */
+    public static function getIssue(mixed $results, mixed $id): ?array
     {
         foreach ($results as $issue) {
             if ($issue['number'] == $id) {
@@ -902,17 +878,17 @@ class Server extends Service
         }
 
         foreach ($hierarchy['children'] as $issue) {
-            $curr_climbid = $issue['number'];
+            $currClimbId = $issue['number'];
             $target = $context['_response_target'];
 
             $visual = new Intent(
                 tag: 'div',
                 classes: ['control', ' visual'],
+                attributes: ['data-labels' => implode(',', $issue['labels'])],
+                context: ['_response_target' => $target, 'climb_id' => $currClimbId, 'owner' => $owner, 'repo' => $repo],
+                intent: ['REFRESH' => ['Climb' => 'View']],
                 api: '/server.php',
                 method: 'POST',
-                intent: ['REFRESH' => ['Climb' => 'View']],
-                attributes: ['data-labels' => implode(',', $issue['labels'])],
-                context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
             );
             $visual->content .= '<i class="bi bi-magic"></i>';
             $visual->content .= '<label>' . self::getIssue($results, $issue['number'])['title'] . '</label>';
@@ -961,14 +937,14 @@ class Server extends Service
             $visual = new Intent(
                 tag: 'div',
                 classes: ['control', ' visual'],
-                api: '/server.php',
-                method: 'POST',
-                intent: ['REFRESH' => ['Climb' => 'View']],
                 attributes: ['data-labels' => implode(',', $issue['labels'])],
                 context: ['_response_target' => $target, 'climb_id' => $curr_climbid, 'owner' => $owner, 'repo' => $repo],
+                intent: ['REFRESH' => ['Climb' => 'View']],
+                api: '/server.php',
+                method: 'POST',
             );
 
-            // I wonder if this can be based on color ?
+            // I wonder if this can be based on color?
             $icon ='';
             if ( in_array('RED',    $issue['labels']) )  $icon = 'bi-exclamation-circle-fill red';
             if ( in_array('ORANGE', $issue['labels']) )  $icon = 'bi-exclamation-triangle-fill orange';
@@ -1001,7 +977,8 @@ class Server extends Service
         ];
     }
 
-    public static function DisplayConfig(mixed $context){
+    public static function DisplayConfig(mixed $context): array
+    {
         $filename = __DIR__ . '/../../config.json';
         if (!file_exists($filename)) {
             $file = fopen($filename, "w");
@@ -1017,14 +994,14 @@ class Server extends Service
             'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER')  ),
             'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO'] ?? getenv('CLIMBSUI_REPO')),
             'Save' => new Intent(tag: 'button',
-                classes: ['control', ' btn', ' btn-sucess'],
-                api: '/server.php',
+                classes: ['control', ' btn', ' btn-success'],
                 attributes: ['type' => 'reset'],
-                role: 'autoform',
-                method: 'POST',
-                intent: ['REFRESH' => ['Climb' => 'UpdateSettings']],
+                content: 'Save',
                 context: ['_response_target' => '#result'],
-                content: 'Save'
+                intent: ['REFRESH' => ['Climb' => 'UpdateSettings']],
+                api: '/server.php',
+                method: 'POST',
+                role: 'autoform'
             )
         ]);
 
@@ -1035,7 +1012,8 @@ class Server extends Service
         ];
     }
 
-    public static function UpdateSettings(mixed $context){
+    public static function UpdateSettings(mixed $context): array
+    {
         $filename = __DIR__ . '/../../config.json';
 
         if (!file_exists($filename)) {
@@ -1115,8 +1093,6 @@ class Server extends Service
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }
 
-    /**
-     * @return array<<missing>|array-key,<missing>>|array*/
     function processIntents($intent): array
     {
         $result = [];
@@ -1139,7 +1115,7 @@ class Server extends Service
      * Process a generic intent
      *
      * @param array $intent
-     * @return <missing>|array<string,array>
+     * @return array
      */
     public function processIntent(array $intent): array
     {
