@@ -13,10 +13,7 @@ use Stringable;
 
 class UpdateIssue extends Service
 {
-    /**
-     * @return array<string,null|string|array|bool>
-     */
-    public static function getApiKey()
+    public static function getApiKey(): string
     {
         $filename = __DIR__ . '/../../config.json';
         if (!file_exists($filename)) {
@@ -27,8 +24,7 @@ class UpdateIssue extends Service
 
         $content = file_get_contents($filename);
         $config = json_decode($content, true);
-        $key = $config['GITHUB_API_KEY'];
-        return $key;
+        return $config['GITHUB_API_KEY'];
     }
 
     /**
@@ -45,10 +41,10 @@ class UpdateIssue extends Service
         string $url = null, 
     ) {
         if($url == null){
-            $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . (string) $climbId;
+            $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues/' . $climbId;
         } else{
             $url = substr($url, 0, strpos($url, '?'));
-            $url = $url . '/' . (string) $climbId;
+            $url = $url . '/' . $climbId;
         }
 
         $params = [

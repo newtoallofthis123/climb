@@ -13,9 +13,6 @@ use Stringable;
 
 class Issue extends Service
 {
-    /**
-     * @return array<string,null|string|array|bool>
-     */
     public static function getApiKey()
     {
         $filename = __DIR__ . '/../../config.json';
@@ -27,8 +24,7 @@ class Issue extends Service
 
         $content = file_get_contents($filename);
         $config = json_decode($content, true);
-        $key = $config['GITHUB_API_KEY'];
-        return $key;
+        return $config['GITHUB_API_KEY'];
     }
 
     /**
@@ -42,8 +38,6 @@ class Issue extends Service
         Stringable|Node|string $title = null,
     ) {
         $url = 'https://api.github.com/repos/' . $owner . '/' . $repo . '/issues';
-
-        $context = [];
 
         $context = [
             'http' => [

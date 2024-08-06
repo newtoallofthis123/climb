@@ -182,9 +182,9 @@ class Server extends Service
 
         $labels = [];
         $labels[] = $action['Climb']['labels'];
-        $labels = array_merge($labels, explode(',' ,$action['Climb']['other_labels']));
-        // check if a parent_id is set
-        if (!isset($action['Climb']['parent_id'])) {
+        if($action['Climb']['other_labels'] != "")
+            $labels = array_merge($labels, explode(',' ,$action['Climb']['other_labels']));
+        if ($action['Climb']['parent_id'] == "" || $action['Climb']['isRoot'] == 'on') {
             $labels[] = 'root';
         }
         if (!array_key_exists('climb-payload', $labels)) {
@@ -325,6 +325,8 @@ class Server extends Service
             'Hazards' => '',
             'Adapt' => 'TODO',
             'Update' => $update,
+            'OtherLabels' => new UIInput('other_labels', placeholder: 'Enter Labels Here'),
+            'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => 'true'])
         ];
 
         $form = new Editor(tokens: $tokens);
@@ -414,8 +416,8 @@ class Server extends Service
 
         $adapt = new HTML(tag: 'div', classes: ['controls']);
         $adapt[] = new Intent(
-            tag: 'button', 
             tag: 'button',
+            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
             content: 'Adapt',
             context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $owner, 'repo' => $repo, 'parent_id' => $parentId],
             intent: ['REFRESH' => ['Climb' => 'Copy']],
