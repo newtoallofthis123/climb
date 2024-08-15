@@ -151,6 +151,141 @@ class Server extends Service
         return ['owner' => $owner, 'repo' => $repo, 'key' => $key];
     }
 
+    public static function preFill(mixed $details, bool $placeholder){
+        $config = self::getConfig();
+        $climbId = $details['Climb']['climb_id'];
+        $isRoot = $details['Climb']['is_root'];
+
+        $requirementsForm = new HTML(tag: 'div');
+
+        foreach ($details['Climb']['requirements'] as $key => $requirement) {
+            $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            if($placeholder)
+            $inputGroup[] = new UIInput('requirements' . $key, placeholder: $requirement);
+            else
+            $inputGroup[] = new UIInput('requirements' . $key, $requirement);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $surveyForm = new HTML(tag: 'div');
+
+        foreach ($details['Survey']['interests'] as $key => $interest) {
+            $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            if($placeholder)
+            $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);
+            else
+            $inputGroup[] = new UIInput('interests' . $key, $interest);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $obstaclesForm = new HTML(tag: 'div');
+
+        foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
+            $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            if($placeholder)
+            $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction);
+            else
+            $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $reviewForm = new HTML(tag: 'div');
+        foreach ($details['Plan'] as $amount) {
+            foreach ($amount as $key => $quantity) {
+                $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+                if($placeholder){
+                    $inputGroup[] = new UIInput('review' . $key . '-quantity', placeholder: $quantity[0] ?? '');
+                    $inputGroup[] = new UIInput('review' . $key . '-units', placeholder: $quantity[1] ?? '');
+                } else{
+                    $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity[0] ?? '');
+                    $inputGroup[] = new UIInput('review' . $key . '-units', $quantity[1] ?? '');
+                }
+                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
+            }
+        }
+
+        $interestsDForm = new HTML(tag: 'div');
+        foreach ($details['Describe']['d_interests'] as $key => $interest) {
+            $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            if($placeholder)
+            $inputGroup[] = new UIInput('interestsd' . $key, placeholder: $interest);
+            else
+            $inputGroup[] = new UIInput('interestsd' . $key, $interest);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $hazardsForm = new HTML(tag: 'div');
+        foreach ($details['Describe']['hazards'] as $key => $hazard) {
+            $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
+            if($placeholder)
+            $inputGroup[] = new UIInput('hazards' . $key, placeholder: $hazard);
+            else
+            $inputGroup[] = new UIInput('hazards' . $key, $hazard);
+            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
+        }
+
+        $adapt = new HTML(tag: 'div', classes: ['controls']);
+        $adapt[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
+            content: 'Adapt',
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
+            intent: ['REFRESH' => ['Climb' => 'Copy']],
+            api: '/server.php',
+            method: 'POST',
+        );
+        $adapt[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-warning', ' current-state', ' ms-2'],
+            content: 'Branch',
+            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
+            intent: ['REFRESH' => ['Climb' => 'New']],
+            api: '/server.php',
+            method: 'POST',
+        );
+        $adapt[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-danger', ' current-state', ' ms-2'],
+            content: 'Terminate',
+            context: ['_response_target' => '#result', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
+            intent: ['REFRESH' => ['Climb' => 'Close']],
+            api: '/server.php',
+            method: 'POST',
+        );
+
+        $update = new HTML(tag: 'div', classes: ['controls']);
+        $update[] = new Intent(
+            tag: 'button',
+            classes: ['control', ' btn', ' btn-success'],
+            content: 'Save',
+            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo']],
+            intent: ['REFRESH' => ['Climb' => 'Update']],
+            api: '/server.php',
+            method: 'POST',
+            role: 'autoform'
+        );
+
+        $tokens = [
+            'Title' => new UIInput('title', $details['Climb']['title']),
+            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
+            'Requirements' => $requirementsForm,
+            'Survey' => $surveyForm,
+            'Obstacles' => $obstaclesForm,
+            'Plan' => $reviewForm,
+            'Progress' => new HTML(tag: 'textarea', attributes: ['name' => 'document_progress'], content: $details['Work']['document_progress']),
+            'InterestsD' => $interestsDForm,
+            'Hazards' => $hazardsForm,
+            'Adapt' => $adapt->render(),
+            'Update' => $update,
+            'OtherLabels' => new UIInput('other_labels', implode(',',$details['labels'])),
+            'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot, 'name' => 'isRoot'])
+        ];
+
+        $tabsForm = new Editor(tokens: $tokens);
+
+        return $tabsForm;
+    }
+
     /**
      * @param mixed $action
      * @return array<int,array<string,array<string,string>>>
@@ -345,7 +480,7 @@ class Server extends Service
      * @param mixed $labels
      * @return string
      */
-    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = []): string
+    static function getBtn(mixed $climbId, mixed $owner, mixed $repo, mixed $labels = [])
     {
         $btn = new Intent(
             tag: 'button',
@@ -567,8 +702,6 @@ class Server extends Service
             $isRoot = 'true';
         }
 
-        $config = self::getConfig();
-
         if ($result == null) {
             return [
                 'REFRESH' => [$context['_response_target'] => '<p>' . json_encode($result) . '</p>'],
@@ -578,113 +711,10 @@ class Server extends Service
         $details = json_decode($result['details'], true);
         $details['Climb']['parent_id'] = $context['parent_id'];
         $details['Climb']['climb_id'] = $context['climb_id'];
+        $details['Climb']['is_root'] = $isRoot;
+        $details['labels'] = $result['labels'];
 
-        $requirementsForm = new HTML(tag: 'div');
-
-        foreach ($details['Climb']['requirements'] as $key => $requirement) {
-            $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('requirements' . $key, $requirement);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $surveyForm = new HTML(tag: 'div');
-
-        foreach ($details['Survey']['interests'] as $key => $interest) {
-            $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('interests' . $key, $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $obstaclesForm = new HTML(tag: 'div');
-
-        foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
-            $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $reviewForm = new HTML(tag: 'div');
-        foreach ($details['Plan'] as $amount) {
-            foreach ($amount as $key => $quantity) {
-                $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-                $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity[0] ?? '');
-                $inputGroup[] = new UIInput('review' . $key . '-units', $quantity[1] ?? '');
-                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-            }
-        }
-
-        $interestsDForm = new HTML(tag: 'div');
-        foreach ($details['Describe']['d_interests'] as $key => $interest) {
-            $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('interestsd' . $key, $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $hazardsForm = new HTML(tag: 'div');
-        foreach ($details['Describe']['hazards'] as $key => $hazard) {
-            $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('hazards' . $key, $hazard);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $adapt = new HTML(tag: 'div', classes: ['controls']);
-        $adapt[] = new Intent(
-            tag: 'button',
-            classes: ['control', ' btn', ' btn-success', ' current-state', ' ms-2'],
-            content: 'Adapt',
-            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
-            intent: ['REFRESH' => ['Climb' => 'Copy']],
-            api: '/server.php',
-            method: 'POST',
-        );
-        $adapt[] = new Intent(
-            tag: 'button',
-            classes: ['control', ' btn', ' btn-warning', ' current-state', ' ms-2'],
-            content: 'Branch',
-            context: ['_response_target' => '#content > div', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
-            intent: ['REFRESH' => ['Climb' => 'New']],
-            api: '/server.php',
-            method: 'POST',
-        );
-        $adapt[] = new Intent(
-            tag: 'button',
-            classes: ['control', ' btn', ' btn-danger', ' current-state', ' ms-2'],
-            content: 'Terminate',
-            context: ['_response_target' => '#result', 'climb_id' => $climbId, 'owner' => $config['owner'], 'repo' => $config['repo'], 'parent_id' => $config['parentId']],
-            intent: ['REFRESH' => ['Climb' => 'Close']],
-            api: '/server.php',
-            method: 'POST',
-        );
-
-        $update = new HTML(tag: 'div', classes: ['controls']);
-        $update[] = new Intent(
-            tag: 'button',
-            classes: ['control', ' btn', ' btn-success'],
-            content: 'Save',
-            context: ['_response_target' => '#result', 'climb_id' => $details['Climb']['climb_id'], 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo']],
-            intent: ['REFRESH' => ['Climb' => 'Update']],
-            api: '/server.php',
-            method: 'POST',
-            role: 'autoform'
-        );
-
-        $tokens = [
-            'Title' => new UIInput('title', $details['Climb']['title']),
-            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
-            'Requirements' => $requirementsForm,
-            'Survey' => $surveyForm,
-            'Obstacles' => $obstaclesForm,
-            'Plan' => $reviewForm,
-            'Progress' => new HTML(tag: 'textarea', attributes: ['name' => 'document_progress'], content: $details['Work']['document_progress']),
-            'InterestsD' => $interestsDForm,
-            'Hazards' => $hazardsForm,
-            'Adapt' => $adapt->render(),
-            'Update' => $update,
-            'OtherLabels' => new UIInput('other_labels', implode(',',$result['labels'])),
-            'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot, 'name' => 'isRoot'])
-        ];
-
-        $tabsForm = new Editor(tokens: $tokens);
+        $tabsForm = self::preFill($details, false);
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
@@ -710,83 +740,10 @@ class Server extends Service
         $details = json_decode($issue['details'], true);
         $details['Climb']['parent_id'] = $context['parent_id'];
         $details['Climb']['climb_id'] = $context['climb_id'];
+        $details['Climb']['is_root'] = false;
+        $details['labels'] = [];
 
-        $requirementsForm = new HTML(tag: 'div');
-
-        foreach ($details['Climb']['requirements'] as $key => $requirement) {
-            $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('requirements' . $key, placeholder: $requirement);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $surveyForm = new HTML(tag: 'div');
-
-        foreach ($details['Survey']['interests'] as $key => $interest) {
-            $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $obstaclesForm = new HTML(tag: 'div');
-
-        foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
-            $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $reviewForm = new HTML(tag: 'div');
-        foreach ($details['Plan'] as $amount) {
-            foreach ($amount as $key => $quantity) {
-                $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-                $inputGroup[] = new UIInput('review' . $key . '-quantity', placeholder: $quantity[0] ?? '');
-                $inputGroup[] = new UIInput('review' . $key . '-units', placeholder: $quantity[1] ?? '');
-                $inputGroup[] = new HTML(tag: 'button', classes: ['remove_review', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-            }
-        }
-
-        $interestsDForm = new HTML(tag: 'div');
-        foreach ($details['Describe']['d_interests'] as $key => $interest) {
-            $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('interestsd' . $key, placeholder: $interest);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $hazardsForm = new HTML(tag: 'div');
-        foreach ($details['Describe']['hazards'] as $key => $hazard) {
-            $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            $inputGroup[] = new UIInput('hazards' . $key, placeholder: $hazard);
-            $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
-        }
-
-        $update = new HTML(tag: 'div', classes: ['controls']);
-        $update[] = new Intent(
-            tag: 'button',
-            classes: ['control', ' btn', ' btn-success'],
-            content: 'Save',
-            context: ['_response_target' => '#result', 'save' => 'true', 'climb_id' => '', 'parent_id' => $details['Climb']['parent_id'], 'owner' => $config['owner'], 'repo' => $config['repo'] ],
-            intent: ['REFRESH' => ['Climb' => 'Update']],
-            api: '/server.php',
-            method: 'POST',
-            role: 'autoform'
-        );
-
-        $tokens = [
-            'Title' => new UIInput('title', placeholder: $details['Climb']['title'] ?? ''),
-            'Parent' => new UIInput('parent_id', $details['Climb']['parent_id'] ?? ''),
-            'Requirements' => $requirementsForm,
-            'Survey' => $surveyForm,
-            'Obstacles' => $obstaclesForm,
-            'Plan' => $reviewForm,
-            'Progress' => new HTML(tag: 'textarea', attributes: ['name' => 'document_progress'], content: ''),
-            'InterestsD' => $interestsDForm,
-            'Hazards' => $hazardsForm,
-            'Adapt' => 'TODO',
-            'Update' => $update,
-        ];
-
-        $tabsForm = new Editor(tokens: $tokens);
-        
+        $tabsForm = self::preFill($details, true);
 
         return [
             'REFRESH' => [$context['_response_target'] => $tabsForm->render()],
