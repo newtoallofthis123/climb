@@ -82,6 +82,11 @@ class Server extends Service
             }
         }
 
+        $print_plans = [];
+        foreach ($plans as $plan) {
+            $print_plans[] = implode(' ', $plan);
+        }
+
         $work = $action['Work']['document_progress'];
         $budget_res = $describeForm['budget_res'];
 
@@ -107,7 +112,7 @@ class Server extends Service
         $surveyRes->content = 'Interests: ' . implode(', ', $interests) . '<br>Obstructions: ' . implode(', ', $obstructions);
         $sep[] = $surveyRes->render();
         $main[] = $plan = new HTML(tag: 'div');
-        $plan->content = 'Plans: ' . implode(', ', $plans);
+        $plan->content = 'Plans: ' . implode(', ', $print_plans);
         $sep[] = $plan->render();
         $main[] = $workRes = new HTML(tag: 'div');
         $workRes->content = 'Work: ' . $work . '<br>Budget: ' . $budget_res;
