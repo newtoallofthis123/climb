@@ -14,8 +14,6 @@ use Approach\Service\flow;
 use Approach\Service\format;
 use Approach\Service\Service;
 use Approach\Service\target;
-use Approach\path;
-use Approach\Scope;
 use ClimbUI\Imprint\Climb\Editor;
 use ClimbUI\Imprint\Climb\Viewer;
 use ClimbUI\Imprint\GitHub\Issue as GitHubIssue;
@@ -59,7 +57,7 @@ class Server extends Service
                 $interests[] = $value;
             } else if (str_contains($key, 'obstruction')) {
                 $obstructions[] = $value;
-            } else{
+            } else {
                 $obstructions[] = $value;
             }
         }
@@ -141,7 +139,7 @@ class Server extends Service
         $filename = __DIR__ . '/../../config.json';
         if (!file_exists($filename)) {
             $file = fopen($filename, "w");
-            if ($file) 
+            if ($file)
                 fclose($file);
         }
 
@@ -156,7 +154,8 @@ class Server extends Service
         return ['owner' => $owner, 'repo' => $repo, 'key' => $key];
     }
 
-    public static function preFill(mixed $details, bool $placeholder){
+    public static function preFill(mixed $details, bool $placeholder)
+    {
         $config = self::getConfig();
         $climbId = $details['Climb']['climb_id'];
         $isRoot = $details['Climb']['is_root'];
@@ -165,10 +164,10 @@ class Server extends Service
 
         foreach ($details['Climb']['requirements'] as $key => $requirement) {
             $requirementsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            if($placeholder)
-            $inputGroup[] = new UIInput('requirements' . $key, placeholder: $requirement);
+            if ($placeholder)
+                $inputGroup[] = new UIInput('requirements' . $key, placeholder: $requirement);
             else
-            $inputGroup[] = new UIInput('requirements' . $key, $requirement);
+                $inputGroup[] = new UIInput('requirements' . $key, $requirement);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
@@ -176,10 +175,10 @@ class Server extends Service
 
         foreach ($details['Survey']['interests'] as $key => $interest) {
             $surveyForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            if($placeholder)
-            $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);
+            if ($placeholder)
+                $inputGroup[] = new UIInput('interests' . $key, placeholder: $interest);
             else
-            $inputGroup[] = new UIInput('interests' . $key, $interest);
+                $inputGroup[] = new UIInput('interests' . $key, $interest);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
@@ -187,10 +186,10 @@ class Server extends Service
 
         foreach ($details['Survey']['obstructions'] as $key => $obstruction) {
             $obstaclesForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            if($placeholder)
-            $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction);
+            if ($placeholder)
+                $inputGroup[] = new UIInput('obstacle' . $key, placeholder: $obstruction);
             else
-            $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
+                $inputGroup[] = new UIInput('obstacle' . $key, $obstruction);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
@@ -198,10 +197,10 @@ class Server extends Service
         foreach ($details['Plan'] as $amount) {
             foreach ($amount as $key => $quantity) {
                 $reviewForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-                if($placeholder){
+                if ($placeholder) {
                     $inputGroup[] = new UIInput('review' . $key . '-quantity', placeholder: $quantity[0] ?? '');
                     $inputGroup[] = new UIInput('review' . $key . '-units', placeholder: $quantity[1] ?? '');
-                } else{
+                } else {
                     $inputGroup[] = new UIInput('review' . $key . '-quantity', $quantity[0] ?? '');
                     $inputGroup[] = new UIInput('review' . $key . '-units', $quantity[1] ?? '');
                 }
@@ -212,20 +211,20 @@ class Server extends Service
         $interestsDForm = new HTML(tag: 'div');
         foreach ($details['Describe']['d_interests'] as $key => $interest) {
             $interestsDForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            if($placeholder)
-            $inputGroup[] = new UIInput('interestsd' . $key, placeholder: $interest);
+            if ($placeholder)
+                $inputGroup[] = new UIInput('interestsd' . $key, placeholder: $interest);
             else
-            $inputGroup[] = new UIInput('interestsd' . $key, $interest);
+                $inputGroup[] = new UIInput('interestsd' . $key, $interest);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
         $hazardsForm = new HTML(tag: 'div');
         foreach ($details['Describe']['hazards'] as $key => $hazard) {
             $hazardsForm[] = $inputGroup = new HTML(tag: 'div', classes: ['input-container']);
-            if($placeholder)
-            $inputGroup[] = new UIInput('hazards' . $key, placeholder: $hazard);
+            if ($placeholder)
+                $inputGroup[] = new UIInput('hazards' . $key, placeholder: $hazard);
             else
-            $inputGroup[] = new UIInput('hazards' . $key, $hazard);
+                $inputGroup[] = new UIInput('hazards' . $key, $hazard);
             $inputGroup[] = new HTML(tag: 'button', classes: ['remove', ' control'], attributes: ['data-role' => 'trigger', 'data-action' => 'remove.climb'], content: '<i class="bi bi-x"></i>');
         }
 
@@ -282,7 +281,7 @@ class Server extends Service
             'Hazards' => $hazardsForm,
             'Adapt' => $adapt->render(),
             'Update' => $update,
-            'OtherLabels' => new UIInput('other_labels', implode(',',$details['labels'])),
+            'OtherLabels' => new UIInput('other_labels', implode(',', $details['labels'])),
             'IsRoot' => new HTML(tag: 'input', attributes: ['type' => 'checkbox', 'checked' => $isRoot, 'name' => 'isRoot'])
         ];
 
@@ -322,8 +321,8 @@ class Server extends Service
 
         $labels = [];
         $labels[] = $action['Climb']['labels'];
-        if($action['Climb']['other_labels'] != "")
-            $labels = array_merge($labels, explode(',' ,$action['Climb']['other_labels']));
+        if ($action['Climb']['other_labels'] != "")
+            $labels = array_merge($labels, explode(',', $action['Climb']['other_labels']));
         if ($action['Climb']['parent_id'] == "" || $action['Climb']['isRoot'] == 'on') {
             $labels[] = 'root';
         }
@@ -339,7 +338,6 @@ class Server extends Service
                 body: $body->render(),
                 title: $title,
             );
-
         } else {
             $service = new UpdateIssue(
                 $config['owner'],
@@ -703,7 +701,7 @@ class Server extends Service
         }
 
         $isRoot = 'false';
-        if(in_array('root', $result['labels'])){
+        if (in_array('root', $result['labels'])) {
             $isRoot = 'true';
         }
 
@@ -909,17 +907,17 @@ class Server extends Service
             );
 
             // I wonder if this can be based on color?
-            $icon ='';
-            if ( in_array('RED',    $issue['labels']) )  $icon = 'bi-exclamation-circle-fill red';
-            if ( in_array('ORANGE', $issue['labels']) )  $icon = 'bi-exclamation-triangle-fill orange';
-            if ( in_array('YELLOW', $issue['labels']) )  $icon = 'bi-sun-fill yellow';
-            if ( in_array('GREEN',  $issue['labels']) )  $icon = 'bi-bar-chart-steps green';
-            if ( in_array('BLUE',   $issue['labels']) )  $icon = 'bi-cup-hot-fill blue';
-            if ( in_array('VIOLET', $issue['labels']) )  $icon = 'bi-arrow-through-heart-fill violet';
-            
+            $icon = '';
+            if (in_array('RED',    $issue['labels']))  $icon = 'bi-exclamation-circle-fill red';
+            if (in_array('ORANGE', $issue['labels']))  $icon = 'bi-exclamation-triangle-fill orange';
+            if (in_array('YELLOW', $issue['labels']))  $icon = 'bi-sun-fill yellow';
+            if (in_array('GREEN',  $issue['labels']))  $icon = 'bi-bar-chart-steps green';
+            if (in_array('BLUE',   $issue['labels']))  $icon = 'bi-cup-hot-fill blue';
+            if (in_array('VIOLET', $issue['labels']))  $icon = 'bi-arrow-through-heart-fill violet';
+
             // or we can have like .yellow, .red, .green ec?
 
-            $visual->content .= '<i class="bi '.$icon.'"></i>';
+            $visual->content .= '<i class="bi ' . $icon . '"></i>';
             $visual->content .= '<label>' . self::getIssue($results, $issue['number'])['title'] . '</label>';
             $visual->content .= '<i class="bi bi-chevron-right"></i>';
 
@@ -946,7 +944,7 @@ class Server extends Service
         $filename = __DIR__ . '/../../config.json';
         if (!file_exists($filename)) {
             $file = fopen($filename, "w");
-            if ($file) 
+            if ($file)
                 fclose($file);
         }
 
@@ -954,10 +952,11 @@ class Server extends Service
         $config = json_decode($content, true);
 
         $settings = new Settings(tokens: [
-            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY'] ?? getenv('GITHUB_API_KEY') ),
-            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER')  ),
+            'GITHUB_API_KEY' => new UIInput(name: 'GITHUB_API_KEY', value: $config['GITHUB_API_KEY'] ?? getenv('GITHUB_API_KEY')),
+            'CLIMBSUI_OWNER' => new UIInput(name: 'CLIMBSUI_OWNER', value: $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER')),
             'CLIMBSUI_REPO' => new UIInput(name: 'CLIMBSUI_REPO', value: $config['CLIMBSUI_REPO'] ?? getenv('CLIMBSUI_REPO')),
-            'Save' => new Intent(tag: 'button',
+            'Save' => new Intent(
+                tag: 'button',
                 classes: ['control', ' btn', ' btn-success'],
                 attributes: ['type' => 'reset'],
                 content: 'Save',
@@ -980,31 +979,33 @@ class Server extends Service
     {
         $filename = __DIR__ . '/../../config.json';
 
-        if (!file_exists($filename)) {
-            $file = fopen($filename, "w");
-            if ($file) 
-                fclose($file);
+        if (file_exists($filename)) {
+            if (!unlink($filename)) {
+                echo "Failed to delete the file.";
+            }
         }
 
+        $file = fopen($filename, "w");
         $content = file_get_contents($filename);
         $config = json_decode($content, true);
 
         $toSave = [];
         $action = $context['Settings'];
-        if($action['GITHUB_API_KEY'] != '')
-        $toSave['GITHUB_API_KEY'] = $action['GITHUB_API_KEY'];
+        if ($action['GITHUB_API_KEY'] != '')
+            $toSave['GITHUB_API_KEY'] = $action['GITHUB_API_KEY'];
         else
-        $toSave['GITHUB_API_KEY'] = $config['GITHUB_API_KEY'] ?? getenv('GITHUB_API_KEY') ;
-        if($action['CLIMBSUI_OWNER'] != '')
-        $toSave['CLIMBSUI_OWNER'] = $action['CLIMBSUI_OWNER'];
+            $toSave['GITHUB_API_KEY'] = $config['GITHUB_API_KEY'] ?? getenv('GITHUB_API_KEY');
+        if ($action['CLIMBSUI_OWNER'] != '')
+            $toSave['CLIMBSUI_OWNER'] = $action['CLIMBSUI_OWNER'];
         else
-        $toSave['CLIMBSUI_OWNER'] = $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER');
-        if($action['CLIMBSUI_REPO'] != '')
-        $toSave['CLIMBSUI_REPO'] = $action['CLIMBSUI_REPO'];
+            $toSave['CLIMBSUI_OWNER'] = $config['CLIMBSUI_OWNER'] ?? getenv('CLIMBSUI_OWNER');
+        if ($action['CLIMBSUI_REPO'] != '')
+            $toSave['CLIMBSUI_REPO'] = $action['CLIMBSUI_REPO'];
         else
-        $toSave['CLIMBSUI_REPO'] = $config['CLIMBSUI_REPO'] ?? getenv('CLIMBSUI_REPO');
+            $toSave['CLIMBSUI_REPO'] = $config['CLIMBSUI_REPO'] ?? getenv('CLIMBSUI_REPO');
 
-        file_put_contents($filename, json_encode($toSave));
+        /*file_put_contents($filename, json_encode($toSave));*/
+        fwrite($file, json_encode($toSave));
 
         return [
             'REFRESH' => [
@@ -1048,11 +1049,11 @@ class Server extends Service
         self::$registrar['Climb']['Close'] = static function ($context) {
             return self::Close($context);
         };
-        self::$registrar['Climb']['Settings'] = static function ($context){
-          return self::DisplayConfig($context);  
+        self::$registrar['Climb']['Settings'] = static function ($context) {
+            return self::DisplayConfig($context);
         };
-        self::$registrar['Climb']['UpdateSettings'] = static function ($context){
-          return self::UpdateSettings($context);  
+        self::$registrar['Climb']['UpdateSettings'] = static function ($context) {
+            return self::UpdateSettings($context);
         };
         parent::__construct($flow, $auto_dispatch, $format_in, $format_out, $target_in, $target_out, $input, $output, $metadata);
     }

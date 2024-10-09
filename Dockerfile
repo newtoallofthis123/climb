@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html
 
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 COPY composer.json ./
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
